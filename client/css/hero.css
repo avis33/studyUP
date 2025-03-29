@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 /* Stile generale */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -37,11 +38,41 @@ body {
     text-decoration: none;
     color: black;
     font-size: 1rem;
+    position: relative; /* Necessario per l'effetto hover */
+    padding-bottom: 5px; /* Spazio per la barra */
+}
+
+/* Effetto hover con barra verde */
+.nav-links li a:hover::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px; /* Spessore della barra */
+    background-color: #04AF64;
+    animation: slideIn 0.3s ease-out; /* Animazione */
+}
+
+/* Animazione (opzionale) */
+@keyframes slideIn {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+
+.word-bold{
+   font-weight: bolder; 
+   color: #04AF64;
 }
 
 .register-btn button {
     padding: 1rem 2rem;
-    background-color: green;
+    background-color: #2FAA7F;
     border: none;
     color: white;
     cursor: pointer;
@@ -53,12 +84,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4rem 5rem;
+    padding: 2rem 3rem;
     background-color: #f4f4f4;
 }
 
 .hero-left {
     max-width: 50%;
+    padding: 1rem;
 }
 
 .hero-left h1 {
@@ -73,8 +105,10 @@ body {
 
 .hero-left button {
     padding: 1rem 2rem;
-    background-color: #007bff;
+    background-color: #2FAA7F;
+    font-size: 1rem;
     color: white;
+    border-radius: 1.4rem;
     border: none;
     cursor: pointer;
 }
