@@ -14,7 +14,7 @@ body {
     align-items: center;
     padding: 2rem 3rem;
     background-color: white;
-    height: 3.6rem;
+    height: 3rem;
 }
 .navbar .info-links{
     display: flex;
@@ -89,22 +89,23 @@ body {
     align-items: center;
     justify-content: space-between;
     background-color: #f4f4f4;
-    padding: 2rem 3rem;
-    height: calc(100vh - 11.6rem)
+    padding: 0rem 3rem;
+    height: calc(100vh - 7rem)
 }
 
 .hero-left {
     max-width: 50%;
     padding: 1rem;
+    margin-top: -8rem;
 }
 
 .hero-left h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     color: #333;
 }
 
 .hero-left p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     margin: 1.5 rem;
 }
 
@@ -122,10 +123,10 @@ body {
     position: relative;
     background-color: red;
     width: 50%;
-    margin-top: 1rem;
+    margin-top: -4rem;
 }
 .hero-right img {
-    width: 24rem;
+    width: 30rem;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -161,17 +162,17 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-
+/*SEZIONE COME FUN*/
 .how-it-works {
     text-align: center;
-    padding: 4rem 2rem;
+    padding: 1rem 3rem 3rem 3rem;
     background-color: #f9f9f9;
 }
 
 .how-it-works h2 {
     font-size: 2.5rem;
     color: #333;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .steps {
@@ -185,7 +186,7 @@ body {
 .step {
     background: white;
     padding: 1.5rem;
-    width: 220px;
+    width: 13rem;
     border-radius: 1rem;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
