@@ -83,52 +83,7 @@ body {
     border-radius: 1.4rem;
 }
 
-/* Hero Section */
-.hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #f4f4f4;
-    padding: 0rem 3rem;
-    height: calc(100vh - 7rem)
-}
-
-.hero-left {
-    max-width: 50%;
-    padding: 1rem;
-    margin-top: -8rem;
-}
-
-.hero-left h1 {
-    font-size: 3.5rem;
-    color: #333;
-}
-
-.hero-left p {
-    font-size: 1.1rem;
-    margin: 1.5 rem;
-}
-
-
-.hero-right {
-    position: relative;
-    background-color: red;
-    width: 50%;
-    margin-top: -4rem;
-}
-.hero-right img {
-    width: 30rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-
-}
-
-/* Hover per i due pulsanti*/
-/* Stile pulsanti */
-.register-btn a, .hero-left button {
+.register-btn a {
     padding: 1rem 2rem;
     background-color: #36a970;
     border: none;
@@ -142,79 +97,8 @@ body {
 }
 
 /* Effetto hover */
-.register-btn a:hover, .hero-left button:hover {
+.register-btn a:hover {
     background-color: #2c8b5c; /* Un verde più scuro */
     transform: scale(1.05); /* Effetto ingrandimento */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Aggiunge profondità */
-}
-
-/* Effetto click */
-.hero-left button:active {
-    transform: scale(0.95); /* Leggera compressione */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/*SEZIONE COME FUN*/
-.how-it-works {
-    text-align: center;
-    padding: 1rem 3rem 3rem 3rem;
-    background-color: #f9f9f9;
-}
-
-.how-it-works h2 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 2.5rem;
-}
-
-.steps {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.step {
-    background: white;
-    padding: 1.5rem;
-    width: 13rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.step:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-.step h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-}
-
-.step p {
-    font-size: 1rem;
-    color: #555;
-}
-
-.arrow {
-    font-size: 2rem;
-    color: #36a970;
-}
-
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 1rem 2rem;
-    background-color: #333;
-    color: white;
-    font-size: 1rem;
 }
