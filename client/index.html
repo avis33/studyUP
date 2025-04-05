@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyUp</title>
     <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
 </head>
 <body>
     <!-- Include Navbar -->
@@ -26,53 +28,86 @@
     </nav>
         
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-left">
-            <h1>Get ready to <b class="word-bold">Study</b></h1>
-            <h1 style="margin-top: -2rem;">Get ready to grow <b class="word-bold">Up</b></h1>
-            <p>Una piattaforma intuitiva per studenti e tutor: trova, prenota e inizia subito le lezioni in modo semplice e veloce.</p>
-            <button>Trova il tuo tutor ideale</button>
-        </div>
-        <div class="hero-right">
-            <img src="assets/images/ragazza_studiosa.svg" alt="Hero Image">
-        </div>
-    </section>
 
-<!-- Sezione come funziona-->
-    <section class="how-it-works">
-        <h2>Come funziona?</h2>
-        <div class="steps">
-            <div class="step">
-                <div class="icon">📌</div>
-                <h3>1. Registrati</h3>
-                <p>Crea un account come studente o tutor in pochi passi.</p>
-            </div>
-            <div class="arrow"><img src="assets/icons/rightArrrow.svg" alt="freccia a destra" width="50" height="50"></div>
-            <div class="step">
-                <div class="icon">🔍</div>
-                <h3>2. Cerca un tutor</h3>
-                <p>Filtra per materia, posizione e modalità (online o in presenza).</p>
-            </div>
-            <div class="arrow"><img src="assets/icons/rightArrrow.svg" alt="freccia a destra" width="50" height="50"></div>
-            <div class="step">
-                <div class="icon">📅</div>
-                <h3>3. Prenota una lezione</h3>
-                <p>Conferma data e orario con il tutor che hai scelto.</p>
-            </div>
-            <div class="arrow"><img src="assets/icons/rightArrrow.svg" alt="freccia a destra" width="50" height="50"></div>
-            <div class="step">
-                <div class="icon">🚀</div>
-                <h3>4. Inizia a studiare</h3>
-                <p>Segui la lezione, impara e raggiungi i tuoi obiettivi!</p>
-            </div>
-        </div>
-    </section>
-    
+<!-- Hero Section -->
+<section class="hero" data-aos="fade-in">
+    <div class="hero-left">
+      <h1>Get ready to <b class="word-bold">Study</b></h1>
+      <h1 style="margin-top: -2rem">
+        Get ready to grow <b class="word-bold">Up</b>
+      </h1>
+      <p>
+        Una piattaforma intuitiva per studenti e tutor: trova, prenota e
+        inizia subito le lezioni in modo semplice e veloce.
+      </p>
+      <button>Trova il tuo tutor ideale</button>
+    </div>
+    <div class="hero-right">
+      <img src="assets/images/ragazza_studiosa.svg" alt="Hero Image" />
+    </div>
+  </section>
+
+  <!-- Sezione come funziona-->
+  <section class="how-it-works">
+    <h2>Come funziona?</h2>
+    <div class="steps">
+      <div class="step" data-aos="flip-right">
+        <div class="icon">📌</div>
+        <h3>1. Registrati</h3>
+        <p>Crea un account come studente o tutor in pochi passi.</p>
+      </div>
+      <div class="arrow">
+        <img
+          src="assets/icons/rightArrrow.svg"
+          alt="freccia a destra"
+          width="50"
+          height="50"
+        />
+      </div>
+      <div class="step" data-aos="flip-left">
+        <div class="icon">🔍</div>
+        <h3>2. Cerca un tutor</h3>
+        <p>
+          Filtra per materia, posizione e modalità (online o in presenza).
+        </p>
+      </div>
+      <div class="arrow">
+        <img
+          src="assets/icons/rightArrrow.svg"
+          alt="freccia a destra"
+          width="50"
+          height="50"
+        />
+      </div>
+      <div class="step" data-aos="flip-right">
+        <div class="icon">📅</div>
+        <h3>3. Prenota una lezione</h3>
+        <p>Conferma data e orario con il tutor che hai scelto.</p>
+      </div>
+      <div class="arrow">
+        <img
+          src="assets/icons/rightArrrow.svg"
+          alt="freccia a destra"
+          width="50"
+          height="50"
+        />
+      </div>
+      <div class="step" data-aos="flip-left">
+        <div class="icon">🚀</div>
+        <h3>4. Inizia a studiare</h3>
+        <p>Segui la lezione, impara e raggiungi i tuoi obiettivi!</p>
+      </div>
+    </div>
+  </section>
+
     <!-- Include Footer -->
     <footer class="footer">
         <p>&copy; 2025 StudyUp. Tutti i diritti riservati.</p>
     </footer>
     
 </body>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 </html>
