@@ -23,10 +23,26 @@
                 <li><a href="#">FAQ</a></li>
             </ul>
         </div>
-        <div class="register-btn">
-            <a href="/client/pages/login.html">Accedi</a>
+        <button class="register-btn" id="openModalBtn">Accedi</button>
+        <!--Finestra modale per il login-->
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Accedi</h2>
+            <form>
+              <label for="email">Email:</label><br>
+              <input type="email" id="email" required><br><br>
+              <label for="password">Password:</label><br>
+              <input type="password" id="password" required><br><br>
+              <button type="submit">Login</button>
+            </form>
+            <p class="signup-message">
+              Non sei iscritto? <a href="#">Registrati!</a>
+            </p>
+          </div>
+          </div>
         </div>
-    </nav>
+      </nav>
         
 
 
@@ -161,7 +177,7 @@
     <footer class="footer">
         <p>&copy; 2025 StudyUp. Tutti i diritti riservati.</p>
     </footer>
-    
+    <script src="js/modal_window.js"></script>
 </body>
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
