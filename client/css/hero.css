@@ -353,3 +353,46 @@ body {
   .signup-message a:hover {
     text-decoration: underline;
   }
+
+  /*css per la fa*/
+
+  .faq-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .faq-question {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: left;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: 0.3s ease;
+  }
+  
+  .faq-question:hover {
+    background-color: #36a970;
+    color:white;
+  }
+  
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    background-color: #fafafa;
+    border-left: 3px solid #36a970;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    border-radius: 0 0 8px 8px;
+  }
+  
+  .faq-answer.open {
+    max-height: 200px;
+    padding: 1rem;
+  }
