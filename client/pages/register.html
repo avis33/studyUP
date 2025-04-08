@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/client/css/login.css">
+</head>
+<body>
+    <!--NAVBAR-->
+    <nav class="navbar">
+        <div class="info-links">
+            <a href="/client/index.html">
+                <img src="/client/assets/images/logo_facciate.svg" alt="Logo"/>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#">Materie</a></li>
+                <li><a href="#">Classifiche</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">FAQ</a></li>
+            </ul>
+        </div>
+        <div class="register-btn">
+            <a href="/client/pages/register.html">Accedi</a>
+        </div>
+    </nav>
+    <div class="registration-container">
+        <h1>Registrati</h1>
+      
+        <div class="role-selector">
+          <label>Chi sei?</label>
+          <div>
+            <input type="radio" name="role" id="student" value="student" checked>
+            <label for="student">Studente</label>
+      
+            <input type="radio" name="role" id="tutor" value="tutor">
+            <label for="tutor">Tutor</label>
+          </div>
+        </div>
+      
+        <form id="registrationForm">
+          <div class="form-group">
+            <label for="firstName">Nome</label>
+            <input type="text" id="firstName" name="firstName" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="lastName">Cognome</label>
+            <input type="text" id="lastName" name="lastName" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+      
+          <!-- Sezione specifica per STUDENTE -->
+          <div id="studentFields" class="role-specific">
+            <div class="form-group">
+              <label for="preferredSubjects">Materie preferite</label>
+              <input type="text" id="preferredSubjects" name="preferredSubjects" placeholder="Es. Matematica, Fisica">
+            </div>
+          </div>
+      
+          <!-- Sezione specifica per TUTOR -->
+          <div id="tutorFields" class="role-specific hidden">
+            <div class="form-group">
+              <label for="subjects">Materie che insegni</label>
+              <input type="text" id="subjects" name="subjects" placeholder="Es. Chimica, Inglese">
+            </div>
+            <div class="form-group">
+              <label for="rate">Prezzo orario (€)</label>
+              <input type="number" id="rate" name="rate" placeholder="25">
+            </div>
+            <div class="form-group">
+              <label for="bio">Breve descrizione</label>
+              <textarea id="bio" name="bio" rows="4" placeholder="Scrivi qualcosa su di te..."></textarea>
+            </div>
+          </div>
+      
+          <button type="submit">Registrati</button>
+        </form>
+      </div>
+      
+     
+</body>
+<script>
+    const roleRadios = document.querySelectorAll('input[name="role"]');
+    const studentFields = document.getElementById('studentFields');
+    const tutorFields = document.getElementById('tutorFields');
+  
+    roleRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.value === 'student') {
+          studentFields.classList.remove('hidden');
+          tutorFields.classList.add('hidden');
+        } else {
+          studentFields.classList.add('hidden');
+          tutorFields.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</html>
