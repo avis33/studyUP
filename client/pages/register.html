@@ -3,14 +3,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="/client/css/login.css">
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
     <!--NAVBAR-->
     <nav class="navbar">
         <div class="info-links">
-            <a href="/client/index.html">
-                <img src="/client/assets/images/logo_facciate.svg" alt="Logo"/>
+            <a href="../index.html">
+                <img src="../assets/images/logo_facciate.svg" alt="Logo"/>
             </a>
             <ul class="nav-links">
                 <li><a href="#">Materie</a></li>
@@ -19,11 +19,11 @@
                 <li><a href="#">FAQ</a></li>
             </ul>
         </div>
-        <div class="register-btn">
-            <a href="/client/pages/register.html">Accedi</a>
-        </div>
+
+
     </nav>
     <div class="registration-container">
+      <br>
         <h1>Registrati</h1>
       
         <div class="role-selector">
@@ -57,11 +57,21 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
           </div>
-      
+          
+          <div class="form-group">
+            <label for="confirmPassword">Conferma Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+          </div>
+
+          <div class="form-group">
+            <label for="birthDate">Data di nascita</label>
+            <input type="date" id="birthDate" name="birthDate" required>
+          </div>
+          
           <!-- Sezione specifica per STUDENTE -->
           <div id="studentFields" class="role-specific">
             <div class="form-group">
-              <label for="preferredSubjects">Materie preferite</label>
+              <label for="preferredSubjects">Materie da recuperare</label>
               <input type="text" id="preferredSubjects" name="preferredSubjects" placeholder="Es. Matematica, Fisica">
             </div>
           </div>
@@ -82,12 +92,13 @@
             </div>
           </div>
       
-          <button type="submit">Registrati</button>
+          <button  type="submit" class="form-btn" >Registrati</button>
         </form>
       </div>
       
      
 </body>
+<!--Da capire meglio(meme)-->
 <script>
     const roleRadios = document.querySelectorAll('input[name="role"]');
     const studentFields = document.getElementById('studentFields');
@@ -104,5 +115,41 @@
         }
       });
     });
+
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if (password !== confirmPassword) {
+    alert("Le password non coincidono.");
+    e.preventDefault(); // blocca l'invio del form
+    return;
+    }
+  });
+
+ //Per verifica dell'età non minore di 13 anni
+  function calculateAge(birthDate) {
+  const today = new Date();
+  const birth = new Date(birthDate);
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+document.getElementById("registrationForm").addEventListener("submit", function(e) {
+  const birthDateValue = document.getElementById("birthDate").value;
+  const age = calculateAge(birthDateValue);
+  
+  if (age < 13) {
+    alert("Devi avere almeno 13 anni per registrarti.");
+    e.preventDefault();
+    return;
+  }
+
+  // ...altri controlli come password match ecc.
+});
   </script>
 </html>
