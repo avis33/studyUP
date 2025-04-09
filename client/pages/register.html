@@ -16,9 +16,9 @@
             </a>
             <ul class="nav-links">
                 <li><a href="#">Materie</a></li>
-                <li><a href="#">Classifiche</a></li>
+                <li><a href="#">Ratings</a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Domande Frequenti</a></li>
             </ul>
         </div>
 
@@ -98,60 +98,7 @@
         </form>
       </div>
       
-     
+     <script src="../js/registration.js" ></script>
 </body>
-<!--Da capire meglio(meme)-->
-<script>
-    const roleRadios = document.querySelectorAll('input[name="role"]');
-    const studentFields = document.getElementById('studentFields');
-    const tutorFields = document.getElementById('tutorFields');
-  
-    roleRadios.forEach(radio => {
-      radio.addEventListener('change', () => {
-        if (radio.value === 'student') {
-          studentFields.classList.remove('hidden');
-          tutorFields.classList.add('hidden');
-        } else {
-          studentFields.classList.add('hidden');
-          tutorFields.classList.remove('hidden');
-        }
-      });
-    });
 
-    document.getElementById("registrationForm").addEventListener("submit", function(e) {
-  const password = document.getElementById("password").value;
-  const confirmPassword = document.getElementById("confirmPassword").value;
-
-  if (password !== confirmPassword) {
-    alert("Le password non coincidono.");
-    e.preventDefault(); // blocca l'invio del form
-    return;
-    }
-  });
-
- //Per verifica dell'età non minore di 13 anni
-  function calculateAge(birthDate) {
-  const today = new Date();
-  const birth = new Date(birthDate);
-  let age = today.getFullYear() - birth.getFullYear();
-  const m = today.getMonth() - birth.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-    age--;
-  }
-  return age;
-}
-
-document.getElementById("registrationForm").addEventListener("submit", function(e) {
-  const birthDateValue = document.getElementById("birthDate").value;
-  const age = calculateAge(birthDateValue);
-  
-  if (age < 13) {
-    alert("Devi avere almeno 13 anni per registrarti.");
-    e.preventDefault();
-    return;
-  }
-
-  // ...altri controlli come password match ecc.
-});
-  </script>
 </html>
