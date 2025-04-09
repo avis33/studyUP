@@ -20,10 +20,11 @@ export async function insertUser(req, res) {
         rate,
         bio,
       } = req.body;
+      console.log(req.body);
       
       // Validazioni base (c'è gia lato client)
       if (!firstName || !lastName || !email || !password || !password || !role) {
-        return res.status(400).json({ message: "Campi obbligatori mancanti o password non coincidono" });
+        return res.status(400).json({ message: "Campi obbligatori mancanti" });
       }
   
       const existingUser = await usersCollection.findOne({ email });

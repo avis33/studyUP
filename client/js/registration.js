@@ -131,6 +131,8 @@ roleRadios.forEach(radio => {
 
 // Validazione del form
 document.getElementById("registrationForm").addEventListener("submit", async function(e) {
+  e.preventDefault()
+  form = this;
   //Verifica lunghezza nome e cognome
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim(); //trim() serve per togliere gli spazi
@@ -152,10 +154,7 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const formData = new RegistrationData(firstName, lastName, email, password, confirmPassword, birthDateValue, materieDaRecuperare, materieInsegnate, rate, descrizioneTutor, role)
   if(formData.validate() == undefined){
     data = formData.dataPerDb()
-  }else{
-    e.preventDefault()
-  }
-  // CHIAMATA A SERVER
+     // CHIAMATA A SERVER
   try {
     const res = await fetch("http://localhost:3000/user/register", {
       method: "POST",
@@ -175,6 +174,5 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
     console.error("Errore nella registrazione", err);
     alert("Errore nel server");
   }
-
-
+  }
 });
