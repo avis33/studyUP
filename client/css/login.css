@@ -166,4 +166,25 @@ body {
     display: none;
   }
 
+/*   .error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: none;
+  }
   
+  .error-message.show {
+    display: block;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  input.error, textarea.error {
+    border-color: #dc3545;
+  }
+  
+  .hidden {
+    display: none;
+  } */

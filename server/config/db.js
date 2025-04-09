@@ -10,7 +10,7 @@ export async function connectToDatabase() {
   try {
     if (db) return db; // Return cached database connection if it exists
     await client.connect();
-    db = await client.db("StudyUp");
+    db = await client.db("studyup");
     console.log("✅ Successfully connected to MongoDB!✅");
     return db;
   } catch (error) {
