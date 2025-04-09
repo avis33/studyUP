@@ -152,6 +152,8 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const formData = new RegistrationData(firstName, lastName, email, password, confirmPassword, birthDateValue, materieDaRecuperare, materieInsegnate, rate, descrizioneTutor, role)
   if(formData.validate() == undefined){
     data = formData.dataPerDb()
+  }else{
+    e.preventDefault()
   }
   // CHIAMATA A SERVER
   try {
