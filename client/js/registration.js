@@ -162,9 +162,11 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const rate = document.getElementById("rate") ? parseFloat(document.getElementById("rate").value) : null;
   const materieInsegnate = document.getElementById("subjects") ? document.getElementById("subjects").value : null;
   const descrizioneTutor = document.getElementById("bio") ? document.getElementById("bio").value : null;
+  localStorage.setItem('s', JSON.stringify(materieDaRecuperare));
   let role = "tutor"
   let data = {}
-  if(materieDaRecuperare != null) role = "student"
+  if(materieDaRecuperare) role = "student"
+  
   const formData = new RegistrationData(firstName, lastName, email, password, confirmPassword, birthDateValue, materieDaRecuperare, materieInsegnate, rate, descrizioneTutor, role)
   const error = formData.validate()
   if(error == undefined){
