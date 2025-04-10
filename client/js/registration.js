@@ -26,7 +26,7 @@ class RegistrationData {
       this.birthDateValue = birthDateValue;
       this.materieDaRecuperare = materieDaRecuperare;
       this.materieInsegnate = materieInsegnate;
-      if(rate)this.rate = parseFloat(rate);
+      if(rate != null )this.rate = rate;
       this.descrizioneTutor = descrizioneTutor;
       this.role = role;
   }
@@ -63,12 +63,10 @@ class RegistrationData {
        return true
   }
   checkPrice(price){
-      if(price != null){
-          if ( price < 0) {
-              return false
-            }
-      }
+    return price > 0
   }
+
+
   validate(){
       if (this.firstName.length > 100) return {error: "Il nome deve contenere meno di 100 caratteri.", id: "firstName"}
       if (this.lastName.length > 100) return {error: "Il cognome deve contenere meno di 100 caratteri.", id: "lastName"}
@@ -150,7 +148,7 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   document.querySelectorAll('.error').forEach(el => {
     el.classList.remove('error');
   });
-  
+
   //Verifica lunghezza nome e cognome
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim(); //trim() serve per togliere gli spazi
@@ -159,16 +157,14 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const confirmPassword = document.getElementById("confirmPassword").value;
   const birthDateValue = document.getElementById("birthDate").value;
   // SOLO PER STUDENTI
-  const materieDaRecuperare = document.getElementById("preferredSubjects").value.trim() ? document.getElementById("preferredSubjects") : null;
+  const materieDaRecuperare = document.getElementById("preferredSubjects") ? document.getElementById("preferredSubjects").value.trim() : null;
   //SOLO PER I TUTOR!! -->il prezzo delle lezioni deve essere non negativo
-  const rate = document.getElementById("rate").value ? document.getElementById("rate") : null;
-  const materieInsegnate = document.getElementById("subjects").value ? document.getElementById("subjects") : null;
-  const descrizioneTutor = document.getElementById("bio").value ? document.getElementById("bio") : null;
-
+  const rate = document.getElementById("rate") ? parseFloat(document.getElementById("rate").value) : null;
+  const materieInsegnate = document.getElementById("subjects") ? document.getElementById("subjects").value : null;
+  const descrizioneTutor = document.getElementById("bio") ? document.getElementById("bio").value : null;
   let role = "tutor"
   let data = {}
   if(materieDaRecuperare != null) role = "student"
-  
   const formData = new RegistrationData(firstName, lastName, email, password, confirmPassword, birthDateValue, materieDaRecuperare, materieInsegnate, rate, descrizioneTutor, role)
   const error = formData.validate()
   if(error == undefined){
