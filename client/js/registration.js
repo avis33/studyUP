@@ -48,6 +48,17 @@ class RegistrationData {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return regex.test(email);
   }
+  // /..../----> sono come gli apici per le stringhe o le parentesi quadre per gli array....delimitano la regex
+// ^---->inizio stringa, da qui comincia il controllo
+// $---->fine stringa, il controllo finisce qui
+
+// [^\s@]--> [...] classe di caratteri
+//       --> [^..] classe di caratteri che non possono esserci
+//       -->/s spazi
+//       -->@ chiocciola
+//       -->+ uno o più caratteri
+
+// \.--->perchè il punto da solo significa 'qualsiasi carattere (eccetto \n)'
   
   passwordMatch(password, confirmPassword){
       if (password !== confirmPassword) {
@@ -66,26 +77,57 @@ class RegistrationData {
     return price > 0
   }
 
-
-  validate(){
-      if (this.firstName.length > 100) return {error: "Il nome deve contenere meno di 100 caratteri.", id: "firstName"}
-      if (this.lastName.length > 100) return {error: "Il cognome deve contenere meno di 100 caratteri.", id: "lastName"}
-      if (!this.isValidEmail(this.email)) return {error: "Inserisci un indirizzo email valido", id:"email"}
-      if(this.passwordMatch(this.password, this.confirmPassword) == false)return {error: "Le password non corrispondono", id: "confirmPassword"}
-      if(!this.isPasswordValid(this.password))return {id:"password" ,error: "La password deve essere lunga almeno 8 caratteri e contenere almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale"}
-      if(this.calculateAge(this.birthDateValue) < 13) return {error: "Devi avere almeno 13 anni per registrarti", id:"birthDate"}
-      switch (this.role) {
-          case "student":
-              break;
-          case "tutor":
-              if(!this.checkPrice(this.rate)) return {error: "Il prezzo orario non può essere negativo", id:"rate"}
-              if(this.descrizioneTutor.length > 1000) return {error:"La tua bio è troppo lunga", id:"bio"}
-              break;
-          default: break
-      }
-      return undefined
+  //validate() IN CASO DI ERRORE ritorna un oggetto con due proprietà. Una (error) serve per mostrare all'utente ilmessaggio di errore,
+  //l'altra (id) serve per evidenziare il campo in cui è stato commesso un errore
+  validate() {
+    // 1. Controlla lunghezza del nome
+    if (this.firstName.length > 100)
+      return { error: "Il nome deve contenere meno di 100 caratteri.", id: "firstName" };
+  
+    // 2. Controlla lunghezza del cognome
+    if (this.lastName.length > 100)
+      return { error: "Il cognome deve contenere meno di 100 caratteri.", id: "lastName" };
+  
+    // 3. Controlla formato email
+    if (!this.isValidEmail(this.email))
+      return { error: "Inserisci un indirizzo email valido", id: "email" };
+  
+    // 4. Controlla che password e conferma password siano uguali
+    if (this.passwordMatch(this.password, this.confirmPassword) == false)
+      return { error: "Le password non corrispondono", id: "confirmPassword" };
+  
+    // 5. Controlla complessità password
+    if (!this.isPasswordValid(this.password))
+      return {
+        id: "password",
+        error: "La password deve essere lunga almeno 8 caratteri e contenere almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale"
+      };
+  
+    // 6. Controlla età utente
+    if (this.calculateAge(this.birthDateValue) < 13)
+      return { error: "Devi avere almeno 13 anni per registrarti", id: "birthDate" };
+  
+    // 7. Se è un tutor, fa controlli aggiuntivi
+    switch (this.role) {
+      case "student":
+        break; // nessun controllo extra
+      case "tutor":
+        // 7.1. Prezzo orario deve essere positivo
+        if (!this.checkPrice(this.rate))
+          return { error: "Il prezzo orario non può essere negativo", id: "rate" };
+  
+        // 7.2. Bio non deve superare i 1000 caratteri
+        if (this.descrizioneTutor.length > 1000)
+          return { error: "La tua bio è troppo lunga", id: "bio" };
+        break;
+      default:
+        break;
+    }
+  
+    // ✅ Se tutto è valido, non ritorna nulla (undefined)
+    return undefined;
   }
-
+  //resituisce queste coppie chiave:valore al database
   dataPerDb(){
     return {
       firstName: this.firstName,
@@ -103,19 +145,7 @@ class RegistrationData {
 }
 
 
-
-// /..../----> sono come gli apici per le stringhe o le parentesi quadre per gli array....delimitano la regex
-// ^---->inizio stringa, da qui comincia il controllo
-// $---->fine stringa, il controllo finisce qui
-
-// [^\s@]--> [...] classe di caratteri
-//       --> [^..] classe di caratteri che non possono esserci
-//       -->/s spazi
-//       -->@ chiocciola
-//       -->+ uno o più caratteri
-
-// \.--->perchè il punto da solo significa 'qualsiasi carattere (eccetto \n)'
-
+//funzione freccia: es.const raddoppia = x => x * 2;
 roleRadios.forEach(radio => {
   radio.addEventListener('change', () => {
     if (radio.value === 'student') {
@@ -129,7 +159,7 @@ roleRadios.forEach(radio => {
 });
 // Mostra errore sotto l'input
  function showError(inputId, message) {
-  const errorElement = document.getElementById(`${inputId}Error`);
+  const errorElement = document.getElementById(`${inputId}Error`); //nel codice register.html ci sono le classi con id ad esempio 'emailError'
   errorElement.textContent = message;
   errorElement.classList.add('show');
   // aggiungi classe error all'input che ha dato errore cosi da avere contorno rosso su css
@@ -160,8 +190,9 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const materieDaRecuperare = document.getElementById("preferredSubjects") ? document.getElementById("preferredSubjects").value.trim() : null;
   //SOLO PER I TUTOR!! -->il prezzo delle lezioni deve essere non negativo
   const rate = document.getElementById("rate") ? parseFloat(document.getElementById("rate").value) : null;
-  const materieInsegnate = document.getElementById("subjects") ? document.getElementById("subjects").value : null;
+  const materieInsegnate = document.getElementById("subjects") ? document.getElementById("subjects").value : null; //operatorie ternario
   const descrizioneTutor = document.getElementById("bio") ? document.getElementById("bio").value : null;
+  
   localStorage.setItem('s', JSON.stringify(materieDaRecuperare));
   let role = "tutor"
   let data = {}
