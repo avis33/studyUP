@@ -166,10 +166,10 @@ body {
     display: none;
   }
 
-/*   .error-message {
+ .error-message {
     color: #dc3545;
     font-size: 0.875rem;
-    margin-top: 0.25rem;
+    margin-top: 0.35rem;
     display: none;
   }
   
@@ -177,14 +177,8 @@ body {
     display: block;
   }
   
-  .form-group {
-    margin-bottom: 1rem;
-  }
   
   input.error, textarea.error {
     border-color: #dc3545;
+    background-color: #ffe6e6;
   }
-  
-  .hidden {
-    display: none;
-  } */

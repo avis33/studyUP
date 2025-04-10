@@ -33,7 +33,6 @@
           <div>
             <input type="radio" name="role" id="student" value="student" checked>
             <label for="student">Studente</label>
-      
             <input type="radio" name="role" id="tutor" value="tutor">
             <label for="tutor">Tutor</label>
           </div>
@@ -43,31 +42,37 @@
           <div class="form-group">
             <label for="firstName">Nome</label>
             <input type="text" id="firstName" name="firstName" required>
+            <div class="error-message" id="firstNameError"></div>
           </div>
       
           <div class="form-group">
             <label for="lastName">Cognome</label>
             <input type="text" id="lastName" name="lastName" required>
+            <div class="error-message" id="lastNameError"></div>
           </div>
       
           <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
+            <div class="error-message" id="emailError"></div>
           </div>
       
           <div class="form-group">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
+            <div class="error-message" id="passwordError"></div>
           </div>
           
           <div class="form-group">
             <label for="confirmPassword">Conferma Password</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <div class="error-message" id="confirmPasswordError"></div>
           </div>
 
           <div class="form-group">
             <label for="birthDate">Data di nascita</label>
             <input type="date" id="birthDate" name="birthDate" required>
+            <div class="error-message" id="birthDateError"></div>
           </div>
           
           <!-- Sezione specifica per STUDENTE -->
@@ -87,10 +92,12 @@
             <div class="form-group">
               <label for="rate">Prezzo orario (€)</label>
               <input type="number" id="rate" name="rate" placeholder="25">
+              <div class="error-message" id="rateError"></div>
             </div>
             <div class="form-group">
               <label for="bio">Breve descrizione</label>
               <textarea id="bio" name="bio" rows="4" placeholder="Scrivi qualcosa su di te..."></textarea>
+              <div class="error-message" id="bioError"></div>
             </div>
           </div>
       

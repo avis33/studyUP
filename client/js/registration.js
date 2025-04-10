@@ -70,17 +70,18 @@ class RegistrationData {
       }
   }
   validate(){
-      if (this.firstName.length > 100|| this.lastName.length > 100) return "Il nome e il cognome devono contenere meno di 100 caratteri."
-      if (!this.isValidEmail(this.email)) return "Inserisci un indirizzo email valido"
-      if(this.passwordMatch(this.password, this.confirmPassword) == false)return "Le password non corrispondono"
-      if(!this.isPasswordValid(this.password))return "La password deve essere lunga almeno 8 caratteri e contenere almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale"
-      if(this.calculateAge(this.birthDateValue) < 13) return "Devi avere almeno 13 anni per registrarti."
+      if (this.firstName.length > 100) return {error: "Il nome deve contenere meno di 100 caratteri.", id: "firstName"}
+      if (this.lastName.length > 100) return {error: "Il cognome deve contenere meno di 100 caratteri.", id: "lastName"}
+      if (!this.isValidEmail(this.email)) return {error: "Inserisci un indirizzo email valido", id:"email"}
+      if(this.passwordMatch(this.password, this.confirmPassword) == false)return {error: "Le password non corrispondono", id: "confirmPassword"}
+      if(!this.isPasswordValid(this.password))return {id:"password" ,error: "La password deve essere lunga almeno 8 caratteri e contenere almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale"}
+      if(this.calculateAge(this.birthDateValue) < 13) return {error: "Devi avere almeno 13 anni per registrarti", id:"birthDate"}
       switch (this.role) {
           case "student":
               break;
           case "tutor":
-              if(!this.checkPrice(this.rate)) return "Il prezzo orario non può essere negativo"
-              if(this.descrizioneTutor.length > 1000) return "La tua bio è troppo lunga"
+              if(!this.checkPrice(this.rate)) return {error: "Il prezzo orario non può essere negativo", id:"rate"}
+              if(this.descrizioneTutor.length > 1000) return {error:"La tua bio è troppo lunga", id:"bio"}
               break;
           default: break
       }
@@ -128,11 +129,28 @@ roleRadios.forEach(radio => {
     }
   });
 });
+// Mostra errore sotto l'input
+ function showError(inputId, message) {
+  const errorElement = document.getElementById(`${inputId}Error`);
+  errorElement.textContent = message;
+  errorElement.classList.add('show');
+  // aggiungi classe error all'input che ha dato errore cosi da avere contorno rosso su css
+  const inputField = document.getElementById(inputId);
+  if (inputField) inputField.classList.add("error");
+}
 
 // Validazione del form
 document.getElementById("registrationForm").addEventListener("submit", async function(e) {
   e.preventDefault()
   form = this;
+  // Nascondi tutti gli errori precedenti
+  document.querySelectorAll('.error-message').forEach(el => {
+    el.classList.remove('show');
+  });
+  document.querySelectorAll('.error').forEach(el => {
+    el.classList.remove('error');
+  });
+  
   //Verifica lunghezza nome e cognome
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim(); //trim() serve per togliere gli spazi
@@ -152,7 +170,8 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   if(materieDaRecuperare != null) role = "student"
   
   const formData = new RegistrationData(firstName, lastName, email, password, confirmPassword, birthDateValue, materieDaRecuperare, materieInsegnate, rate, descrizioneTutor, role)
-  if(formData.validate() == undefined){
+  const error = formData.validate()
+  if(error == undefined){
     data = formData.dataPerDb()
      // CHIAMATA A SERVER
   try {
@@ -174,5 +193,7 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
     console.error("Errore nella registrazione", err);
     alert("Errore nel server");
   }
+  }else{
+    showError(error.id, error.error);
   }
 });
