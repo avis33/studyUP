@@ -1,5 +1,6 @@
 
 import { connectToDatabase } from "../config/db.js";
+import bcrypt from 'bcrypt';
 
 export async function insertUser(req, res) {
     try {
@@ -32,13 +33,20 @@ export async function insertUser(req, res) {
         return res.status(400).json({ message: "Email già registrata" });
       }
   
+      // Hasha la password 
+      /*
+      La password prima di inserirla nel database deve essere hashata (non criptata). L’hashing è un processo unidirezionale: 
+      non si può "decrittare" una password hashata, si può solo confrontare l’hash con uno nuovo generato a partire dalla password inserita.
+       */
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
       // Crea oggetto da salvare
-      
       const user = {
         firstName,
         lastName,
         email,
-        password, // todo: da hashare in futuro con bcrypt!
+        password: hashedPassword, // 🔐 QUI USIAMO QUELLA HASHATA
         birthDate,
         role,
         createdAt: new Date(),
@@ -66,3 +74,16 @@ export async function insertUser(req, res) {
       res.status(500).json({ message: "Errore interno del server" });
     }
   }
+
+  /* futuro login
+  const user = await db.collection("users").findOne({ email });
+if (!user) return res.status(401).json({ message: "Email o password errati" });
+
+// 🔍 Confronta la password in chiaro con l’hash
+const passwordMatch = await bcrypt.compare(password, user.password);
+if (!passwordMatch) return res.status(401).json({ message: "Email o password errati" });
+
+// Se tutto va bene...
+res.status(200).json({ message: "Login riuscito", userId: user._id });
+
+  */
