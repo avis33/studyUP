@@ -2,7 +2,6 @@
 const roleRadios = document.querySelectorAll('input[name="role"]');
 const studentFields = document.getElementById('studentFields');
 const tutorFields = document.getElementById('tutorFields');
-//const roleInput = document.getElementById("roleInput");
 
 class RegistrationData {
   constructor(
@@ -193,10 +192,10 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const materieInsegnate = document.getElementById("subjects") ? document.getElementById("subjects").value : null; //operatorie ternario
   const descrizioneTutor = document.getElementById("bio") ? document.getElementById("bio").value : null;
   
-  localStorage.setItem('s', JSON.stringify(materieDaRecuperare));
-  let role = "tutor"
+  // localStorage.setItem('s', JSON.stringify(rate)); ignora
+  let role = "student"
   let data = {}
-  if(materieDaRecuperare) role = "student"
+  if(rate) role = "tutor"
   
   const formData = new RegistrationData(firstName, lastName, email, password, confirmPassword, birthDateValue, materieDaRecuperare, materieInsegnate, rate, descrizioneTutor, role)
   const error = formData.validate()

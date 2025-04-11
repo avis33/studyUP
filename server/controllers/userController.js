@@ -2,13 +2,11 @@
 import { connectToDatabase } from "../config/db.js";
 import bcrypt from 'bcrypt';
 
-export async function insertUser(req, res) {
+export async function registerUser(req, res) {
     try {
       const db = await connectToDatabase();
       const usersCollection = db.collection("users");
 
-      console.log(req.body);
-      
       const {
         firstName,
         lastName,
@@ -46,7 +44,7 @@ export async function insertUser(req, res) {
         firstName,
         lastName,
         email,
-        password: hashedPassword, // 🔐 QUI USIAMO QUELLA HASHATA
+        password: hashedPassword, // QUI USIAMO QUELLA HASHATA
         birthDate,
         role,
         createdAt: new Date(),
@@ -75,15 +73,22 @@ export async function insertUser(req, res) {
     }
   }
 
-  /* futuro login
-  const user = await db.collection("users").findOne({ email });
-if (!user) return res.status(401).json({ message: "Email o password errati" });
-
-// 🔍 Confronta la password in chiaro con l’hash
-const passwordMatch = await bcrypt.compare(password, user.password);
-if (!passwordMatch) return res.status(401).json({ message: "Email o password errati" });
-
-// Se tutto va bene...
-res.status(200).json({ message: "Login riuscito", userId: user._id });
-
-  */
+export async function loginUser(req,res) {
+  const {email, password} = req.body
+  try {
+    const db = await connectToDatabase();
+    const user = await db.collection("users").findOne({ email });
+    if (!user) return res.status(401).json({ message: "Email o password errati" });
+    
+    // Confronta la password in chiaro con l’hash
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) return res.status(401).json({ message: "Email o password errati" });
+    
+    // Se tutto va bene
+    res.status(200).json({ message: "Login riuscito", userId: user._id });    
+  } catch (error) {
+    console.error("Errore durante il login:", error);
+    res.status(500).json({ message: "Errore interno del server" });
+  }
+}
+ 
