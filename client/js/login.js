@@ -26,7 +26,9 @@ loginForm.addEventListener("submit", async function (e) {
         const data = await res.json();
         errorElement.classList.remove('show');
         if (res.ok) {
-          alert("Login effettuato con successo!");
+          // Salviamo il token in localStorage
+          localStorage.setItem("authToken", data.token);
+          window.location.href = "/client/index.html";
           // 🔐 Puoi salvare un token o reindirizzare l'utente
           // es: localStorage.setItem("token", data.token);
           // window.location.href = "/dashboard.html";

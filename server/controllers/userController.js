@@ -1,6 +1,11 @@
 
 import { connectToDatabase } from "../config/db.js";
 import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
+// dotenv è una libreria che ti fa mette informazioni importanti come il link di connessione al database in un file .env sicuro che non viene esposto
+import dotenv from "dotenv";
+dotenv.config();
+
 
 export async function registerUser(req, res) {
     try {
@@ -85,10 +90,45 @@ export async function loginUser(req,res) {
     if (!passwordMatch) return res.status(401).json({ message: "Email o password errati" });
     
     // Se tutto va bene
-    res.status(200).json({ message: "Login riuscito", userId: user._id });    
+    // Genera un token JWT valido per 1 giorno
+    const token = jwt.sign(
+      {
+        email: user.email,
+        role: user.role,
+        id: user._id,
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: "1d" }
+    );
+    //al client mandiamo anche il token che verra messo nel localstorage
+    res.status(200).json({ message: "Login riuscito", userId: user._id, token });    
   } catch (error) {
     console.error("Errore durante il login:", error);
     res.status(500).json({ message: "Errore interno del server" });
   }
 }
  
+// Middleware per proteggere rotte backend:
+// serve a controllare se l’utente ha un token valido prima di lasciarlo accedere a certe API.
+export function authMiddleware(req, res, next) {
+  // 1. Estrae il token JWT dall'header "Authorization"
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Token mancante" });
+  
+  try {
+      // 2. Verifica che il token sia valido (firma e scadenza)
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    console.log("//");
+    
+    console.log(decoded);
+    console.log("//");
+    
+     // 3. Se valido, salva le info utente nel req per usarle più avanti
+    req.user = decoded; // ora disponibile nei controller
+     // 4. Passa al prossimo middleware o al controller
+    next();
+  } catch (err) {
+    // 5. Se non è valido o è scaduto, rifiuta la richiesta
+    res.status(403).json({ message: "Token non valido o scaduto" });
+  }
+}
