@@ -364,12 +364,57 @@ body {
     text-decoration: underline;
   }
 
-  /*css per la fa*/
+
+  /*CSS per About*/
+  .about {
+    padding: 2rem 10rem;
+    background-color: #f9f9f9;
+    
+  }
+
+  .about h2{
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: #333;
+  }
+
+  .about-lr{
+    display:flex;
+  }
+  .about-left{
+    width: 50%;
+    margin-top: 2rem;
+  }
+  .about-left img{
+    width: 30rem;
+  }
+
+  .about-right{
+    position: relative;
+    max-width: 50%;
+    padding: 1rem;
+    margin-top: 4rem;
+  }
+
+  .about-right p{
+    font-size: 1.5rem;
+    margin: 1.5rem;
+  }
+  .about-right span{
+    color:#36a970;
+    font-weight: bold;
+  }
+  /*css per la faq*/
 
   .faq-section {
-    max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
+    background-color: #F4F4F4;
+  }
+  .faq-section h2{
+    text-align: center;
+    font-size: 2.5rem;
   }
   
   .faq-question {
@@ -378,7 +423,7 @@ body {
     font-size: 1.1rem;
     font-weight: bold;
     text-align: left;
-    background-color: #f0f0f0;
+    background-color: #e1e1e1;
     border: none;
     cursor: pointer;
     border-radius: 8px;
