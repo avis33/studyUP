@@ -6,7 +6,7 @@ profileIcon?.addEventListener('click', () => {
 });
 
 document.getElementById("logoutBtn")?.addEventListener("click", () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
     window.location.reload(); // o redirect a home
   });
   
