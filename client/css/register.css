@@ -14,7 +14,7 @@ body {
     align-items: center;
     padding: 2rem 3rem;
     background-color: white;
-    height: 3rem;
+    height: 2rem;
 }
 .navbar .info-links{
     display: flex;
@@ -106,7 +106,7 @@ body {
 /*SEZIONE REGISTER*/
 .registration-container {
     max-width: 600px;
-    margin: 3rem auto;
+    margin: 2rem auto;
     background-color: #fff;
     padding: 0rem 2.5rem;
     border-radius: 12px;

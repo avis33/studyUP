@@ -14,7 +14,7 @@ body {
     align-items: center;
     padding: 2rem 3rem;
     background-color: white;
-    height: 3rem;
+    height: 2rem;
 }
 .navbar .info-links{
     display: flex;
@@ -82,6 +82,76 @@ body {
     cursor: pointer;
     border-radius: 1.4rem;
 }
+/*User profile*/
+/* Nascondi temporaneamente per il JS */
+.hidden {
+  display: none;
+}
+
+/* Area profilo */
+.user-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Icona del profilo */
+.profile-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.profile-icon img {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.profile-icon img:hover {
+  transform: scale(1.05);
+}
+.profile-icon #userName{
+  font-weight: 500;
+}
+/* Menu a tendina */
+.profile-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  border: 2px solid #36a970;
+  border-radius: 0.3rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 100;
+  min-width: 180px;
+  overflow: hidden;
+}
+
+/* Lista del menu */
+.profile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-menu li a {
+  display: block;
+  padding: 1rem 2rem  ;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover con verde */
+.profile-menu li a:hover {
+  background-color: #36a970;
+  color: white;
+}
+
 
 /* Hero Section */
 .hero {
@@ -90,7 +160,7 @@ body {
     justify-content: space-between;
     background-color: #f4f4f4;
     padding: 0rem 3rem;
-    height: calc(100vh - 7rem)
+    height: calc(100vh - 6rem)
 }
 
 .hero-left {
