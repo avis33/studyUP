@@ -1,181 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>StudyUp</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <link rel="icon" href="assets/icons/favicon_logo.svg">
-
-</head>
-<body>
+    <link rel="icon" href="assets/icons/favicon_logo.svg" />
+  </head>
+  <body>
     <!-- Include Navbar -->
     <nav class="navbar">
-        <div class="info-links">
-            <a href="/client/index.html">
-                <img src="assets/images/logo_facciate.svg" alt="Logo"/>
-            </a>
-            <ul class="nav-links">
-                <li><a href="pages/materie.html">Materie</a></li>
-                <li><a href="pages/ratings.html">Ratings</a></li>
-                <li><a href="#About">About</a></li>
-                <li><a href="#Domande Frequenti">Domande Frequenti</a></li>
-            </ul>
-        </div>
-        <button class="register-btn" id="openModalBtn">Accedi</button>
-        <!--Finestra modale per il login-->
-        <div id="modal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Accedi</h2>
-            <form method="post" id="loginForm">
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" required />
-              </div>
-              <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" required />
-              </div>
-        
-              <button type="submit">Login</button>
-              <div class="error-message" id="genericError"></div>
-            </form>
-        
-            <p class="signup-message">
-              Non sei iscritto? <a href="pages/register.html">Registrati!</a>
-            </p>
-          </div>
-        </div>
-      </nav>
-        
-
-
-<!-- Hero Section -->
-<section class="hero" data-aos="fade-in">
-    <div class="hero-left">
-      <h1>Get ready to <b class="word-bold">Study</b></h1>
-      <h1 style="margin-top: -2rem">
-        Get ready to grow <b class="word-bold">Up</b>
-      </h1>
-      <p>
-        Una piattaforma intuitiva per studenti e tutor: trova, prenota e
-        inizia subito le lezioni in modo semplice e veloce.
-      </p>
-      <button>Trova il tuo tutor ideale</button>
-    </div>
-    <div class="hero-right">
-      <img src="assets/images/ragazza_studiosa.svg" alt="Hero Image" />
-    </div>
-  </section>
-
-  <!-- Sezione come funziona-->
-  <section class="how-it-works">
-    <h2>Come funziona?</h2>
-    <div class="steps">
-      <div class="step" data-aos="flip-right">
-        <div class="icon">📌</div>
-        <h3>1. Registrati</h3>
-        <p>Crea un account come studente o tutor in pochi passi.</p>
+      <div class="info-links">
+        <a href="/client/index.html">
+          <img src="assets/images/logo_facciate.svg" alt="Logo" />
+        </a>
+        <ul class="nav-links">
+          <li><a href="pages/materie.html">Materie</a></li>
+          <li><a href="pages/ratings.html">Ratings</a></li>
+          <li><a href="#About">About</a></li>
+          <li><a href="#Domande Frequenti">Domande Frequenti</a></li>
+        </ul>
       </div>
-      <div class="arrow">
-        <img
-          src="assets/icons/rightArrrow.svg"
-          alt="freccia a destra"
-          width="50"
-          height="50"
-        />
+      <!-- Profilo utente-->
+      <div id="user-area" class="user-area hidden">
+        <div class="profile-icon">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            alt="Profilo"
+            id="userProfile"
+          />
+          <div id="userName"></div>
+        </div>
+        <div class="profile-menu">
+          <ul>
+            <li><a href="/client/pages/account.html">Il mio account</a></li>
+            <li><a href="#" id="logoutBtn">Logout</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="step" data-aos="flip-left">
-        <div class="icon">🔍</div>
-        <h3>2. Cerca un tutor</h3>
+
+      <button class="register-btn" id="openModalBtn">Accedi</button>
+      <!--Finestra modale per il login-->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Accedi</h2>
+          <form method="post" id="loginForm">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" required />
+            </div>
+
+            <button type="submit">Login</button>
+            <div class="error-message" id="genericError"></div>
+          </form>
+
+          <p class="signup-message">
+            Non sei iscritto? <a href="pages/register.html">Registrati!</a>
+          </p>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" data-aos="fade-in">
+      <div class="hero-left">
+        <h1>Get ready to <b class="word-bold">Study</b></h1>
+        <h1 style="margin-top: -2rem">
+          Get ready to grow <b class="word-bold">Up</b>
+        </h1>
         <p>
-          Filtra per materia, posizione e modalità (online o in presenza).
+          Una piattaforma intuitiva per studenti e tutor: trova, prenota e
+          inizia subito le lezioni in modo semplice e veloce.
         </p>
+        <button>Trova il tuo tutor ideale</button>
       </div>
-      <div class="arrow">
-        <img
-          src="assets/icons/rightArrrow.svg"
-          alt="freccia a destra"
-          width="50"
-          height="50"
-        />
+      <div class="hero-right">
+        <img src="assets/images/ragazza_studiosa.svg" alt="Hero Image" />
       </div>
-      <div class="step" data-aos="flip-right">
-        <div class="icon">📅</div>
-        <h3>3. Prenota una lezione</h3>
-        <p>Conferma data e orario con il tutor che hai scelto.</p>
+    </section>
+
+    <!-- Sezione come funziona-->
+    <section class="how-it-works">
+      <h2>Come funziona?</h2>
+      <div class="steps">
+        <div class="step" data-aos="flip-right">
+          <div class="icon">📌</div>
+          <h3>1. Registrati</h3>
+          <p>Crea un account come studente o tutor in pochi passi.</p>
+        </div>
+        <div class="arrow">
+          <img
+            src="assets/icons/rightArrrow.svg"
+            alt="freccia a destra"
+            width="50"
+            height="50"
+          />
+        </div>
+        <div class="step" data-aos="flip-left">
+          <div class="icon">🔍</div>
+          <h3>2. Cerca un tutor</h3>
+          <p>
+            Filtra per materia, posizione e modalità (online o in presenza).
+          </p>
+        </div>
+        <div class="arrow">
+          <img
+            src="assets/icons/rightArrrow.svg"
+            alt="freccia a destra"
+            width="50"
+            height="50"
+          />
+        </div>
+        <div class="step" data-aos="flip-right">
+          <div class="icon">📅</div>
+          <h3>3. Prenota una lezione</h3>
+          <p>Conferma data e orario con il tutor che hai scelto.</p>
+        </div>
+        <div class="arrow">
+          <img
+            src="assets/icons/rightArrrow.svg"
+            alt="freccia a destra"
+            width="50"
+            height="50"
+          />
+        </div>
+        <div class="step" data-aos="flip-left">
+          <div class="icon">🚀</div>
+          <h3>4. Inizia a studiare</h3>
+          <p>Segui la lezione, impara e raggiungi i tuoi obiettivi!</p>
+        </div>
       </div>
-      <div class="arrow">
-        <img
-          src="assets/icons/rightArrrow.svg"
-          alt="freccia a destra"
-          width="50"
-          height="50"
-        />
-      </div>
-      <div class="step" data-aos="flip-left">
-        <div class="icon">🚀</div>
-        <h3>4. Inizia a studiare</h3>
-        <p>Segui la lezione, impara e raggiungi i tuoi obiettivi!</p>
-      </div>
-    </div>
-  </section>
+    </section>
 
     <!--SEZIONE MATERIE POPOLARI-->
     <section class="popular-subjects" data-aos="fade-up">
       <h2>Materie Popolari</h2>
       <div class="subject-grid">
         <button class="subject-card">
-          <img src="../client/assets/icons/math.svg" alt="Matematica">
+          <img src="../client/assets/icons/math.svg" alt="Matematica" />
           <span>Matematica</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/english.svg" alt="Inglese">
+          <img src="../client/assets/icons/english.svg" alt="Inglese" />
           <span>Inglese</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/physics.svg" alt="Fisica">
+          <img src="../client/assets/icons/physics.svg" alt="Fisica" />
           <span>Fisica</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/python.svg" alt="Python programming">
+          <img
+            src="../client/assets/icons/python.svg"
+            alt="Python programming"
+          />
           <span>Python</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/biology.svg" alt="Biologia">
+          <img src="../client/assets/icons/biology.svg" alt="Biologia" />
           <span>Biologia</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/chemistry.svg" alt="Chimica">
+          <img src="../client/assets/icons/chemistry.svg" alt="Chimica" />
           <span>Chimica</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/javascript.svg" alt="Javascript">
+          <img src="../client/assets/icons/javascript.svg" alt="Javascript" />
           <span>Javascript</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/statistics.svg" alt="Statistica">
+          <img src="../client/assets/icons/statistics.svg" alt="Statistica" />
           <span>Statistica</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/java.svg" alt="Java">
+          <img src="../client/assets/icons/java.svg" alt="Java" />
           <span>Java</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/chinese.svg" alt="Chinese">
+          <img src="../client/assets/icons/chinese.svg" alt="Chinese" />
           <span>Cinese</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/french.svg" alt="Francese">
+          <img src="../client/assets/icons/french.svg" alt="Francese" />
           <span>Francese</span>
         </button>
         <button class="subject-card">
-          <img src="../client/assets/icons/cpp.svg" alt="C++">
+          <img src="../client/assets/icons/cpp.svg" alt="C++" />
           <span>C++</span>
         </button>
-
       </div>
     </section>
     <!--Sezione About-->
@@ -183,62 +200,78 @@
       <h2>About</h2>
       <div class="about-lr">
         <div class="about-left">
-          <img src="assets/images/due_ragazzi.svg" alt="About Img">
+          <img src="assets/images/due_ragazzi.svg" alt="About Img" />
         </div>
         <div class="about-right">
-         <p><span>StudyUp</span> è un sito nato da un'idea di due studenti della facoltà di Ingegneria Informatica
-          dell'Università La Sapienza di Roma.<br>
-          Il sito ha lo scopo, da un lato di <span>facilitare</span> la scelta degli insegnanti di ripetizioni per gli studenti 
-          e il <span>mettersi in gioco</span> per gli insegnanti, dall'altro di rendere più <span>diretta</span> l'interazione tra 
-          le due parti.</p>
+          <p>
+            <span>StudyUp</span> è un sito nato da un'idea di due studenti della
+            facoltà di Ingegneria Informatica dell'Università La Sapienza di
+            Roma.<br />
+            Il sito ha lo scopo, da un lato di <span>facilitare</span> la scelta
+            degli insegnanti di ripetizioni per gli studenti e il
+            <span>mettersi in gioco</span> per gli insegnanti, dall'altro di
+            rendere più <span>diretta</span> l'interazione tra le due parti.
+          </p>
         </div>
       </div>
-
     </section>
 
     <!--Sezione Domande Frequenti-->
-    <section  id="Domande Frequenti" class="faq-section">
+    <section id="Domande Frequenti" class="faq-section">
       <h2>Domande Frequenti</h2>
-    
+
       <div class="faq-item">
         <button class="faq-question">Come posso registrarmi come tutor?</button>
         <div class="faq-answer">
-          <p>Puoi registrarti cliccando su "Registrati" nella homepage e selezionando l'opzione "Tutor".</p>
+          <p>
+            Puoi registrarti cliccando su "Registrati" nella homepage e
+            selezionando l'opzione "Tutor".
+          </p>
         </div>
       </div>
-    
+
       <div class="faq-item">
-        <button class="faq-question">Posso scegliere tra lezioni online e in presenza?</button>
+        <button class="faq-question">
+          Posso scegliere tra lezioni online e in presenza?
+        </button>
         <div class="faq-answer">
           <p>Sì, puoi filtrare i tutor in base alla modalità preferita.</p>
         </div>
       </div>
-    
+
       <div class="faq-item">
         <button class="faq-question">Quanto costa usare StudyUp?</button>
         <div class="faq-answer">
-          <p>La registrazione è gratuita. I tutor impostano le proprie tariffe.</p>
+          <p>
+            La registrazione è gratuita. I tutor impostano le proprie tariffe.
+          </p>
         </div>
       </div>
-    
+
       <div class="faq-item">
-        <button class="faq-question">Come funziona il sistema di valutazioni?</button>
+        <button class="faq-question">
+          Come funziona il sistema di valutazioni?
+        </button>
         <div class="faq-answer">
-          <p>Dopo ogni lezione, gli studenti possono lasciare una valutazione utile ad altri utenti.</p>
+          <p>
+            Dopo ogni lezione, gli studenti possono lasciare una valutazione
+            utile ad altri utenti.
+          </p>
         </div>
       </div>
     </section>
 
     <!-- Include Footer -->
     <footer class="footer">
-        <p>&copy; 2025 StudyUp. Tutti i diritti riservati.</p>
+      <p>&copy; 2025 StudyUp. Tutti i diritti riservati.</p>
     </footer>
     <script src="js/main.js"></script>
     <script src="js/modal_window.js"></script>
     <script src="js/login.js"></script>
-</body>
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script>
-  AOS.init();
-</script>
+    <script src="js/navbar.js"></script>
+  </body>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 </html>
