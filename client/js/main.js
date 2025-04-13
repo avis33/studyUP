@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
       document.getElementById("userProfile").src =
         data.user?.profilePicture ||
-        "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+        "assets/icons/icone_img.svg";
     } catch (error) {
       console.log(error);
       document.getElementById("user-area").classList.add("hidden");
