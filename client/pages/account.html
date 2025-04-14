@@ -6,10 +6,68 @@
     <link rel="stylesheet" href="../css/account.css">
 </head>
 <body>
+   <!-- Include Navbar -->
+   <nav class="navbar">
+    <div class="info-links">
+      <a href="/client/index.html">
+        <img src="/client/assets/images/logo_facciate.svg" alt="Logo" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="pages/materie.html">Materie</a></li>
+        <li><a href="pages/ratings.html">Ratings</a></li>
+        <li><a href="#About">About</a></li>
+        <li><a href="#Domande Frequenti">Domande Frequenti</a></li>
+      </ul>
+    </div>
+    <!-- Profilo utente-->
+    <div id="user-area" class="user-area hidden">
+      <div class="profile-icon">
+        <img
+          src="/client/assets/icons/icone_img.svg"
+          alt="Profilo"
+          id="userProfile"
+        />
+        <div id="userName"></div>
+      </div>
+      <div class="profile-menu">
+        <ul>
+          <li><a href="#">Il mio account</a></li>
+          <li><a href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="register-btn" id="openModalBtn">Accedi</button>
+    <!--Finestra modale per il login-->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Accedi</h2>
+        <form method="post" id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
+
+          <button type="submit">Login</button>
+          <div class="error-message" id="genericError"></div>
+        </form>
+
+        <p class="signup-message">
+          Non sei iscritto? <a href="pages/register.html">Registrati!</a>
+        </p>
+      </div>
+    </div>
+  </nav>
     <!-- profilo.html -->
 <section class="profile-container">
     <h2>Modifica il tuo profilo</h2>
-    <form id="profileForm" enctype="multipart/form-data">
+    <form id="profileForm" enctype="multipart/form-data" method="post">
+      <input type="hidden" name="userId" id="userId">
       <div class="form-group">
         <label for="profileImage">Foto profilo</label>
         <input type="file" id="profileImage" name="profileImage" accept="image/*" />
@@ -44,4 +102,7 @@
   </section>
   
 </body>
+<script src="../js/modal_window.js"></script>
+<script src="../js/navbar.js"></script>
+<script src="../js/account.js"></script>
 </html>

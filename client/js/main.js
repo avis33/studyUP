@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const data = await res.json();
 
-      if (data) {
+      if (data.hasAccess) {
         //logica per quando l'utente è loggato
         let welcome = `Sei loggato come: ${data.user.email}`;
         console.log(data);
@@ -37,10 +37,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           data.user.firstName.length > 20
             ? data.user.firstName.substring(0, 20) + "..." //tronca dopo 20 caratteri
             : data.user.firstName;
-      }
-      document.getElementById("userProfile").src =
+            document.getElementById("userProfile").src =
         data.user?.profilePicture ||
         "assets/icons/icone_img.svg";
+      }else{
+          document.getElementById("user-area").style.display = "none";
+      }
+      
     } catch (error) {
       console.log(error);
       document.getElementById("user-area").classList.add("hidden");

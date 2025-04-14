@@ -1,6 +1,7 @@
 import { connectToDatabase } from "../config/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { ObjectId } from "mongodb";
 // dotenv è una libreria che ti fa mette informazioni importanti come il link di connessione al database in un file .env sicuro che non viene esposto
 import dotenv from "dotenv";
 dotenv.config();
@@ -116,7 +117,7 @@ export async function loginUser(req, res) {
 export function authMiddleware(req, res, next) {
   // 1. Estrae il token JWT dall'header "Authorization"
   const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "Token mancante" });
+  if (!token) return res.status(401).json({ message: "Token mancante", hasAccess:false });
 
   try {
     // 2. Verifica che il token sia valido (firma e scadenza)
@@ -131,50 +132,73 @@ export function authMiddleware(req, res, next) {
     next();
   } catch (err) {
     // 5. Se non è valido o è scaduto, rifiuta la richiesta
-    res.status(403).json({ message: "Token non valido o scaduto" });
+    res.status(403).json({ message: "Token non valido o scaduto", hasAccess:false });
   }
 }
 
-//todo modifica profilo (bisogna aggiorna il token se l'utente aggiorna nome o immagine)
-// In un controller: PUT /user/modifica-profilo
-/* router.put("/modifica-profilo", authMiddleware, upload.single("profileImage"), async (req, res) => {
+export async function getUserInfoById(req, res) {
+  const userId = req.params.id;
   try {
-    const userId = req.user.id;
-
-    const { nome, cognome, dataNascita } = req.body;
-    let imgUrl;
-
-    if (req.file) {
-      // Salva il path dell'immagine nel DB (es. /uploads/nomefile.jpg)
-      imgUrl = `/uploads/${req.file.filename}`;
+    const db = await connectToDatabase();
+    const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
+    if (!user) {
+      return res.status(404).json({ message: "Utente non trovato", error:true });
     }
+    // Rimuovo la password per sicurezza
+    const { password, ...userWithoutPassword } = user;
+    res.status(200).json({ user: userWithoutPassword, error:false});
+  } catch (error) {
+    console.error("Errore nel recupero utente:", error);
+    res.status(500).json({ message: "Errore del server",error:true});
+  }
+}
 
-    const updatedUser = await db.collection("users").findOneAndUpdate(
+
+//todo modifica profilo (bisogna aggiorna il token se l'utente aggiorna nome o immagine)
+export async function updateUser(req, res) {
+  const {
+    userId,
+    firstName,
+    lastName,
+    email,
+    birthDate,
+    role,
+    preferredSubjects,
+    taughtSubjects,
+    rate,
+    bio,
+    profilePicture,
+  } = req.body;
+
+  try {
+    // Prepara i campi da aggiornare
+    const updateFields = {};
+
+    if (firstName) updateFields.firstName = firstName;
+    if (lastName) updateFields.lastName = lastName;
+    if (email) updateFields.email = email;
+    if (birthDate) updateFields.birthDate = birthDate;
+    if (role) updateFields.role = role;
+    if (preferredSubjects) updateFields.preferredSubjects = preferredSubjects;
+    if (taughtSubjects) updateFields.taughtSubjects = taughtSubjects;
+    if (rate) updateFields.rate = rate;
+    if (bio) updateFields.bio = bio;
+    if (profilePicture) updateFields.profilePicture = profilePicture;
+
+
+    // Esegui l'update
+    const result = await db.collection("users").updateOne(
       { _id: new ObjectId(userId) },
-      {
-        $set: {
-          nome,
-          cognome,
-          dataNascita,
-          ...(imgUrl && { img: imgUrl })
-        }
-      },
-      { returnDocument: "after" }
+      { $set: updateFields }
     );
 
-    // RIGENERA il token con i nuovi dati
-    const newToken = jwt.sign({
-      id: updatedUser.value._id,
-      email: updatedUser.value.email,
-      nome: updatedUser.value.nome,
-      img: updatedUser.value.img,
-      ruolo: updatedUser.value.ruolo
-    }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    if (result.modifiedCount === 0) {
+      return res.status(400).json({ message: "Nessun campo aggiornato" });
+    }
 
-    res.status(200).json({ message: "Profilo aggiornato", token: newToken });
-
-  } catch (err) {
-    res.status(500).json({ message: "Errore nel salvataggio", error: err.message });
+    res.status(200).json({ message: "Utente aggiornato con successo" });
+  } catch (error) {
+    console.error("Errore aggiornamento utente:", error);
+    res.status(500).json({ message: "Errore del server" });
   }
-});
- */
+}
