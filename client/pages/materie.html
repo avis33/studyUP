@@ -4,9 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materie</title>
+    <link rel="stylesheet" href="../css/materie.css">
 </head>
 <body>
-    
+    <div class="subject-container">
+        <h1>Materie</h1>
+        <div class="subject-lr">
+            <div class="subject-left">
+             <h2>Che materie vuoi recuperare?</h2>
+             <form method="post">
+                <label for="materie">Tipi di materie:</label>
+                <select name="materie" id="materie">
+                     <option value="lingue">Lingue</option>
+                     <option value="linguaggiDiProgrammazione">Linguaggi di programmazione</option>
+                     <option value="materieScientifiche">Meterie scientifiche</option>
+                     <option value="materieUmanistiche">Materie umanistiche</option>
+                 </select>
+                </form>
+            </div>
+            <div class="subject-right">
+                <img src="../assets/images/teacher.svg" alt="materie-img">
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>

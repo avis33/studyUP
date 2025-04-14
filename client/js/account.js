@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               : data.user.firstName;
               document.getElementById("userProfile").src =
           data.user?.profilePicture ||
-          "/client/assets/icons/icone_img.svg";
+          "../assets/icons/icone_img.svg";
 
           const resInfo = await fetch(`http://localhost:3000/user/getUserInfo/${data.user.id}`, {
             method: "GET",
