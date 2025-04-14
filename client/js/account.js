@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("authToken");
+    const loginButton = document.getElementById("openModalBtn");
+
     if (!token) {
       window.location.href = "/client/index.html";
       document.getElementById("user-area").style.display = "none";

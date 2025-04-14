@@ -155,7 +155,7 @@ export async function getUserInfoById(req, res) {
 
 
 //todo modifica profilo (bisogna aggiorna il token se l'utente aggiorna nome o immagine)
-export async function updateUser(req, res) {
+export async function updateProfile(req, res) {
   const {
     userId,
     firstName,
