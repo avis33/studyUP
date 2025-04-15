@@ -338,4 +338,51 @@ color: white;
     display: block;
     margin: auto;
   }
-  
+  /* Styling extraFields coerente */
+#extraFields .form-group {
+  margin-bottom: 1rem;
+}
+
+#extraFields .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+#extraFields input[type="text"],
+#extraFields input[type="number"],
+#extraFields textarea {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: 'Rubik', sans-serif;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+#extraFields textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Aggiunta di un accento verde ai focus */
+#extraFields input:focus,
+#extraFields textarea:focus {
+  outline: none;
+  border-color: #36a970;
+  box-shadow: 0 0 5px rgba(54, 169, 112, 0.3);
+}
+input.error,
+textarea.error {
+  border-color: #dc3545;
+  background-color: #ffe6e6;
+}
+
+.error-message.show {
+  color: #e74c3c;
+  text-align: left;
+  font-size: 0.9rem;
+  margin-top: 0.7rem;
+}

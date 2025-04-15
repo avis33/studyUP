@@ -171,6 +171,7 @@ export async function updateProfile(req, res) {
   } = req.body;
 
   try {
+    const db = await connectToDatabase();
     // Prepara i campi da aggiornare
     const updateFields = {};
 

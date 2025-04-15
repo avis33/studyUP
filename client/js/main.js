@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           data.user.firstName.length > 20
             ? data.user.firstName.substring(0, 20) + "..." //tronca dopo 20 caratteri
             : data.user.firstName;
+          console.log(data.user);
+          
             document.getElementById("userProfile").src =
         data.user?.profilePicture ||
         "assets/icons/icone_img.svg";

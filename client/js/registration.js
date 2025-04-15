@@ -192,7 +192,6 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const materieInsegnate = document.getElementById("subjects") ? document.getElementById("subjects").value : null; //operatorie ternario
   const descrizioneTutor = document.getElementById("bio") ? document.getElementById("bio").value : null;
   
-  // localStorage.setItem('s', JSON.stringify(rate)); ignora
   let role = "student"
   let data = {}
   if(rate) role = "tutor"
