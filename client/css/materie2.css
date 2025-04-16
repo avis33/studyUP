@@ -286,106 +286,132 @@ color: white;
   }
 
 
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: white;
 
-/*SEZIONE MODIFICA PROFILO*/
-.profile-container {
-    font-family:'Rubik', sans-serif;
-    max-width: 700px;
-    margin: auto;
-    padding: 2rem;
-    border-radius: 1.5rem;
-    background-color: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-  }
+      }
   
-  .profile-container h2 {
-    text-align: center;
-    font-size: 2rem;
-    color: #36a970;
-    margin-bottom: 1.5rem;
-  }
   
-  .form-group {
-    margin-bottom: 1rem;
-  }
+      /* Form di ricerca */
+      #filterForm {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
   
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-  }
+      #materiaInput {
+        flex: 1;
+        min-width: 300px;
+        padding: 15px;
+        border: 2px solid #e0e6ed;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
   
-  .form-group input[type="text"],
-  .form-group input[type="date"],
-  .form-group input[type="file"] {
-    width: 100%;
-    padding: 0.7rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-  }
+      #materiaInput:focus {
+        border-color: #36a970;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(54, 169, 112, 0.2);
+      }
   
-  #previewImage {
-    margin-top: 1rem;
-    max-height: 150px;
-    border-radius: 50%;
-  }
+      #modalitaSelect, #prezzoSelect {
+        padding: 15px;
+        border: 2px solid #e0e6ed;
+        border-radius: 8px;
+        font-size: 1rem;
+        background-color: white;
+        cursor: pointer;
+        min-width: 200px;
+      }
   
-  button[type="submit"] {
-    background-color: #36a970;
-    color: white;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 1rem;
-    cursor: pointer;
-    font-size: 1.1rem;
-    display: block;
-    margin: auto;
-  }
-  /* Styling extraFields coerente */
-#extraFields .form-group {
-  margin-bottom: 1rem;
-}
-
-#extraFields .form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #333;
-}
-
-#extraFields input[type="text"],
-#extraFields input[type="number"],
-#extraFields textarea {
-  width: 100%;
-  padding: 0.7rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-family: 'Rubik', sans-serif;
-  font-size: 1rem;
-  box-sizing: border-box;
-}
-
-#extraFields textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-/* Aggiunta di un accento verde ai focus */
-#extraFields input:focus,
-#extraFields textarea:focus {
-  outline: none;
-  border-color: #36a970;
-  box-shadow: 0 0 5px rgba(54, 169, 112, 0.3);
-}
-input.error,
-textarea.error {
-  border-color: #dc3545;
-  background-color: #ffe6e6;
-}
-
-.error-message.show {
-  color: #e74c3c;
-  text-align: left;
-  font-size: 0.9rem;
-  margin-top: 0.7rem;
-}
+      button[type="submit"] {
+        padding: 15px 30px;
+        background-color: #36a970;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+  
+      button[type="submit"]:hover {
+        background-color: #2d8a5b;
+      }
+  
+      /* Lista tutor */
+      .tutor-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+      }
+  
+      .tutor-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+  
+      .tutor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      }
+  
+      /* Responsive */
+      @media (max-width: 768px) {
+        #filterForm {
+          flex-direction: column;
+        }
+        
+        #materiaInput, #modalitaSelect, #prezzoSelect {
+          width: 100%;
+          min-width: auto;
+        }
+      }
+      
+      .tutor-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      
+      .tutor-info {
+        padding: 16px;
+      }
+      
+      .tutor-info h2 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1.3em;
+      }
+      
+      .tutor-info p {
+        margin: 6px 0;
+        line-height: 1.4;
+      }
+      
+      .tutor-info button {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      
+      .tutor-info button:hover {
+        background-color: #1b5e20;
+      }
+      

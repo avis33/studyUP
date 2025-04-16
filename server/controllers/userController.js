@@ -196,8 +196,21 @@ export async function updateProfile(req, res) {
     if (result.modifiedCount === 0) {
       return res.status(400).json({ message: "Nessun campo aggiornato" });
     }
+    
+    //RIGENERA IL TOKEN
+    const token = jwt.sign(
+      {
+        email: email,
+        role: role,
+        id: userId,
+        firstName: firstName,
+        profilePicture: profilePicture,
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: "1d" }
+    );
 
-    res.status(200).json({ message: "Utente aggiornato con successo" });
+    res.status(200).json({ message: "Utente aggiornato con successo",  token });
   } catch (error) {
     console.error("Errore aggiornamento utente:", error);
     res.status(500).json({ message: "Errore del server" });

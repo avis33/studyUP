@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trova un Tutor</title>
+  <link rel="stylesheet" href="/client/css/materie2.css" />
+</head>
+<body>
+     <!-- Include Navbar -->
+   <nav class="navbar">
+    <div class="info-links">
+      <a href="../index.html">
+        <img src="../assets/images/logo_facciate.svg" alt="Logo" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="../pages/materie.html">Materie</a></li>
+        <li><a href="../pages/ratings.html">Ratings</a></li>
+        <li><a href="../index.html#About">About</a></li>
+        <li><a href="../index.html#Domande Frequenti">Domande Frequenti</a></li>
+      </ul>
+    </div>
+    <!-- Profilo utente-->
+    <div id="user-area" class="user-area hidden">
+      <div class="profile-icon">
+        <img
+          src="../assets/icons/icone_img.svg"
+          alt="Profilo"
+          id="userProfile"
+        />
+        <div id="userName"></div>
+        <img
+        src="../assets/icons/arrow.svg"
+        alt="arrow"
+        id="arrow"
+      />
+      </div>
+      <div class="profile-menu">
+        <ul>
+          <li><a href="#">Il mio account</a></li>
+          <li><a href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="register-btn" id="openModalBtn">Accedi</button>
+    <!--Finestra modale per il login-->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Accedi</h2>
+        <form method="post" id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
+
+          <button type="submit">Login</button>
+          <div class="error-message" id="genericError"></div>
+        </form>
+
+        <p class="signup-message">
+          Non sei iscritto? <a href="../pages/register.html">Registrati!</a>
+        </p>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+
+    <form id="filterForm">
+      <input type="text" id="materiaInput" placeholder="Cerca una materia...">
+      <select id="modalitaSelect">
+        <option value="">Tutte le modalità</option>
+        <option value="online">Online</option>
+        <option value="presenza">In presenza</option>
+      </select>
+      <select id="prezzoSelect">
+        <option value="">Qualsiasi prezzo</option>
+        <option value="0-15">Fino a 15€/h</option>
+        <option value="15-30">15-30€/h</option>
+        <option value="30+">Oltre 30€/h</option>
+      </select>
+      <button type="submit">Cerca</button>
+    </form>
+
+    <div class="tutor-list" id="tutorList">
+      <!-- I tutor saranno inseriti qui via JS -->
+      <div class="tutor-card">
+        <img src="/client/img/luca.jpg" alt="Luca Rossi">
+        <div class="tutor-info">
+          <h2>👤 Luca Rossi</h2>
+          <p>📘 <strong>Matematica</strong> – Algebra, Trigonometria</p>
+          <p>💬 "Ripetizioni mirate per test universitari"</p>
+          <p>📍 <strong>In presenza</strong> – Milano (Città Studi)</p>
+          <p>💶 <strong>20€/h</strong></p>
+          <button>📩 Contatta</button>
+        </div>
+      </div>
+      
+      <div class="tutor-card">
+        <img src="/client/img/sara.jpg" alt="Sara Bianchi">
+        <div class="tutor-info">
+          <h2>👤 Sara Bianchi</h2>
+          <p>📘 <strong>Fisica</strong> – Meccanica, Ottica</p>
+          <p>💬 "Lezioni chiare per studenti delle superiori"</p>
+          <p>📍 <strong>Online</strong></p>
+          <p>💶 <strong>15€/h</strong></p>
+          <button>📩 Contatta</button>
+        </div>
+      </div>
+      
+      <div class="tutor-card">
+        <img src="/client/img/andrea.jpg" alt="Andrea Verdi">
+        <div class="tutor-info">
+          <h2>👤 Andrea Verdi</h2>
+          <p>📘 <strong>Chimica</strong> – Chimica organica, inorganica</p>
+          <p>💬 "Supporto per esami universitari di chimica"</p>
+          <p>📍 <strong>In presenza</strong> – Bologna (Centro)</p>
+          <p>💶 <strong>25€/h</strong></p>
+          <button>📩 Contatta</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <script src="../js/modal_window.js"></script>
+  <script src="../js/materie.js"></script>
+<script src="../js/navbar.js"></script>
+</body>
+</html>

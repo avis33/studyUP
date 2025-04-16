@@ -200,9 +200,6 @@ document
       profilePicture: imageUrl
     };
     console.log(data);
-
-
-
       const res = await fetch("http://localhost:3000/user/update", {
         method: "POST",
         headers: {
@@ -213,6 +210,8 @@ document
       const json = await res.json();
       if (res.ok) {
         alert("Update avvenuto con successo!");
+        localStorage.setItem("authToken", json.token);
+        setTimeout(() => window.location.reload(), 1000); // ricarica la pagina dopo 1 secondo e mostra le modifiche
       } else {
         alert("Errore: " + json.message);
       }
