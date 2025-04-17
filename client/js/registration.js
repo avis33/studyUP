@@ -15,6 +15,10 @@ class RegistrationData {
       materieInsegnate = null, 
       rate = null, 
       descrizioneTutor = null,
+      level = null,
+      mode = null,
+      region = null,
+      city = null,
       role = 'student' // Aggiunto il ruolo con default 'student'
   ) {
       this.firstName = firstName;
@@ -27,6 +31,10 @@ class RegistrationData {
       this.materieInsegnate = materieInsegnate;
       if(rate != null )this.rate = rate;
       this.descrizioneTutor = descrizioneTutor;
+      this.level = level;
+      this.mode = mode;
+      this.region = region;
+      this.city = city;
       this.role = role;
   }
    
@@ -138,7 +146,11 @@ class RegistrationData {
       preferredSubjects: this.materieDaRecuperare,
       taughtSubjects: this.materieInsegnate,
       rate: this.rate,
-      bio: this.descrizioneTutor
+      bio: this.descrizioneTutor,
+      level: this.level,
+      mode: this.mode,
+      region:this.region,
+      city:this.city
   };
   }
 }
@@ -148,9 +160,13 @@ class RegistrationData {
 roleRadios.forEach(radio => {
   radio.addEventListener('change', () => {
     if (radio.value === 'student') {
+      document.getElementById("mode").required = false;
+      document.getElementById("level").required = false;
       studentFields.classList.remove('hidden');
       tutorFields.classList.add('hidden');
     } else {
+      document.getElementById("mode").required = true;
+      document.getElementById("level").required = true;
       studentFields.classList.add('hidden');
       tutorFields.classList.remove('hidden');
     }
@@ -191,12 +207,16 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const rate = document.getElementById("rate") ? parseFloat(document.getElementById("rate").value) : null;
   const materieInsegnate = document.getElementById("subjects") ? document.getElementById("subjects").value : null; //operatorie ternario
   const descrizioneTutor = document.getElementById("bio") ? document.getElementById("bio").value : null;
-  
+  const mode = document.getElementById("mode").value;
+  const level = document.getElementById("level").value
+  const region = document.getElementById("region").value;
+  const city = document.getElementById("city").value;
+
   let role = "student"
   let data = {}
   if(rate) role = "tutor"
   
-  const formData = new RegistrationData(firstName, lastName, email, password, confirmPassword, birthDateValue, materieDaRecuperare, materieInsegnate, rate, descrizioneTutor, role)
+  const formData = new RegistrationData(firstName, lastName, email, password, confirmPassword, birthDateValue, materieDaRecuperare, materieInsegnate, rate, descrizioneTutor,level,mode,region,city, role)
   const error = formData.validate()
   if(error == undefined){
     data = formData.dataPerDb()
@@ -214,7 +234,8 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
       alert("Registrazione avvenuta con successo!");
       form.reset();
     } else {
-      alert("Errore: " + json.message);
+      showError("form", json.message);
+      //alert("Errore: " + json.message);
     }
   } catch (err) {
     console.error("Errore nella registrazione", err);
@@ -223,4 +244,68 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   }else{
     showError(error.id, error.error);
   }
+});
+
+const modeSelect = document.getElementById("mode");
+const locationFields = document.getElementById("locationFields");
+const regionSelect = document.getElementById("region");
+const citySelect = document.getElementById("city");
+
+const regionCities = {
+  "Abruzzo": ["L'Aquila", "Pescara", "Chieti", "Teramo"],
+  "Basilicata": ["Potenza", "Matera"],
+  "Calabria": ["Catanzaro", "Reggio Calabria", "Cosenza"],
+  "Campania": ["Napoli", "Salerno", "Caserta", "Avellino", "Benevento"],
+  "Emilia-Romagna": ["Bologna", "Modena", "Parma", "Reggio Emilia", "Ferrara", "Ravenna", "Forlì", "Piacenza", "Cesena", "Rimini"],
+  "Friuli-Venezia Giulia": ["Trieste", "Udine", "Pordenone", "Gorizia"],
+  "Lazio": ["Roma", "Latina", "Frosinone", "Viterbo", "Rieti"],
+  "Liguria": ["Genova", "La Spezia", "Savona", "Imperia"],
+  "Lombardia": ["Milano", "Bergamo", "Brescia", "Como", "Cremona", "Lecco", "Lodi", "Mantova", "Monza", "Pavia", "Sondrio", "Varese"],
+  "Marche": ["Ancona", "Pesaro", "Urbino", "Macerata", "Ascoli Piceno", "Fermo"],
+  "Molise": ["Campobasso", "Isernia"],
+  "Piemonte": ["Torino", "Alessandria", "Asti", "Biella", "Cuneo", "Novara", "Verbano-Cusio-Ossola", "Vercelli"],
+  "Puglia": ["Bari", "Brindisi", "Foggia", "Lecce", "Taranto", "Barletta-Andria-Trani"],
+  "Sardegna": ["Cagliari", "Sassari", "Nuoro", "Oristano", "Carbonia-Iglesias"],
+  "Sicilia": ["Palermo", "Catania", "Messina", "Trapani", "Siracusa", "Ragusa", "Agrigento", "Enna", "Caltanissetta"],
+  "Toscana": ["Firenze", "Pisa", "Siena", "Arezzo", "Grosseto", "Livorno", "Lucca", "Massa-Carrara", "Pistoia", "Prato"],
+  "Trentino-Alto Adige": ["Trento", "Bolzano"],
+  "Umbria": ["Perugia", "Terni"],
+  "Valle d'Aosta": ["Aosta"],
+  "Veneto": ["Venezia", "Verona", "Padova", "Vicenza", "Treviso", "Belluno", "Rovigo"]
+};
+
+// Popola la select delle regioni
+for (const regione in regionCities) {
+  const option = document.createElement("option");
+  option.value = regione;
+  option.textContent = regione;
+  regionSelect.appendChild(option);
+}
+
+// Mostra/Nasconde la sezione città in base alla modalità
+modeSelect.addEventListener("change", () => {
+  const selected = modeSelect.value;
+  const richiedeLocalizzazione = selected === "presenza" || selected === "entrambe";
+  if (richiedeLocalizzazione) {
+    regionSelect.required = true;
+    citySelect.required = true;
+    locationFields.classList.remove("hidden");
+  } else {
+    regionSelect.required = false;
+    citySelect.required = false;
+    locationFields.classList.add("hidden");
+  }
+});
+
+// Aggiorna le città in base alla regione selezionata
+regionSelect.addEventListener("change", () => {
+  const selectedRegion = regionSelect.value;
+  const cities = regionCities[selectedRegion] || [];
+  citySelect.innerHTML = '<option value="">Seleziona una città</option>';
+  cities.forEach(city => {
+    const option = document.createElement("option");
+    option.value = city;
+    option.textContent = city;
+    citySelect.appendChild(option);
+  });
 });

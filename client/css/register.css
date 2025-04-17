@@ -196,7 +196,11 @@ body {
     margin-top: 0.35rem;
     display: none;
   }
-  
+  #formError{
+    text-align: center;
+    margin-top: 0.65rem;
+    font-size: 1rem;
+  }
   .error-message.show {
     display: block;
   }
@@ -207,4 +211,30 @@ body {
     background-color: #ffe6e6;
   }
 
-  
+/* Campi specifici per i tutor */
+form select {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+  cursor: pointer;
+  appearance: none; /* Rimuove lo stile nativo su alcuni browser */
+}
+
+form select:focus {
+  border-color: #36a970;
+  outline: none;
+  box-shadow: 0 0 3px rgba(54, 169, 112, 0.3);
+}
+
+/* Stile coerente per il gruppo locationFields */
+#locationFields {
+  margin-top: 1rem;
+}
+
+/* Spazio tra regioni e città */
+#locationFields .form-group {
+  margin-bottom: 1.2rem;
+}

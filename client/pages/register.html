@@ -106,9 +106,46 @@
               <textarea id="bio" name="bio" rows="4" placeholder="Scrivi qualcosa su di te..."></textarea>
               <div class="error-message" id="bioError"></div>
             </div>
+            <div class="form-group">
+              <label for="level">A chi sono rivolte le lezioni?</label>
+              <select id="level" name="level">
+                <option value="">Seleziona un livello</option>
+                <option value="liceo">Liceo</option>
+                <option value="università">Università</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="mode">Modalità di erogazione</label>
+              <select id="mode" name="mode">
+                <option value="">Seleziona modalità</option>
+                <option value="online">Online</option>
+                <option value="presenza">In presenza</option>
+                <option value="entrambe">Entrambe</option>
+              </select>
+            </div>
+            
+            <div id="locationFields" class="hidden">
+              <div class="form-group">
+                <label for="region">Regione</label>
+                <select id="region" name="region">
+                  <option value="">Seleziona una regione</option>
+                  <!-- Le opzioni vengono inserite da JS -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="city">Città</label>
+                <select id="city" name="city">
+                  <option value="">Seleziona una città</option>
+                </select>
+              </div>
+            </div>
+            
+            
           </div>
-      
+         
           <button  type="submit" class="form-btn" >Registrati</button>
+          <div class="error-message" id="formError"></div>
         </form>
         <br>
       </div>

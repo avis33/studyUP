@@ -22,6 +22,10 @@ export async function registerUser(req, res) {
       taughtSubjects,
       rate,
       bio,
+      level,
+      mode,
+      region,
+      city
     } = req.body;
     console.log(req.body);
 
@@ -62,6 +66,12 @@ export async function registerUser(req, res) {
       user.taughtSubjects = taughtSubjects;
       user.rate = rate;
       user.bio = bio;
+      user.level = level,
+      user.mode = mode;
+      if(mode === "presenza" || mode === "entrambe"){
+        user.region = region
+        user.city = city
+      }
       user.rating = 0; // media voti iniziale
       user.reviewCount = 0; // numero recensioni
     }
