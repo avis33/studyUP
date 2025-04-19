@@ -14,7 +14,7 @@
         <img src="../assets/images/logo_facciate.svg" alt="Logo" />
       </a>
       <ul class="nav-links">
-        <li><a href="../pages/materie.html">Materie</a></li>
+        <li><a href="#">Trova un tutor</a></li>
         <li><a href="../pages/ratings.html">Ratings</a></li>
         <li><a href="../index.html#About">About</a></li>
         <li><a href="../index.html#Domande Frequenti">Domande Frequenti</a></li>
@@ -69,64 +69,45 @@
       </div>
     </div>
   </nav>
-  <div class="container">
 
-    <form id="filterForm">
-      <input type="text" id="materiaInput" placeholder="Cerca una materia...">
-      <select id="modalitaSelect">
-        <option value="">Tutte le modalità</option>
-        <option value="online">Online</option>
-        <option value="presenza">In presenza</option>
+  <form id="filterForm">
+    <!-- Barra di ricerca centrale -->
+    <div class="search-bar">
+      <input type="text" id="materiaInput" placeholder="🔍 Cerca una materia (es. matematica, chimica...)" />
+      <button type="submit">Cerca</button>
+    </div>
+  
+    <!-- Filtri secondari -->
+    <div class="filters-row">
+  
+      <select id="livelloSelect">
+        <option value="">Livello</option>
+        <option value="liceo">Liceo</option>
+        <option value="università">Università</option>
       </select>
+  
       <select id="prezzoSelect">
-        <option value="">Qualsiasi prezzo</option>
+        <option value="">Prezzo</option>
         <option value="0-15">Fino a 15€/h</option>
         <option value="15-30">15-30€/h</option>
         <option value="30+">Oltre 30€/h</option>
       </select>
-      <button type="submit">Cerca</button>
-    </form>
 
-    <div class="tutor-list" id="tutorList">
-      <!-- I tutor saranno inseriti qui via JS -->
-      <div class="tutor-card">
-        <img src="/client/img/luca.jpg" alt="Luca Rossi">
-        <div class="tutor-info">
-          <h2>👤 Luca Rossi</h2>
-          <p>📘 <strong>Matematica</strong> – Algebra, Trigonometria</p>
-          <p>💬 "Ripetizioni mirate per test universitari"</p>
-          <p>📍 <strong>In presenza</strong> – Milano (Città Studi)</p>
-          <p>💶 <strong>20€/h</strong></p>
-          <button>📩 Contatta</button>
-        </div>
-      </div>
-      
-      <div class="tutor-card">
-        <img src="/client/img/sara.jpg" alt="Sara Bianchi">
-        <div class="tutor-info">
-          <h2>👤 Sara Bianchi</h2>
-          <p>📘 <strong>Fisica</strong> – Meccanica, Ottica</p>
-          <p>💬 "Lezioni chiare per studenti delle superiori"</p>
-          <p>📍 <strong>Online</strong></p>
-          <p>💶 <strong>15€/h</strong></p>
-          <button>📩 Contatta</button>
-        </div>
-      </div>
-      
-      <div class="tutor-card">
-        <img src="/client/img/andrea.jpg" alt="Andrea Verdi">
-        <div class="tutor-info">
-          <h2>👤 Andrea Verdi</h2>
-          <p>📘 <strong>Chimica</strong> – Chimica organica, inorganica</p>
-          <p>💬 "Supporto per esami universitari di chimica"</p>
-          <p>📍 <strong>In presenza</strong> – Bologna (Centro)</p>
-          <p>💶 <strong>25€/h</strong></p>
-          <button>📩 Contatta</button>
-        </div>
-      </div>
-      
+      <select id="modalitaSelect">
+        <option value="">Modalità</option>
+        <option value="online">Online</option>
+        <option value="presenza">In presenza</option>
+        <option value="entrambe">Entrambe</option>
+      </select>
+      <select id="regioneSelect" class="hidden">
+        <option value="">Regione</option>
+      </select>
+  
+      <select id="cittàSelect" class="hidden">
+        <option value="">Città</option>
+      </select>
     </div>
-  </div>
+  </form>
   <script src="../js/modal_window.js"></script>
   <script src="../js/materie.js"></script>
 <script src="../js/navbar.js"></script>

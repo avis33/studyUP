@@ -202,7 +202,8 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const confirmPassword = document.getElementById("confirmPassword").value;
   const birthDateValue = document.getElementById("birthDate").value;
   // SOLO PER STUDENTI
-  const materieDaRecuperare = document.getElementById("preferredSubjects") ? document.getElementById("preferredSubjects").value.trim() : null;
+  const materieDaRecuperare = [...document.getElementById("selectedSubjects").children]
+  .map(chip => chip.dataset.subject);  
   //SOLO PER I TUTOR!! -->il prezzo delle lezioni deve essere non negativo
   const rate = document.getElementById("rate") ? parseFloat(document.getElementById("rate").value) : null;
   const materieInsegnate = document.getElementById("subjects") ? document.getElementById("subjects").value : null; //operatorie ternario
@@ -309,3 +310,46 @@ regionSelect.addEventListener("change", () => {
     citySelect.appendChild(option);
   });
 });
+
+const allSubjects = [
+  "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
+  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "C++",
+  "Javascript", "SQL", "Statistica", "Robotica", "Design"
+];
+
+const input = document.getElementById("preferredSubjects");
+const suggestions = document.getElementById("subjectSuggestions");
+const selectedSubjects = document.getElementById("selectedSubjects");
+
+input.addEventListener("input", () => {
+  const value = input.value.toLowerCase();
+  suggestions.innerHTML = "";
+  if (!value) {
+    suggestions.style.display = "none";
+    return;
+  }
+  const filtered = allSubjects.filter(s => s.toLowerCase().includes(value));
+  filtered.forEach(s => {
+    const div = document.createElement("div");
+    div.textContent = s;
+    div.addEventListener("click", () => {
+      addSubjectChip(s);
+      input.value = "";
+      suggestions.style.display = "none";
+    });
+    suggestions.appendChild(div);
+  });
+  suggestions.style.display = filtered.length ? "block" : "none";
+});
+
+function addSubjectChip(subject) {
+  if ([...selectedSubjects.children].some(chip => chip.dataset.subject === subject)) return;
+
+  const chip = document.createElement("div");
+  chip.className = "chip";
+  chip.dataset.subject = subject;
+  chip.innerHTML = `${subject} <span>&times;</span>`;
+
+  chip.querySelector("span").addEventListener("click", () => chip.remove());
+  selectedSubjects.appendChild(chip);
+}

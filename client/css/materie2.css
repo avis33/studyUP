@@ -286,65 +286,65 @@ color: white;
   }
 
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 30px;
-        background-color: white;
-
-      }
+  form#filterForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.07);
+    margin-bottom: 2.5rem;
+  }
   
+  /* Barra di ricerca in alto */
+  .search-bar {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
   
-      /* Form di ricerca */
-      #filterForm {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 40px;
-        flex-wrap: wrap;
-        align-items: center;
-      }
+  .search-bar input {
+    flex: 1;
+    min-width: 280px;
+    padding: 0.9rem 1rem;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
   
-      #materiaInput {
-        flex: 1;
-        min-width: 300px;
-        padding: 15px;
-        border: 2px solid #e0e6ed;
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-      }
+  .search-bar button {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    background-color: #3aaf83;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
   
-      #materiaInput:focus {
-        border-color: #36a970;
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(54, 169, 112, 0.2);
-      }
+  .search-bar button:hover {
+    background-color: #31946f;
+  }
   
-      #modalitaSelect, #prezzoSelect {
-        padding: 15px;
-        border: 2px solid #e0e6ed;
-        border-radius: 8px;
-        font-size: 1rem;
-        background-color: white;
-        cursor: pointer;
-        min-width: 200px;
-      }
+  /* Riga con i filtri */
+  .filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+  }
   
-      button[type="submit"] {
-        padding: 15px 30px;
-        background-color: #36a970;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-  
-      button[type="submit"]:hover {
-        background-color: #2d8a5b;
-      }
+  .filters-row select {
+    flex: 1;
+    min-width: 150px;
+    padding: 0.7rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
   
       /* Lista tutor */
       .tutor-list {

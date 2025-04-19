@@ -169,6 +169,55 @@ body {
     font-size: 1rem;
     resize: none; 
   }
+  .subject-input-wrapper {
+    position: relative;
+  }
+  
+  .suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+  }
+  
+  .suggestions-list div {
+    padding: 0.6rem;
+    cursor: pointer;
+  }
+  
+  .suggestions-list div:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .chips-container .chip {
+    background: #36a970;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  
+  .chips-container .chip span {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
   
   button[type="submit"] {
     width: 100%;

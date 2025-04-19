@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 </div>
               `;
         } else if (user.role === "studente") {
+          //todo metti selezione materie qua
           extraFieldsContainer.innerHTML = `
                 <div class="form-group">
                   <label for="materieDaRecuperare">Materie da recuperare</label>

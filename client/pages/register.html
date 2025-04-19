@@ -15,7 +15,7 @@
                 <img src="../assets/images/logo_facciate.svg" alt="Logo"/>
             </a>
             <ul class="nav-links">
-                <li><a href="#">Materie</a></li>
+                <li><a href="./trovaTutor.html">Materie</a></li>
                 <li><a href="#">Ratings</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Domande Frequenti</a></li>
@@ -76,12 +76,15 @@
           </div>
           
           <!-- Sezione specifica per STUDENTE -->
-          <div id="studentFields" class="role-specific">
-            <div class="form-group">
-              <label for="preferredSubjects">Materie da recuperare</label>
-              <input type="text" id="preferredSubjects" name="preferredSubjects" placeholder="Es. Matematica, Fisica">
+          <div class="form-group">
+            <label for="preferredSubjects">📘 Materie da recuperare</label>
+            <div class="subject-input-wrapper">
+              <input type="text" id="preferredSubjects" placeholder="Inizia a digitare una materia...">
+              <div id="subjectSuggestions" class="suggestions-list"></div>
+              <div id="selectedSubjects" class="chips-container"></div>
             </div>
           </div>
+          
       
           <!-- Sezione specifica per TUTOR -->
           <div id="tutorFields" class="role-specific hidden">
