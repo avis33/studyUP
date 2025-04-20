@@ -2,6 +2,11 @@
 const roleRadios = document.querySelectorAll('input[name="role"]');
 const studentFields = document.getElementById('studentFields');
 const tutorFields = document.getElementById('tutorFields');
+const allSubjects = [
+  "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
+  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "C++",
+  "Javascript", "SQL", "Statistica", "Robotica", "Design"
+];
 
 class RegistrationData {
   constructor(
@@ -202,11 +207,10 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const confirmPassword = document.getElementById("confirmPassword").value;
   const birthDateValue = document.getElementById("birthDate").value;
   // SOLO PER STUDENTI
-  const materieDaRecuperare = [...document.getElementById("selectedSubjects").children]
-  .map(chip => chip.dataset.subject);  
+  const materieDaRecuperare = [...document.getElementById("selectedSubjects").children].map(chip => chip.dataset.subject);  
   //SOLO PER I TUTOR!! -->il prezzo delle lezioni deve essere non negativo
   const rate = document.getElementById("rate") ? parseFloat(document.getElementById("rate").value) : null;
-  const materieInsegnate = document.getElementById("subjects") ? document.getElementById("subjects").value : null; //operatorie ternario
+  const materieInsegnate = document.getElementById("taughtSubjects") ? document.getElementById("taughtSubjects").value : null; //operatorie ternario
   const descrizioneTutor = document.getElementById("bio") ? document.getElementById("bio").value : null;
   const mode = document.getElementById("mode").value;
   const level = document.getElementById("level").value
@@ -311,17 +315,14 @@ regionSelect.addEventListener("change", () => {
   });
 });
 
-const allSubjects = [
-  "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
-  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "C++",
-  "Javascript", "SQL", "Statistica", "Robotica", "Design"
-];
+// SEZIONE PER MATERIE DA RECUPERARE E INSEGNATER
 
 const input = document.getElementById("preferredSubjects");
 const suggestions = document.getElementById("subjectSuggestions");
 const selectedSubjects = document.getElementById("selectedSubjects");
 
 input.addEventListener("input", () => {
+  
   const value = input.value.toLowerCase();
   suggestions.innerHTML = "";
   if (!value) {
@@ -352,4 +353,52 @@ function addSubjectChip(subject) {
 
   chip.querySelector("span").addEventListener("click", () => chip.remove());
   selectedSubjects.appendChild(chip);
+}
+
+
+const taughtSubjectsInput = document.getElementById("taughtSubjects");
+const taughtSuggestions = document.getElementById("taughtSuggestions");
+const selectedTaughtSubjects = document.getElementById("selectedTaughtSubjects");
+let taughtSubjects = [];
+
+taughtSubjectsInput.addEventListener("input", () => {
+  const query = taughtSubjectsInput.value.toLowerCase();
+  taughtSuggestions.innerHTML = "";
+  let filtered;
+  if (query) {
+     filtered = allSubjects.filter(sub =>
+      sub.toLowerCase().includes(query) && !taughtSubjects.includes(sub)
+    );
+    filtered.forEach(subject => {
+      const div = document.createElement("div");
+      div.className = "suggestion";
+      div.textContent = subject;
+      div.addEventListener("click", () => {
+        taughtSubjects.push(subject);
+        updateTaughtChips();
+        taughtSubjectsInput.value = "";
+        taughtSuggestions.innerHTML = "";
+      });
+      taughtSuggestions.appendChild(div);
+    });
+  }
+  taughtSuggestions.style.display = filtered.length ? "block" : "none";
+});
+
+function updateTaughtChips() {
+
+  selectedTaughtSubjects.innerHTML = "";
+  taughtSubjects.forEach((subject, index) => {
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.textContent = subject;
+    const removeBtn = document.createElement("span");
+    removeBtn.textContent = "✕";
+    removeBtn.addEventListener("click", () => {
+      taughtSubjects.splice(index, 1);
+      updateTaughtChips();
+    });
+    chip.appendChild(removeBtn);
+    selectedTaughtSubjects.appendChild(chip);
+  });
 }

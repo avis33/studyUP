@@ -169,6 +169,8 @@ body {
     font-size: 1rem;
     resize: none; 
   }
+
+  /*MATERIE DA RECUPERARE*/
   .subject-input-wrapper {
     position: relative;
   }
@@ -185,6 +187,7 @@ body {
     max-height: 200px;
     overflow-y: auto;
     display: none;
+   /* display: none;*/
   }
   
   .suggestions-list div {
@@ -217,7 +220,7 @@ body {
     cursor: pointer;
     font-weight: bold;
   }
-  
+  /**/
   
   button[type="submit"] {
     width: 100%;

@@ -76,21 +76,26 @@
           </div>
           
           <!-- Sezione specifica per STUDENTE -->
-          <div class="form-group">
-            <label for="preferredSubjects">📘 Materie da recuperare</label>
-            <div class="subject-input-wrapper">
-              <input type="text" id="preferredSubjects" placeholder="Inizia a digitare una materia...">
-              <div id="subjectSuggestions" class="suggestions-list"></div>
-              <div id="selectedSubjects" class="chips-container"></div>
+            <div class="form-group" id="studentFields">
+              <label for="preferredSubjects">📘 Materie da recuperare</label>
+              <div class="subject-input-wrapper">
+                <input type="text" id="preferredSubjects" placeholder="Inizia a digitare una materia...">
+                <div id="subjectSuggestions" class="suggestions-list"></div>
+                <div id="selectedSubjects" class="chips-container"></div>
+              </div>
             </div>
-          </div>
+
           
       
           <!-- Sezione specifica per TUTOR -->
           <div id="tutorFields" class="role-specific hidden">
             <div class="form-group">
-              <label for="subjects">Materie che insegni</label>
-              <input type="text" id="subjects" name="subjects" placeholder="Es. Chimica, Inglese">
+              <label for="taughtSubjects">📗 Materie che vuoi insegnare</label>
+              <div class="subject-input-wrapper">
+                <input type="text" id="taughtSubjects" placeholder="Inizia a digitare una materia...">
+                <div id="taughtSuggestions" class="suggestions-list"></div>
+                <div id="selectedTaughtSubjects" class="chips-container"></div>
+              </div>
             </div>
             <div class="form-group">
               <label for="rate">Prezzo orario (€)</label>

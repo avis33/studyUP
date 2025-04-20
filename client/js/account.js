@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await res.json();
     if (data.hasAccess) {
       //logica per quando l'utente è loggato correttamente
-      console.log(data);
+      console.log("UTENTE LOGGATO",data);
       document.getElementById("user-area").classList.remove("hidden");
       document.getElementById("openModalBtn").classList.add("hidden");
       document.getElementById("userName").innerText =
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const userInfo = await resInfo.json();
       if (!userInfo.error) {
         const user = userInfo.user;
-        console.log(user);
+        console.log("USER:", user);
 
         // Popola i campi base
         document.getElementById("userId").value = user._id;
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const extraFieldsContainer = document.getElementById("extraFields");
         extraFieldsContainer.innerHTML = ""; // Reset
 
-        if (user.role === "tutor") {
+        if (user.role == "tutor") {
           extraFieldsContainer.innerHTML = `
                 <div class="form-group">
                  <label for="subjects">Materie insegnate</label>
@@ -87,16 +87,76 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 </div>
               `;
-        } else if (user.role === "studente") {
-          //todo metti selezione materie qua
+        } else if (user.role == "student") {
           extraFieldsContainer.innerHTML = `
-                <div class="form-group">
-                  <label for="materieDaRecuperare">Materie da recuperare</label>
-                  <input type="text" id="materieDaRecuperare" name="materieDaRecuperare" value="${
-                    user.preferredSubjects || ""
-                  }" />
-                </div>
-              `;
+          <div class="form-group">
+            <label for="materieDaRecuperare">📘 Materie da recuperare</label>
+            <div class="subject-input-wrapper">
+              <input type="text" id="materieDaRecuperare" placeholder="Inizia a digitare una materia...">
+              <div id="subjectSuggestions" class="suggestions-list"></div>
+              <div id="selectedSubjects" class="chips-container"></div>
+            </div>
+          </div>
+          <input type="hidden" name="materieSelezionate" id="materieSelezionate">
+        `;
+                  // Inserisci chip iniziali se ci sono
+                  const selectedSubjectsDiv =
+                  document.getElementById("selectedSubjects");
+      
+                  user.preferredSubjects.forEach((subject) => {
+                  if (subject.trim()) {
+                    const chip = document.createElement("div");
+                    chip.classList.add("chip");
+                    chip.dataset.subject = subject.trim();
+                    chip.innerHTML = `${subject.trim()} <span class="remove-chip">&times;</span>`;
+                    // ➕ Aggiungi questo blocco per far funzionare la rimozione
+    chip.querySelector(".remove-chip").addEventListener("click", () => {
+      chip.remove();
+    });
+                    selectedSubjectsDiv.appendChild(chip);
+                  }
+                });
+                const allSubjects = [
+                  "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
+                  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "C++",
+                  "Javascript", "SQL", "Statistica", "Robotica", "Design"
+                ];
+                
+                const input = document.getElementById("materieDaRecuperare");
+                const suggestions = document.getElementById("subjectSuggestions");
+                
+                input.addEventListener("input", () => {
+                  const value = input.value.toLowerCase();
+                  suggestions.innerHTML = "";
+                  if (!value) {
+                    suggestions.style.display = "none";
+                    return;
+                  }
+                  const filtered = allSubjects.filter(s => s.toLowerCase().includes(value));
+                  filtered.forEach(s => {
+                    const div = document.createElement("div");
+                    div.textContent = s;
+                    div.addEventListener("click", () => {
+                      addSubjectChip(s);
+                      input.value = "";
+                      suggestions.style.display = "none";
+                    });
+                    suggestions.appendChild(div);
+                  });
+                  suggestions.style.display = filtered.length ? "block" : "none";
+                });
+                
+                function addSubjectChip(subject) {
+                  if ([...selectedSubjectsDiv.children].some(chip => chip.dataset.subject === subject)) return;
+                
+                  const chip = document.createElement("div");
+                  chip.className = "chip";
+                  chip.dataset.subject = subject;
+                  chip.innerHTML = `${subject} <span>&times;</span>`;
+                
+                  chip.querySelector("span").addEventListener("click", () => chip.remove());
+                  selectedSubjectsDiv.appendChild(chip);
+                }
         }
       }
     } else {
@@ -141,8 +201,7 @@ document
     const birthDate = document.getElementById("birthDate").value;
 
     // Campi extra dinamici (tutor o student)
-    const preferredSubjects =
-      document.getElementById("preferredSubjects")?.value.trim() || null;
+    const preferredSubjects = [...document.getElementById("selectedSubjects").children].map(chip => chip.dataset.subject);  
     const taughtSubjects =
       document.getElementById("subjects")?.value.trim() || null;
     const rate = document.getElementById("rate")
@@ -155,7 +214,7 @@ document
     const profilePictureInput = document.getElementById("profileImage");
     const file = profilePictureInput.files[0];
     let imageUrl = null;
-  
+
     // Mini validazione
     if (firstName.length > 100)
       return showError(
@@ -183,24 +242,24 @@ document
     try {
       if (file) {
         console.log(file);
-        
+
         imageUrl = await uploadImageToImgBB(file); // ⬆️ URL ottenuto da imgBB
       }
-    // Preparo oggetto da inviare
-    const data = {
-      userId,
-      firstName,
-      lastName,
-      email,
-      birthDate,
-      role,
-      preferredSubjects,
-      taughtSubjects,
-      rate,
-      bio,
-      profilePicture: imageUrl
-    };
-    console.log(data);
+      // Preparo oggetto da inviare
+      const data = {
+        userId,
+        firstName,
+        lastName,
+        email,
+        birthDate,
+        role,
+        preferredSubjects,
+        taughtSubjects,
+        rate,
+        bio,
+        profilePicture: imageUrl,
+      };
+      console.log(data);
       const res = await fetch("http://localhost:3000/user/update", {
         method: "POST",
         headers: {
@@ -233,7 +292,7 @@ function calculateAge(birthDate) {
   return age;
 }
 
-// funzione che mi serve per conservare l'immagine dell'utente su un cloud esterno 
+// funzione che mi serve per conservare l'immagine dell'utente su un cloud esterno
 async function uploadImageToImgBB(file) {
   const apiKey = "d3e5692c357f218c5350a525753bdbb7"; // la tua key qui
   const formData = new FormData();
@@ -241,10 +300,13 @@ async function uploadImageToImgBB(file) {
   formData.append("image", file); // questo campo è obbligatorio
 
   try {
-    const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `https://api.imgbb.com/1/upload?key=${apiKey}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     const data = await response.json();
 

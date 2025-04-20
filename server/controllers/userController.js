@@ -164,7 +164,6 @@ export async function getUserInfoById(req, res) {
 }
 
 
-//todo modifica profilo (bisogna aggiorna il token se l'utente aggiorna nome o immagine)
 export async function updateProfile(req, res) {
   const {
     userId,
@@ -182,6 +181,13 @@ export async function updateProfile(req, res) {
 
   try {
     const db = await connectToDatabase();
+
+    // Recupera l'utente attuale dal DB
+    const existingUser = await db.collection("users").findOne({ _id: new ObjectId(userId) });
+    if (!existingUser) {
+      return res.status(404).json({ message: "Utente non trovato" });
+    }
+
     // Prepara i campi da aggiornare
     const updateFields = {};
 
@@ -196,31 +202,31 @@ export async function updateProfile(req, res) {
     if (bio) updateFields.bio = bio;
     if (profilePicture) updateFields.profilePicture = profilePicture;
 
-
-    // Esegui l'update
-    const result = await db.collection("users").updateOne(
-      { _id: new ObjectId(userId) },
-      { $set: updateFields }
-    );
-
-    if (result.modifiedCount === 0) {
-      return res.status(400).json({ message: "Nessun campo aggiornato" });
+    // Esegui l'update solo se ci sono campi da aggiornare
+    if (Object.keys(updateFields).length > 0) {
+      await db.collection("users").updateOne(
+        { _id: new ObjectId(userId) },
+        { $set: updateFields }
+      );
     }
-    
-    //RIGENERA IL TOKEN
+
+    // Usa la foto nuova se esiste, altrimenti quella vecchia
+    const updatedProfilePicture = profilePicture || existingUser.profilePicture;
+
+    // RIGENERA IL TOKEN
     const token = jwt.sign(
       {
-        email: email,
-        role: role,
+        email: email || existingUser.email,
+        role: role || existingUser.role,
         id: userId,
-        firstName: firstName,
-        profilePicture: profilePicture,
+        firstName: firstName || existingUser.firstName,
+        profilePicture: updatedProfilePicture,
       },
       process.env.SECRET_KEY,
       { expiresIn: "1d" }
     );
 
-    res.status(200).json({ message: "Utente aggiornato con successo",  token });
+    res.status(200).json({ message: "Utente aggiornato con successo", token });
   } catch (error) {
     console.error("Errore aggiornamento utente:", error);
     res.status(500).json({ message: "Errore del server" });
