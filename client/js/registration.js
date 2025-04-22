@@ -208,9 +208,9 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   const birthDateValue = document.getElementById("birthDate").value;
   // SOLO PER STUDENTI
   const materieDaRecuperare = [...document.getElementById("selectedSubjects").children].map(chip => chip.dataset.subject);  
+  const materieInsegnate = [...document.getElementById("selectedTaughtSubjects").children].map(chip => chip.dataset.subject);  
   //SOLO PER I TUTOR!! -->il prezzo delle lezioni deve essere non negativo
   const rate = document.getElementById("rate") ? parseFloat(document.getElementById("rate").value) : null;
-  const materieInsegnate = document.getElementById("taughtSubjects") ? document.getElementById("taughtSubjects").value : null; //operatorie ternario
   const descrizioneTutor = document.getElementById("bio") ? document.getElementById("bio").value : null;
   const mode = document.getElementById("mode").value;
   const level = document.getElementById("level").value
@@ -392,6 +392,7 @@ function updateTaughtChips() {
     const chip = document.createElement("div");
     chip.className = "chip";
     chip.textContent = subject;
+    chip.dataset.subject = subject;
     const removeBtn = document.createElement("span");
     removeBtn.textContent = "✕";
     removeBtn.addEventListener("click", () => {

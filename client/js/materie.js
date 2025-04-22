@@ -27,12 +27,27 @@ document.addEventListener("DOMContentLoaded", async () => {
             : data.user.firstName;
         document.getElementById("userProfile").src =
           data.user?.profilePicture || "../assets/icons/icone_img.svg";
+          const resInfo = await fetch(
+            `http://localhost:3000/user/fetchTutor/${data.user.id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const result = await resInfo.json();
+          console.log(result);
+          
       }
     } catch (error) {
       document.getElementById("user-area").classList.add("hidden");
       loginButton.style.display = "none";
       console.error("Errore:", error);
     }
+ 
+  });
+
   const modalitaSelect = document.getElementById("modalitaSelect");
   const regioneSelect = document.getElementById("regioneSelect");
   const cittàSelect = document.getElementById("cittàSelect");
@@ -86,4 +101,3 @@ document.addEventListener("DOMContentLoaded", async () => {
         cittàSelect.appendChild(opt);
       });
     }})
-  });

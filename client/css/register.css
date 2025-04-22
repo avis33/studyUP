@@ -181,7 +181,6 @@ body {
     left: 0;
     right: 0;
     background: white;
-    border: 1px solid #ccc;
     border-radius: 6px;
     z-index: 10;
     max-height: 200px;
