@@ -165,41 +165,34 @@ export async function getUserInfoById(req, res) {
 
 export async function getDefaultTutor(req, res) {
   const userId = req.params.id;
-
-  try {
-    const db = await connectToDatabase();
-    const usersCollection = db.collection("users");
-    // 1. Recupera l'utente
-    const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
-
-    if (!user) {
-      return res.status(404).json({ message: "Utente non trovato", error: true });
+    try {
+      const db = await connectToDatabase();
+      const usersCollection = db.collection("users");
+  
+      //todo prendi utente  e sue materie preferite e ritornale con i tutor
+      // Trova tutti i tutor
+      const tutors = await usersCollection.find({ role: "tutor" }).project({ //ritorno solo alcuni campi
+        _id: 1,
+        firstName: 1,
+        lastName: 1,
+        profilePicture: 1,
+        birthDate: 1,
+        taughtSubjects: 1,
+        level: 1,
+        bio: 1,
+        mode: 1,
+        rate: 1,
+        region: 1,
+        city: 1,
+      }).toArray();
+  
+      res.status(200).json({ tutors });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Errore del server", error: true });
     }
-
-    // 2. Verifica che sia uno studente
-    if (user.role !== "student") {
-      //todo RITORNA SELEZIONE DI TUTOR GENERICA
-      return res.status(400).json({ message: "", error: true });
-    }
-
-    const preferredSubjects = user.preferredSubjects || [];
-
-    if (preferredSubjects.length === 0) {
-      //todo RITORNA SELEZIONE DI TUTOR GENERICA
-      return res.status(200).json({ tutors: [], message: "Nessuna materia preferita specificata" });
-    }
-    // 3. Cerca i tutor che insegnano almeno una delle preferredSubjects
-    const tutors = await usersCollection.find({
-      role: "tutor",
-      taughtSubjects: { $in: preferredSubjects }
-    }).toArray();
-    res.status(200).json({ tutors, preferredSubjects,}); //todo metti solo alcuni campi di tutor
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Errore del server", error: true });
-  }
-}
-
+  };
+  
 
 
 export async function updateProfile(req, res) {

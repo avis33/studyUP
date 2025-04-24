@@ -1,3 +1,5 @@
+let allTutors = []; // contiene tutti i tutor ricevuti dal backend, cosi che evitiamo di chiamare il server ogni volta che chiamiamo un filtro
+
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("authToken");
     const loginButton = document.getElementById("openModalBtn");
@@ -38,7 +40,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           );
           const result = await resInfo.json();
           console.log(result);
-          
+          allTutors = result.tutors;
+          //todo prendi le materie preferite dello studente e ritorna i tutor con quelle per primi
+          renderTutors(result.tutors);
       }
     } catch (error) {
       document.getElementById("user-area").classList.add("hidden");
@@ -101,3 +105,76 @@ document.addEventListener("DOMContentLoaded", async () => {
         cittàSelect.appendChild(opt);
       });
     }})
+
+// Funzione per renderizzare i tutor sulla pagina:
+const tutorListDiv = document.getElementById("tutorListContainer");
+  function renderTutors(tutors) {
+    tutorListDiv.innerHTML = ""; // svuota prima
+    if (tutors.length === 0) {
+      tutorListDiv.innerHTML = "<p>Nessun tutor trovato.</p>";
+      return;
+    }
+
+    tutors.forEach(tutor => {
+      const tutorCard = document.createElement("div");
+      tutorCard.classList.add("tutor-card");
+      tutorCard.innerHTML = `
+        <img src='${tutor.profilePicture ? tutor.profilePicture : "../assets/icons/icone_img.svg"}' alt="Foto profilo di ${tutor.firstName}">
+        <div class="tutor-info">
+          <div class="tutor-header">
+            <h2>${tutor.firstName} ${tutor.lastName}</h2>
+            <p class="rate">€${tutor.rate}/h</p>
+          </div>
+          <p class="subjects">${tutor.taughtSubjects.join(", ")}</p>
+          <div class="details">
+            <span><strong>Livello:</strong> ${tutor.level.toUpperCase()}</span>
+            <span><strong>Modalità:</strong> ${tutor.mode}</span>
+          </div>
+          <p class="bio">${tutor.bio}</p>
+          <button>Contatta</button>
+        </div>
+      `;
+      tutorListDiv.appendChild(tutorCard);
+    });
+  }
+
+// FILTRI
+const materiaInput = document.getElementById("materiaInput");
+const livelloSelect = document.getElementById("livelloSelect");
+const prezzoSelect = document.getElementById("prezzoSelect");
+
+// Aggiungiamo gli event listener
+materiaInput.addEventListener("input", filtraTutor);
+livelloSelect.addEventListener("change", filtraTutor);
+prezzoSelect.addEventListener("change", filtraTutor);
+modalitaSelect.addEventListener("change", filtraTutor);
+regioneSelect.addEventListener("change", filtraTutor);
+cittàSelect.addEventListener("change", filtraTutor);
+
+function filtraTutor() {
+  const materia = document.getElementById("materiaInput").value.toLowerCase();
+  const livello = document.getElementById("livelloSelect").value;
+  const prezzo = document.getElementById("prezzoSelect").value;
+  const modalità = document.getElementById("modalitaSelect").value;
+  const regione = document.getElementById("regioneSelect").value;
+  const città = document.getElementById("cittàSelect").value;
+
+  const tutorFiltrati = allTutors.filter((tutor) => {
+    const materiaMatch = materia === "" || tutor.taughtSubjects.some(s => s.toLowerCase().includes(materia));
+    const livelloMatch = livello === "" || tutor.level === livello;
+    const modalitàMatch = modalità === "" || tutor.mode === modalità || tutor.mode === "entrambe";
+
+    let prezzoMatch = true;
+    if (prezzo === "0-15") prezzoMatch = tutor.rate <= 15;
+    else if (prezzo === "15-30") prezzoMatch = tutor.rate > 15 && tutor.rate <= 30;
+    else if (prezzo === "30+") prezzoMatch = tutor.rate > 30;
+
+    const cittàMatch = modalità === "presenza" || modalità === "entrambe"
+      ? (!regione || tutor.region === regione) && (!città || tutor.city === città)
+      : true;
+
+    return materiaMatch && livelloMatch && modalitàMatch && prezzoMatch && cittàMatch;
+  });
+
+  renderTutors(tutorFiltrati);
+}
