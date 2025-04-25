@@ -56,12 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Gestione dinamica dei campi in base al ruolo
         const extraFieldsContainer = document.getElementById("extraFields");
         extraFieldsContainer.innerHTML = ""; // Reset
-/*      <div class="form-group">
-                 <label for="subjects">Materie insegnate</label>
-              <input type="text" id="subjects" name="subjects" value="${
-                user.taughtSubjects || ""
-              } placeholder="Es. Chimica, Inglese">
-                </div> */
+
         if (user.role == "tutor") { 
           extraFieldsContainer.innerHTML = `
           
