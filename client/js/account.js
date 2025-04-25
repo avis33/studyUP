@@ -56,15 +56,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Gestione dinamica dei campi in base al ruolo
         const extraFieldsContainer = document.getElementById("extraFields");
         extraFieldsContainer.innerHTML = ""; // Reset
-
-        if (user.role == "tutor") {
-          extraFieldsContainer.innerHTML = `
-                <div class="form-group">
+/*      <div class="form-group">
                  <label for="subjects">Materie insegnate</label>
               <input type="text" id="subjects" name="subjects" value="${
                 user.taughtSubjects || ""
               } placeholder="Es. Chimica, Inglese">
-                </div>
+                </div> */
+        if (user.role == "tutor") { 
+          extraFieldsContainer.innerHTML = `
+          
+                 <div class="form-group">
+              <label for="taughtSubjects">📗 Materie che vuoi insegnare</label>
+              <div class="subject-input-wrapper">
+                <input type="text" id="taughtSubjects" placeholder="Inizia a digitare una materia..." >
+                <div id="taughtSuggestions" class="suggestions-list"></div>
+                <div id="selectedTaughtSubjects" class="chips-container"></div>
+              </div>
                 <div class="form-group">
                  <label for="rate">Prezzo orario (€)</label>
               <input 
@@ -87,6 +94,66 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 </div>
               `;
+                 // Inserisci chip iniziali se ci sono
+                 const selectedTaughtSubjectsDiv =
+                 document.getElementById("selectedTaughtSubjects");
+     
+                 user.taughtSubjects.forEach((subject) => {
+                 if (subject.trim()) {
+                   const chip = document.createElement("div");
+                   chip.classList.add("chip");
+                   chip.dataset.subject = subject.trim();
+                   chip.innerHTML = `${subject.trim()} <span class="remove-chip">&times;</span>`;
+                   // ➕ Aggiungi questo blocco per far funzionare la rimozione
+   chip.querySelector(".remove-chip").addEventListener("click", () => {
+     chip.remove();
+   });
+   selectedTaughtSubjectsDiv.appendChild(chip);
+                 }
+               });
+               const allSubjects = [
+                 "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
+                 "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "C++",
+                 "Javascript", "SQL", "Statistica", "Robotica", "Design"
+               ];
+               
+               const input = document.getElementById("taughtSubjects");
+               const suggestions = document.getElementById("taughtSuggestions");
+               
+               input.addEventListener("input", () => {
+                 const value = input.value.toLowerCase();
+                 suggestions.innerHTML = "";
+                 if (!value) {
+                   suggestions.style.display = "none";
+                   return;
+                 }
+                 const filtered = allSubjects.filter(s => s.toLowerCase().includes(value));
+                 filtered.forEach(s => {
+                   const div = document.createElement("div");
+                   div.textContent = s;
+                   div.addEventListener("click", () => {
+                     addSubjectChip(s);
+                     input.value = "";
+                     suggestions.style.display = "none";
+                   });
+                   suggestions.appendChild(div);
+                 });
+                 suggestions.style.display = filtered.length ? "block" : "none";
+               });
+               
+               function addSubjectChip(subject) {
+                 if ([...selectedTaughtSubjectsDiv.children].some(chip => chip.dataset.subject === subject)) return;
+               
+                 const chip = document.createElement("div");
+                 chip.className = "chip";
+                 chip.dataset.subject = subject;
+                 chip.innerHTML = `${subject} <span>&times;</span>`;
+               
+                 chip.querySelector("span").addEventListener("click", () => chip.remove());
+                 selectedTaughtSubjectsDiv.appendChild(chip);
+                 
+               }
+       
         } else if (user.role == "student") {
           extraFieldsContainer.innerHTML = `
           <div class="form-group">
@@ -201,9 +268,14 @@ document
     const birthDate = document.getElementById("birthDate").value;
 
     // Campi extra dinamici (tutor o student)
-    const preferredSubjects = [...document.getElementById("selectedSubjects").children].map(chip => chip.dataset.subject);  
-    const taughtSubjects =
-      document.getElementById("subjects")?.value.trim() || null;
+    let preferredSubjects = null, taughtSubjects = null;
+    if(document.getElementById("selectedSubjects")){
+      preferredSubjects = [...document.getElementById("selectedSubjects").children].map(chip => chip.dataset.subject);        
+    }else{
+      taughtSubjects = [...document.getElementById("selectedTaughtSubjects").children].map(chip => chip.dataset.subject);  
+    }
+    
+    
     const rate = document.getElementById("rate")
       ? parseFloat(document.getElementById("rate").value)
       : null;

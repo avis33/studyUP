@@ -6,6 +6,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   
     if (!token) {
       document.getElementById("user-area").style.display = "none";
+      const resInfo = await fetch(
+        `http://localhost:3000/user/fetchTutor/0`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const result = await resInfo.json();
+      preferredSubjects = null
+      console.log(result);
+      allTutors = result.tutors;
+      renderTutors(result.tutors);
       return;
     }
     try {
@@ -19,7 +33,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
       const data = await res.json();
       if (data.hasAccess) {
-        //todo fai chiamata all'api per ottenere tutor relativi alle materie da recuperare dello studente
         //logica per quando l'utente è loggato correttamente
         document.getElementById("user-area").classList.remove("hidden");
         document.getElementById("openModalBtn").classList.add("hidden");
@@ -39,9 +52,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
           );
           const result = await resInfo.json();
+          preferredSubjects = result.preferredSubjects
           console.log(result);
           allTutors = result.tutors;
-          //todo prendi le materie preferite dello studente e ritorna i tutor con quelle per primi
           renderTutors(result.tutors);
       }
     } catch (error) {
@@ -108,36 +121,68 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Funzione per renderizzare i tutor sulla pagina:
 const tutorListDiv = document.getElementById("tutorListContainer");
-  function renderTutors(tutors) {
-    tutorListDiv.innerHTML = ""; // svuota prima
-    if (tutors.length === 0) {
+ // Modifica la funzione renderTutors per gestire le materie preferite
+function renderTutors(tutors) {
+  console.log(tutors);
+  
+  tutorListDiv.innerHTML = ""; // svuota prima
+  
+  if (tutors.length === 0) {
       tutorListDiv.innerHTML = "<p>Nessun tutor trovato.</p>";
       return;
-    }
-
-    tutors.forEach(tutor => {
-      const tutorCard = document.createElement("div");
-      tutorCard.classList.add("tutor-card");
-      tutorCard.innerHTML = `
-        <img src='${tutor.profilePicture ? tutor.profilePicture : "../assets/icons/icone_img.svg"}' alt="Foto profilo di ${tutor.firstName}">
-        <div class="tutor-info">
-          <div class="tutor-header">
-            <h2>${tutor.firstName} ${tutor.lastName}</h2>
-            <p class="rate">€${tutor.rate}/h</p>
-          </div>
-          <p class="subjects">${tutor.taughtSubjects.join(", ")}</p>
-          <div class="details">
-            <span><strong>Livello:</strong> ${tutor.level.toUpperCase()}</span>
-            <span><strong>Modalità:</strong> ${tutor.mode}</span>
-          </div>
-          <p class="bio">${tutor.bio}</p>
-          <button>Contatta</button>
-        </div>
-      `;
-      tutorListDiv.appendChild(tutorCard);
-    });
   }
 
+  // Ordina i tutor: prima quelli con materie preferite
+  const sortedTutors = [...tutors].sort((a, b) => {    
+      if (!preferredSubjects || preferredSubjects.length === 0) return 0;
+      
+      const aMatches = a.taughtSubjects.filter(subj => 
+          preferredSubjects.includes(subj)).length;
+      const bMatches = b.taughtSubjects.filter(subj => 
+          preferredSubjects.includes(subj)).length;
+      
+      return bMatches - aMatches; // Ordine decrescente
+  });
+
+  sortedTutors.forEach(tutor => {
+      const hasPreferredSubjects = preferredSubjects && preferredSubjects.length > 0 && 
+          tutor.taughtSubjects.some(subj => preferredSubjects.includes(subj));
+      
+      const tutorCard = document.createElement("div");
+      tutorCard.classList.add("tutor-card");
+      if (hasPreferredSubjects) {
+          tutorCard.classList.add("preferred-tutor");
+      }
+
+      tutorCard.innerHTML = `
+          <div class="tutor-card-header">
+              ${hasPreferredSubjects ? '<div class="recommended-badge">Consigliato</div>' : ''}
+              <img src='${tutor.profilePicture ? tutor.profilePicture : "../assets/icons/icone_img.svg"}' 
+                   alt="Foto profilo di ${tutor.firstName}">
+          </div>
+          <div class="tutor-info">
+              <div class="tutor-header">
+                  <h2>${tutor.firstName} ${tutor.lastName}</h2>
+                  <p class="rate">€${tutor.rate}/h</p>
+              </div>
+              <p class="subjects">
+                  ${tutor.taughtSubjects.map(subj => 
+                      preferredSubjects && preferredSubjects.includes(subj) 
+                          ? `<strong class="preferred-subject">${subj}</strong>` 
+                          : subj
+                  ).join(", ")}
+              </p>
+              <div class="details">
+                  <span><strong>Livello:</strong> ${tutor.level.toUpperCase()}</span>
+                  <span><strong>Modalità:</strong> ${tutor.mode}</span>
+              </div>
+              <p class="bio">${tutor.bio}</p>
+              <button>Contatta</button>
+          </div>
+      `;
+      tutorListDiv.appendChild(tutorCard);
+  });
+}
 // FILTRI
 const materiaInput = document.getElementById("materiaInput");
 const livelloSelect = document.getElementById("livelloSelect");
