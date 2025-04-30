@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   modalitaSelect.addEventListener("change", () => {
     const value = modalitaSelect.value;
     const showLocation = value === "presenza" || value === "entrambe";
-    regioneSelect.classList.toggle("hidden", !showLocation);
+    regioneSelect.classList.toggle("hidden", !showLocation);  //se showLocation=true-->!showLocation=false e allora toglie la classe hidden se no la mette
     cittàSelect.classList.toggle("hidden", !showLocation);
   });
 
