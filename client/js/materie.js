@@ -182,12 +182,64 @@ function renderTutors(tutors) {
                   <span><strong>Modalità:</strong> ${tutor.mode}</span>
               </div>
               <p class="bio">${tutor.bio}</p>
-              <button>Contatta</button>
+
+              <button class="contact-btn">Contatta</button>
           </div>
+          
       `;
+
       tutorListDiv.appendChild(tutorCard);
+      
+
+      
+      const contactButton=tutorCard.querySelector(".contact-btn");
+      const selectContatta=document.getElementById("contattaMaterie");
+      
+      contactButton.addEventListener("click", () => {
+        document.getElementById("contattaModal").style.display="flex";
+       selectContatta.innerHTML='';
+        tutor.taughtSubjects.forEach(materia => {
+          const option = document.createElement('option');
+          option.value = materia;
+          option.textContent = materia;
+          selectContatta.appendChild(option);
+
+
+        });
+        
+        const divModalita=document.getElementById("sceltaModalita");
+        divModalita.innerHTML='';
+        if(tutor.mode=="entrambe"){
+         const selectModalita=document.createElement("select");
+         const optionPresenza=document.createElement("option");
+         const optionOnline=document.createElement("option");
+         const labelModalita = document.createElement('label');
+
+
+        labelModalita.setAttribute('for', 'selectModalita'); // collega la label a un input con id="selectModalita"
+        labelModalita.textContent = 'Seleziona modalità:';
+         optionPresenza.value="inPresenza";
+         optionPresenza.textContent="In presenza";
+         optionOnline.value="online";
+         optionOnline.textContent="Online";
+         selectModalita.appendChild(optionOnline);
+         selectModalita.appendChild(optionPresenza);
+         divModalita.appendChild(labelModalita);
+         divModalita.appendChild(selectModalita);
+         }
+
+    });
+
+
+
+                      
   });
+        
+  
 }
+
+
+
 // FILTRI
 const materiaInput = document.getElementById("materiaInput");
 const livelloSelect = document.getElementById("livelloSelect");
@@ -228,3 +280,13 @@ function filtraTutor() {
 
   renderTutors(tutorFiltrati);
 }
+
+document.getElementById("closeModalBtn").addEventListener("click", () => {
+  document.getElementById("contattaModal").style.display = "none";
+});
+
+window.onclick = function (event) {
+  if (event.target === document.getElementById("contattaModal")) {
+    document.getElementById("contattaModal").style.display = "none";
+  }
+};
