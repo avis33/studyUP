@@ -28,7 +28,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           : data.user.firstName;
       document.getElementById("userProfile").src =
         data.user?.profilePicture || "../assets/icons/icone_img.svg";
-
+        if(data.user.role == "student"){
+          document.getElementById("dashboard").innerText = "I miei tutor"
+        }else{
+          document.getElementById("dashboard").innerText = "I miei studenti"
+        }
       const resInfo = await fetch(
         `http://localhost:3000/user/getUserInfo/${data.user.id}`,
         {

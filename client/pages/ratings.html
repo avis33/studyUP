@@ -1,13 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ratings</title>
-    <link rel="icon" href="../assets/icons/favicon_logo.svg">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ratings</title>
+  <link rel="stylesheet" href="/client/css/ratings.css" />
 </head>
 <body>
-    
+     <!-- Include Navbar -->
+   <nav class="navbar">
+    <div class="info-links">
+      <a href="../index.html">
+        <img src="../assets/images/logo_facciate.svg" alt="Logo" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="./trovaTutor.html">Trova un tutor</a></li>
+        <li><a href="#">Ratings</a></li>
+        <li><a href="../index.html#About">About</a></li>
+        <li><a href="../index.html#Domande Frequenti">Domande Frequenti</a></li>
+      </ul>
+    </div>
+    <!-- Profilo utente-->
+    <div id="user-area" class="user-area hidden">
+      <div class="profile-icon">
+        <img
+          src="../assets/icons/icone_img.svg"
+          alt="Profilo"
+          id="userProfile"
+        />
+        <div id="userName"></div>
+        <img
+        src="../assets/icons/arrow.svg"
+        alt="arrow"
+        id="arrow"
+      />
+      </div>
+      <div class="profile-menu">
+        <ul>
+          <li><a href="./account.html">Il mio account</a></li>
+          <li><a href="./dashboard.html" id="dashboard">I miei tutor</a></li>
+          <li><a href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="register-btn" id="openModalBtn">Accedi</button>
+    <!--Finestra modale per il login-->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Accedi</h2>
+        <form method="post" id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
+
+          <button type="submit">Login</button>
+          <div class="error-message" id="genericError"></div>
+        </form>
+
+        <p class="signup-message">
+          Non sei iscritto? <a href="../pages/register.html">Registrati!</a>
+        </p>
+      </div>
+    </div>
+  </nav>
+
+
+  <script src="../js/modal_window.js"></script>
+  <script src="../js/ratings.js"></script>
+  <script src="../js/login.js"></script>
+<script src="../js/navbar.js"></script>
 </body>
 </html>
