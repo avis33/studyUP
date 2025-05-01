@@ -463,7 +463,7 @@ form#filterForm {
   background-color: #059669;
 }
 
-/* Aggiungi al tuo file CSS */
+
 .preferred-tutor {
   border: 2px solid #36a970;
   position: relative;
@@ -489,4 +489,21 @@ form#filterForm {
 
 .tutor-card-header {
   position: relative;
+}
+
+/*Stile select e textarea del CONTATTA*/
+.modal-content select,
+.modal-content textarea {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s ease;
+  resize: vertical;
+}
+
+.modal-content select:focus,
+.modal-content textarea:focus {
+  outline: none;
+  border-color: #36a970;
 }

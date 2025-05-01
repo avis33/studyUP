@@ -167,8 +167,7 @@ export async function getDefaultTutor(req, res) {
     try {
       const db = await connectToDatabase();
       const usersCollection = db.collection("users");
-  
-      //todo prendi utente  e sue materie preferite e ritornale con i tutor
+
       const userId = req.params.id;
       let preferredSubjects = null;
       if(userId != 0){

@@ -28,7 +28,7 @@ loginForm.addEventListener("submit", async function (e) {
         if (res.ok) {
           // Salviamo il token in localStorage
           localStorage.setItem("authToken", data.token);
-          window.location.href = "index.html";
+          window.location.href = "/client/index.html";
           // 🔐 Puoi salvare un token o reindirizzare l'utente
           // es: localStorage.setItem("token", data.token);
           // window.location.href = "/dashboard.html";

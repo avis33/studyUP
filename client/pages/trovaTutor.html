@@ -1,156 +1,153 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Trova un Tutor</title>
-  <link rel="stylesheet" href="../css/materie2.css" />
-</head>
-<body>
-     <!-- Include Navbar -->
-   <nav class="navbar">
-    <div class="info-links">
-      <a href="../index.html">
-        <img src="../assets/images/logo_facciate.svg" alt="Logo" />
-      </a>
-      <ul class="nav-links">
-        <li><a href="#">Trova un tutor</a></li>
-        <li><a href="ratings.html">Ratings</a></li>
-        <li><a href="../index.html#About">About</a></li>
-        <li><a href="../index.html#Domande Frequenti">Domande Frequenti</a></li>
-      </ul>
-    </div>
-    <!-- Profilo utente-->
-    <div id="user-area" class="user-area hidden">
-      <div class="profile-icon">
-        <img
-          src="../assets/icons/icone_img.svg"
-          alt="Profilo"
-          id="userProfile"
-        />
-        <div id="userName"></div>
-        <img
-        src="../assets/icons/arrow.svg"
-        alt="arrow"
-        id="arrow"
-      />
-      </div>
-      <div class="profile-menu">
-        <ul>
-          <li><a href="./account.html">Il mio account</a></li>
-          <li><a href="./dashboard.html" id="dashboard">I miei tutor</a></li>
-          <li><a href="#" id="logoutBtn">Logout</a></li>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trova un Tutor</title>
+    <link rel="stylesheet" href="../css/materie2.css" />
+  </head>
+  <body>
+    <!-- Include Navbar -->
+    <nav class="navbar">
+      <div class="info-links">
+        <a href="../index.html">
+          <img src="../assets/images/logo_facciate.svg" alt="Logo" />
+        </a>
+        <ul class="nav-links">
+          <li><a href="#">Trova un tutor</a></li>
+          <li><a href="ratings.html">Ratings</a></li>
+          <li><a href="../index.html#About">About</a></li>
+          <li>
+            <a href="../index.html#Domande Frequenti">Domande Frequenti</a>
+          </li>
         </ul>
       </div>
+      <!-- Profilo utente-->
+      <div id="user-area" class="user-area hidden">
+        <div class="profile-icon">
+          <img
+            src="../assets/icons/icone_img.svg"
+            alt="Profilo"
+            id="userProfile"
+          />
+          <div id="userName"></div>
+          <img src="../assets/icons/arrow.svg" alt="arrow" id="arrow" />
+        </div>
+        <div class="profile-menu">
+          <ul>
+            <li><a href="./account.html">Il mio account</a></li>
+            <li><a href="./dashboard.html" id="dashboard">I miei tutor</a></li>
+            <li><a href="#" id="logoutBtn">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <button class="register-btn" id="openModalBtn">Accedi</button>
+      <!--Finestra modale per il login-->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Accedi</h2>
+          <form method="post" id="loginForm">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" required />
+            </div>
+
+            <button type="submit">Login</button>
+            <div class="error-message" id="genericError"></div>
+          </form>
+
+          <p class="signup-message">
+            Non sei iscritto? <a href="register.html">Registrati!</a>
+          </p>
+        </div>
+      </div>
+    </nav>
+
+    <form id="filterForm">
+      <!-- Barra di ricerca centrale -->
+      <div class="search-bar">
+        <input
+          type="text"
+          id="materiaInput"
+          placeholder="🔍 Cerca una materia (es. matematica, chimica...)"
+        />
+      </div>
+
+      <!-- Filtri secondari -->
+      <div class="filters-row">
+        <select id="livelloSelect">
+          <option value="">Livello</option>
+          <option value="liceo">Liceo</option>
+          <option value="università">Università</option>
+        </select>
+
+        <select id="prezzoSelect">
+          <option value="">Prezzo</option>
+          <option value="0-15">Fino a 15€/h</option>
+          <option value="15-30">15-30€/h</option>
+          <option value="30+">Oltre 30€/h</option>
+        </select>
+
+        <select id="modalitaSelect">
+          <option value="">Modalità</option>
+          <option value="online">Online</option>
+          <option value="presenza">In presenza</option>
+          <option value="entrambe">Entrambe</option>
+        </select>
+        <select id="regioneSelect" class="hidden">
+          <option value="">Regione</option>
+        </select>
+
+        <select id="cittàSelect" class="hidden">
+          <option value="">Città</option>
+        </select>
+      </div>
+    </form>
+    <!-- Risultati tutor -->
+    <div class="tutor-list" id="tutorListContainer">
+      <!-- Le card dei tutor verranno inserite qui dinamicamente -->
     </div>
 
-    <button class="register-btn" id="openModalBtn">Accedi</button>
-    <!--Finestra modale per il login-->
-    <div id="modal" class="modal">
+    <div id="contattaModal" class="modal">
       <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Accedi</h2>
-        <form method="post" id="loginForm">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" required />
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" required />
-          </div>
+        <span class="close" id="closeModalBtn">&times;</span>
+        <h2>Contatta il tutor</h2>
+      <input type="hidden" name="tutorIdInput" id="tutorIdInput">
+      <input type="hidden" id="tutorModeInput" />
+      <input type="hidden" id="tutorPriceInput" />
+        <div class="form-group">
+          <label for="contattaMaterie">Seleziona una materia:</label>
+          <select id="contattaMaterie"></select>
+        </div>
 
-          <button type="submit">Login</button>
-          <div class="error-message" id="genericError"></div>
-        </form>
+        <div class="form-group">
+          <label for="data">Scegli una data:</label>
+          <input type="date" id="data" />
+        </div>
 
-        <p class="signup-message">
-          Non sei iscritto? <a href="register.html">Registrati!</a>
-        </p>
+        <div class="form-group" id="sceltaModalita"></div>
+        <div class="form-group">
+          <label for="note">Scrivi una nota:</label>
+          <textarea
+            id="note"
+            rows="4"
+            placeholder="Aggiungi una nota per il tutor..."
+          ></textarea>
+        </div>
+
+        <button id="inviaRichiestaBtn">Invia Richiesta</button>
       </div>
     </div>
-  </nav>
 
-  <form id="filterForm">
-    <!-- Barra di ricerca centrale -->
-    <div class="search-bar">
-      <input type="text" id="materiaInput" placeholder="🔍 Cerca una materia (es. matematica, chimica...)" />
-    </div>
-  
-    <!-- Filtri secondari -->
-    <div class="filters-row">
-  
-      <select id="livelloSelect">
-        <option value="">Livello</option>
-        <option value="liceo">Liceo</option>
-        <option value="università">Università</option>
-      </select>
-  
-      <select id="prezzoSelect">
-        <option value="">Prezzo</option>
-        <option value="0-15">Fino a 15€/h</option>
-        <option value="15-30">15-30€/h</option>
-        <option value="30+">Oltre 30€/h</option>
-      </select>
-
-      <select id="modalitaSelect">
-        <option value="">Modalità</option>
-        <option value="online">Online</option>
-        <option value="presenza">In presenza</option>
-        <option value="entrambe">Entrambe</option>
-      </select>
-      <select id="regioneSelect" class="hidden">
-        <option value="">Regione</option>
-      </select>
-  
-      <select id="cittàSelect" class="hidden">
-        <option value="">Città</option>
-      </select>
-    </div>
-  </form>
-  <!-- Risultati tutor -->
-<div class="tutor-list" id="tutorListContainer">
-  <!-- Le card dei tutor verranno inserite qui dinamicamente -->
-</div>
-
-<div id="contattaModal" class="modal">
-  <div class="modal-content">
-    <span class="close" id="closeModalBtn">&times;</span>
-    <h2>Contatta il tutor</h2>
-    <div class="form-group">
-      <label for="contattaMaterie">Seleziona una materia:</label>
-      <select id="contattaMaterie">
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="data">Scegli una data:</label>
-      <input type="date" id="data">
-     </div>
-
-     
-    <div class="form-group" id="sceltaModalita"></div>
-     
-
-      <div class="form-group">
-        <label for="note">Scrivi una nota:</label>
-        <textarea id="note" rows="4" placeholder="Aggiungi una nota per il tutor..."></textarea>
-       </div>
-
-      
-      
-      
-
-    <button id="inviaRichiestaBtn">Invia Richiesta</button>
-  </div>
-</div>
-
- 
-
-
-  <script src="../js/modal_window.js"></script>
-  <script src="../js/materie.js"></script>
-  <script src="../js/login.js"></script>
-<script src="../js/navbar.js"></script>
-</body>
+    <script src="../js/modal_window.js"></script>
+    <script src="../js/materie.js"></script>
+    <script src="../js/login.js"></script>
+    <script src="../js/navbar.js"></script>
+  </body>
 </html>
