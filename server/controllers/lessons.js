@@ -39,3 +39,96 @@ export async function sendLessonRequest(req, res) {
     res.status(500).json({ message: "Errore del server" });
   }
 }
+export async function getLessonsByStudentId(req, res) {
+  const { studentId } = req.params;
+
+  try {
+    const db = await connectToDatabase();
+    const lessons = await db.collection("lessons").aggregate([
+      {
+        $match: { studentId: new ObjectId(studentId) }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "tutorId",
+          foreignField: "_id",
+          as: "tutorInfo"
+        }
+      },
+      {
+        $unwind: "$tutorInfo"
+      },
+      {
+        $project: {
+          subject: 1,
+          date: 1,
+          mode: 1,
+          status: 1,
+          price: 1,
+          createdAt: 1,
+          message: 1,
+          tutor: {
+            _id: "$tutorInfo._id",
+            nome: "$tutorInfo.firstName",
+            cognome: "$tutorInfo.lastName",
+            email: "$tutorInfo.email"
+          }
+        }
+      },
+      { $sort: { date: -1 } }
+    ]).toArray();
+
+    res.status(200).json(lessons);
+  } catch (error) {
+    console.error("Errore nel recupero delle lezioni per studente:", error);
+    res.status(500).json({ message: "Errore del server" });
+  }
+}
+
+export async function getLessonsByTutorId(req, res) {
+  const { tutorId } = req.params;
+
+  try {
+    const db = await connectToDatabase();
+    const lessons = await db.collection("lessons").aggregate([
+      {
+        $match: { tutorId: new ObjectId(tutorId) }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "studentId",
+          foreignField: "_id",
+          as: "studentInfo"
+        }
+      },
+      {
+        $unwind: "$studentInfo"
+      },
+      {
+        $project: {
+          subject: 1,
+          date: 1,
+          mode: 1,
+          status: 1,
+          price: 1,
+          message: 1,
+          createdAt: 1,
+          student: {
+            _id: "$studentInfo._id",
+            nome: "$studentInfo.firstName",
+            cognome: "$studentInfo.lastName",
+            email: "$studentInfo.email"
+          }
+        }
+      },
+      { $sort: { date: -1 } }
+    ]).toArray();
+
+    res.status(200).json(lessons);
+  } catch (error) {
+    console.error("Errore nel recupero delle lezioni per tutor:", error);
+    res.status(500).json({ message: "Errore del server" });
+  }
+}

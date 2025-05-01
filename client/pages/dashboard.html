@@ -70,81 +70,49 @@
       </div>
     </div>
   </nav>
-  <main class="dashboard-container">
-    <!-- DASHBOARD TUTOR -->
-    <section id="tutor-dashboard" class="dashboard hidden">
-      <h2 class="section-title">Le mie richieste</h2>
-      <div class="dashboard-grid">
-        <!-- Richieste di lezione -->
-        <div class="dashboard-card">
-          <h3>Richieste da studenti</h3>
-          <div class="lesson-card">
-            <p><strong>Mario Rossi</strong> – Matematica</p>
-            <p>🕒 15 Aprile 2025, 17:00 – 💻 Online – 💶 25€</p>
-            <p>📝 Commento per organizzarci meglio</p>
-            <div class="actions">
-              <button class="btn-accept">Accetta</button>
-              <button class="btn-decline">Rifiuta</button>
-            </div>
-          </div>
-          <div class="lesson-card">
-            <p><strong>Mario Rossi </strong> – Matematica</p>
-            <p>🕒 15 Aprile 2025, 17:00 – 💻 Online – 💶 25€</p>
-            <p>📝 Commento per organizzarci meglio</p>
-            <div class="actions">
-              <button class="btn-accept">Accetta</button>
-              <button class="btn-decline">Rifiuta</button>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Lezioni confermate -->
-        <div class="dashboard-card">
-          <h3>Lezioni confermate</h3>
-          <div class="lesson-card">
-            <p><strong>Lucia Bianchi</strong> – Fisica</p>
-            <p>🕒 20 Aprile 2025, 15:00 – 📍 In presenza – 💶 30€</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  
-    <!-- DASHBOARD STUDENTE -->
-    <section id="student-dashboard" class="dashboard hidden">
-      <h2 class="section-title">La mia attività</h2>
-      <div class="dashboard-grid">
-        <!-- Richieste inviate -->
-        <div class="dashboard-card">
-          <h3>Richieste inviate</h3>
-          <div class="lesson-card">
-            <p><strong>Laura Verdi</strong> – Inglese</p>
-            <p>🕒 22 Aprile 2025, 10:00 – 💻 Online – 💶 20€</p>
-            <p>Stato: In attesa</p>
-          </div>
-        </div>
-  
-        <!-- Lezioni confermate -->
-        <div class="dashboard-card">
-          <h3>Lezioni confermate</h3>
-          <div class="lesson-card">
-            <p><strong>Marco Neri</strong> – Chimica</p>
-            <p>🕒 12 Aprile 2025, 11:00 – 📍 In presenza – 💶 35€</p>
-          </div>
-        </div>
-  
-        <!-- Recensioni -->
-        <div class="dashboard-card">
-          <h3>Lascia una recensione</h3>
-          <div class="lesson-card">
-            <p><strong>Marco Neri</strong> – Chimica – 12 Aprile 2025</p>
-            <textarea placeholder="Scrivi la tua recensione..." rows="3"></textarea>
-            <button class="btn-review">Invia Recensione</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  
+<!-- DASHBOARD TUTOR -->
+<section id="tutor-dashboard" class="dashboard hidden">
+  <h2 class="section-title">Le mie richieste</h2>
+  <div class="dashboard-grid">
+    <!-- Richieste da studenti -->
+    <div class="dashboard-card">
+      <h3>Richieste da studenti</h3>
+      <div id="tutor-requests"></div>
+    </div>
+
+    <!-- Lezioni confermate -->
+    <div class="dashboard-card">
+      <h3>Lezioni confermate</h3>
+      <div id="tutor-confirmed-lessons"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- DASHBOARD STUDENTE -->
+<section id="student-dashboard" class="dashboard hidden">
+  <h2 class="section-title">La mia attività</h2>
+  <div class="dashboard-grid">
+    <!-- Richieste inviate -->
+    <div class="dashboard-card">
+      <h3>Richieste inviate</h3>
+      <div id="student-pending-lessons"></div>
+    </div>
+
+    <!-- Lezioni confermate -->
+    <div class="dashboard-card">
+      <h3>Lezioni confermate</h3>
+      <div id="student-confirmed-lessons"></div>
+    </div>
+
+    <!-- Recensioni -->
+    <div class="dashboard-card">
+      <h3>Lascia una recensione</h3>
+      <!-- Recensioni -->
+    </div>
+  </div>
+</section>
+
 
   <script src="../js/modal_window.js"></script>
   <script src="../js/dashboard.js"></script>
