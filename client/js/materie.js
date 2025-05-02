@@ -325,7 +325,16 @@ tutorListDiv.appendChild(tutorCard);
     });
   });
 }
+//Date--->si può mettere la data da oggi in poi
+const oggi= new Date();
+const yyyy = oggi.getFullYear();
+const mm = String(oggi.getMonth() + 1).padStart(2, '0'); // Mese da 1 a 12, padStart aggiunge 0 finche non arriva a lunghezza 2 la stringa
+const dd = String(oggi.getDate()).padStart(2, '0');
 
+const dataOggi = `${yyyy}-${mm}-${dd}`;
+
+const inputData = document.getElementById('data');
+inputData.min = dataOggi;
 
 // SUBMIT DEL CONTACT FORM
 const inviaRichiestaBtn = document.getElementById("inviaRichiestaBtn");
