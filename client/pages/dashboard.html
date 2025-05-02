@@ -70,81 +70,79 @@
       </div>
     </div>
   </nav>
-  <main class="dashboard-container">
-    <!-- DASHBOARD TUTOR -->
-    <section id="tutor-dashboard" class="dashboard hidden">
-      <h2 class="section-title">Le mie richieste</h2>
-      <div class="dashboard-grid">
-        <!-- Richieste di lezione -->
-        <div class="dashboard-card">
-          <h3>Richieste da studenti</h3>
-          <div class="lesson-card">
-            <p><strong>Mario Rossi</strong> – Matematica</p>
-            <p>🕒 15 Aprile 2025, 17:00 – 💻 Online – 💶 25€</p>
-            <p>📝 Commento per organizzarci meglio</p>
-            <div class="actions">
-              <button class="btn-accept">Accetta</button>
-              <button class="btn-decline">Rifiuta</button>
-            </div>
-          </div>
-          <div class="lesson-card">
-            <p><strong>Mario Rossi </strong> – Matematica</p>
-            <p>🕒 15 Aprile 2025, 17:00 – 💻 Online – 💶 25€</p>
-            <p>📝 Commento per organizzarci meglio</p>
-            <div class="actions">
-              <button class="btn-accept">Accetta</button>
-              <button class="btn-decline">Rifiuta</button>
-            </div>
-          </div>
-        </div>
+<!-- DASHBOARD TUTOR -->
+<section id="tutor-dashboard" class="dashboard hidden">
+  <h2 class="section-title">Le mie richieste</h2>
+  <div class="dashboard-grid">
+    <!-- Richieste da studenti -->
+    <div class="dashboard-card">
+      <h3>Richieste da studenti</h3>
+      <div id="tutor-requests"></div>
+    </div>
+
+    <!-- Lezioni confermate -->
+    <div class="dashboard-card">
+      <h3>Lezioni confermate</h3>
+      <div id="tutor-confirmed-lessons"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- DASHBOARD STUDENTE -->
+<section id="student-dashboard" class="dashboard hidden">
+  <div class="student-sidebar">
+    <ul class="student-nav">
+      <li>
+        <button class="active" data-section="pending-lessons">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          In attesa
+        </button>
+      </li>
+      <li>
+        <button data-section="confirmed-lessons">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Confermate
+        </button>
+      </li>
+      <li>
+        <button data-section="reviews">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+          </svg>
+          Recensioni
+        </button>
+      </li>
+    </ul>
+  </div>
   
-        <!-- Lezioni confermate -->
-        <div class="dashboard-card">
-          <h3>Lezioni confermate</h3>
-          <div class="lesson-card">
-            <p><strong>Lucia Bianchi</strong> – Fisica</p>
-            <p>🕒 20 Aprile 2025, 15:00 – 📍 In presenza – 💶 30€</p>
-          </div>
-        </div>
+  <div class="student-content">
+    <!-- Richieste inviate -->
+    <div id="pending-lessons" class="student-content-section active">
+      <h2>Lezioni in attesa di conferma</h2>
+      <div id="student-pending-lessons" class="lessons-container"></div>
+    </div>
+    
+    <!-- Lezioni confermate -->
+    <div id="confirmed-lessons" class="student-content-section">
+      <h2>Lezioni confermate</h2>
+      <div id="student-confirmed-lessons" class="lessons-container"></div>
+    </div>
+    
+    <!-- Recensioni -->
+    <div id="reviews" class="student-content-section">
+      <h2>Lascia una recensione</h2>
+      <div class="reviews-container">
+        <!-- Qui andrà il form per le recensioni -->
       </div>
-    </section>
-  
-    <!-- DASHBOARD STUDENTE -->
-    <section id="student-dashboard" class="dashboard hidden">
-      <h2 class="section-title">La mia attività</h2>
-      <div class="dashboard-grid">
-        <!-- Richieste inviate -->
-        <div class="dashboard-card">
-          <h3>Richieste inviate</h3>
-          <div class="lesson-card">
-            <p><strong>Laura Verdi</strong> – Inglese</p>
-            <p>🕒 22 Aprile 2025, 10:00 – 💻 Online – 💶 20€</p>
-            <p>Stato: In attesa</p>
-          </div>
-        </div>
-  
-        <!-- Lezioni confermate -->
-        <div class="dashboard-card">
-          <h3>Lezioni confermate</h3>
-          <div class="lesson-card">
-            <p><strong>Marco Neri</strong> – Chimica</p>
-            <p>🕒 12 Aprile 2025, 11:00 – 📍 In presenza – 💶 35€</p>
-          </div>
-        </div>
-  
-        <!-- Recensioni -->
-        <div class="dashboard-card">
-          <h3>Lascia una recensione</h3>
-          <div class="lesson-card">
-            <p><strong>Marco Neri</strong> – Chimica – 12 Aprile 2025</p>
-            <textarea placeholder="Scrivi la tua recensione..." rows="3"></textarea>
-            <button class="btn-review">Invia Recensione</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  
+    </div>
+  </div>
+</section>
+
 
   <script src="../js/modal_window.js"></script>
   <script src="../js/dashboard.js"></script>
