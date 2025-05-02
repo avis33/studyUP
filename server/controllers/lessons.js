@@ -22,7 +22,7 @@ export async function sendLessonRequest(req, res) {
       subject: subject,
       date: new Date(date),
       mode: mode,
-      status: "pending",
+      status: "pending", // puo essere accepted e cancelled
       price: price,
       message: message || "",
       createdAt: new Date()
@@ -129,6 +129,85 @@ export async function getLessonsByTutorId(req, res) {
     res.status(200).json(lessons);
   } catch (error) {
     console.error("Errore nel recupero delle lezioni per tutor:", error);
+    res.status(500).json({ message: "Errore del server" });
+  }
+}
+// Controller per accettare una lezione
+export async function acceptLessonRequest(req, res) {
+  const { lessonId } = req.params;
+
+  try {
+    const db = await connectToDatabase();
+    const lessonsCollection = db.collection("lessons");
+
+    // Verifica che la lezione esista e sia in stato pending
+    const lesson = await lessonsCollection.findOne({
+      _id: new ObjectId(lessonId),
+      status: "pending"
+    });
+
+    if (!lesson) {
+      return res.status(404).json({ message: "Lezione non trovata o già confemata/cancellata" });
+    }
+
+    // Aggiorna lo stato della lezione
+    const result = await lessonsCollection.updateOne(
+      { _id: new ObjectId(lessonId) },
+      { $set: { status: "accepted", updatedAt: new Date() } }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(400).json({ message: "Impossibile accettare la lezione" });
+    }
+
+    res.status(200).json({ 
+      success: true,
+      message: "Lezione accettata con successo"
+    });
+
+  } catch (error) {
+    console.error("Errore accettazione lezione:", error);
+    res.status(500).json({ message: "Errore del server" });
+  }
+}
+
+// Controller per rifiutare una lezione
+export async function rejectLessonRequest(req, res) {
+  const { lessonId } = req.params;
+
+  try {
+    const db = await connectToDatabase();
+    const lessonsCollection = db.collection("lessons");
+
+    // Verifica che la lezione esista e sia in stato pending
+    const lesson = await lessonsCollection.findOne({
+      _id: new ObjectId(lessonId),
+      status: "pending"
+    });
+
+    if (!lesson) {
+      return res.status(404).json({ message: "Lezione non trovata o già gestita" });
+    }
+
+    // Aggiorna lo stato della lezione
+    const result = await lessonsCollection.updateOne(
+      { _id: new ObjectId(lessonId) },
+      { $set: { status: "rejected", updatedAt: new Date() } }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(400).json({ message: "Impossibile rifiutare la lezione" });
+    }
+
+    // Qui potresti inviare una notifica allo studente
+
+    res.status(200).json({ 
+      success: true,
+      message: "Lezione rifiutata con successo"
+    });
+
+  } catch (error) {
+    console.error("Errore rifiuto lezione:", error);
     res.status(500).json({ message: "Errore del server" });
   }
 }

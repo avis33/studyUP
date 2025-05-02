@@ -1,4 +1,4 @@
-
+let currentUser
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("authToken");
     const loginButton = document.getElementById("openModalBtn");
@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             // SEI UN TUTOR
             document.getElementById("tutor-dashboard").classList.remove("hidden");  
           }
+          currentUser = data.user;
           fetchLessonsByRole(data.user);
       }
     } catch (error) {
@@ -80,80 +81,129 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error("Errore nel recupero delle lezioni:", err);
     }
   }
-  
   function renderLessons(lezioniAccettate, lezioniPending, role) {
     const acceptedContainer = role === "student" 
       ? document.getElementById("student-confirmed-lessons") 
       : document.getElementById("tutor-confirmed-lessons");
   
-    const studentPendingContainer = document.getElementById("student-pending-lessons") 
-      
-  
+    const studentPendingContainer = document.getElementById("student-pending-lessons");
     const tutorPendingContainer = role === "tutor" 
       ? document.getElementById("tutor-requests") 
       : null;
   
-      
-    // Svuotiamo i contenitori prima di aggiungere i nuovi elementi
+    // Svuotiamo i contenitori
     acceptedContainer.innerHTML = "";
     studentPendingContainer.innerHTML = "";
+    if (role === "tutor" && tutorPendingContainer) tutorPendingContainer.innerHTML = "";
   
+    // Icone
+    const icons = {
+      online: "💻",
+      inPerson: "📍",
+      price: "💶",
+      time: "🕒",
+      pending: "⏳",
+      cancelled: "❌"
+    };
+  
+    // Richieste pendenti per tutor
     if (role === "tutor" && tutorPendingContainer) {
-      tutorPendingContainer.innerHTML = ""; // Svuotiamo il contenitore delle richieste per il tutor  
-      // Aggiungiamo le richieste pendenti (per i tutor)
       lezioniPending.forEach(lez => {
         const lessonCard = document.createElement("div");
         lessonCard.classList.add("lesson-card");
-        const lessonDetails = `
+        lessonCard.innerHTML = `
           <p><strong>${lez.student.nome} ${lez.student.cognome}</strong> – ${lez.subject}</p>
-          <p>🕒 ${new Date(lez.date).toLocaleDateString()} – ${lez.mode === "online" ? "💻 Online" : "📍 In presenza"} – 💶 ${lez.price}€</p>
-          <p>'${lez.message}'</p>
-          <i>${lez.student.email}</i>
-          <button class="accept-btn" onclick="acceptLesson('${lez._id}')">Accetta</button>
-          <button class="reject-btn" onclick="rejectLesson('${lez._id}')">Rifiuta</button>
+          <p>${icons.time} ${new Date(lez.date).toLocaleDateString('it-IT', { 
+            weekday: 'short', 
+            day: 'numeric', 
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit'
+          })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
+          <p class="message">"${lez.message}"</p>
+          <p><small>${lez.student.email}</small></p>
+          <div class="actions">
+            <button class="btn-accept" onclick="acceptLesson('${lez._id}')">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Accetta
+            </button>
+            <button class="btn-decline" onclick="rejectLesson('${lez._id}')">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              Rifiuta
+            </button>
+          </div>
         `;
-        lessonCard.innerHTML = lessonDetails;
         tutorPendingContainer.appendChild(lessonCard);
       });
     }
   
-    // Aggiungiamo le lezioni accettate per entrambi (studenti e tutor)
+    // Lezioni accettate
     lezioniAccettate.forEach(lez => {
       const lessonCard = document.createElement("div");
       lessonCard.classList.add("lesson-card");
-  
-      const lessonDetails = `
-        <p><strong>${lez.tutor.nome} ${lez.tutor.cognome}</strong> – ${lez.subject}</p>
-        <p>🕒 ${new Date(lez.date).toLocaleDateString()} – ${lez.mode === "online" ? "💻 Online" : "📍 In presenza"} – 💶 ${lez.price}€</p>
+      lessonCard.innerHTML = `
+        <p><strong>${role === "student" ? `${lez.tutor.nome} ${lez.tutor.cognome}` : `${lez.student.nome} ${lez.student.cognome}`}</strong> – ${lez.subject}</p>
+        <p>${icons.time} ${new Date(lez.date).toLocaleDateString('it-IT', { 
+          weekday: 'short', 
+          day: 'numeric', 
+          month: 'short',
+          hour: '2-digit',
+          minute: '2-digit'
+        })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
+        ${role === "student" ? `
+          <div class="actions">
+            <button class="btn-review" onclick="openReviewModal('${lez._id}', '${lez.tutor._id}')">
+              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+              Recensisci
+            </button>
+          </div>
+        ` : ''}
       `;
-  
-      lessonCard.innerHTML = lessonDetails;
       acceptedContainer.appendChild(lessonCard);
     });
   
-    // Aggiungiamo le lezioni pending per studenti (richieste inviate)
+    // Richieste pendenti per studente
     if (role === "student") {
       lezioniPending.forEach(lez => {
         const lessonCard = document.createElement("div");
         lessonCard.classList.add("lesson-card");
-  
-        const lessonDetails = `
+        lessonCard.innerHTML = `
           <p><strong>${lez.tutor.nome} ${lez.tutor.cognome}</strong> – ${lez.subject}</p>
-          <p>🕒 ${new Date(lez.date).toLocaleDateString()} – ${lez.mode === "online" ? "💻 Online" : "📍 In presenza"} – 💶 ${lez.price}€</p>
-          <p>Stato: ${lez.status === "pending" ? "In attesa" : "Cancellata"}</p>
+          <p>${icons.time} ${new Date(lez.date).toLocaleDateString('it-IT', { 
+            weekday: 'short', 
+            day: 'numeric', 
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit'
+          })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
+          <p class="${lez.status === "pending" ? "status-pending" : "status-cancelled"}">
+            ${lez.status === "pending" ? `${icons.pending} In attesa di conferma` : `${icons.cancelled} Cancellata`}
+          </p>
         `;
-  
-        lessonCard.innerHTML = lessonDetails;
         studentPendingContainer.appendChild(lessonCard);
       });
     }
-  }
-  
-/*
+}
+// Gestione menu laterale studente per la dashboard degli studenti
+document.querySelectorAll('.student-nav button').forEach(button => {
+  button.addEventListener('click', () => {
+    // Rimuovi classe active da tutti i pulsanti e sezioni
+    document.querySelectorAll('.student-nav button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.student-content-section').forEach(section => section.classList.remove('active'));
+    
+    // Aggiungi classe active al pulsante cliccato
+    button.classList.add('active');
+    
+    // Mostra la sezione corrispondente
+    const sectionId = button.getAttribute('data-section');
+    document.getElementById(sectionId).classList.add('active');
+  });
+});
+
   async function acceptLesson(lessonId) {
     try {
       const res = await fetch(`http://localhost:3000/lessons/accept/${lessonId}`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -174,7 +224,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function rejectLesson(lessonId) {
     try {
       const res = await fetch(`http://localhost:3000/lessons/reject/${lessonId}`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -191,4 +241,4 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error("Errore nel rifiutare la lezione:", err);
     }
   }
-  */
+  
