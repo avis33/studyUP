@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
     if (!token) {
       document.getElementById("user-area").style.display = "none";
+      window.location.href = "/client/index.html"; // Se non sono loggato mi porta alla pagina principale
       return;
     }
     try {
@@ -162,28 +163,70 @@ document.addEventListener("DOMContentLoaded", async () => {
       acceptedContainer.appendChild(lessonCard);
     });
   
-    // Richieste pendenti per studente
-    if (role === "student") {
-      lezioniPending.forEach(lez => {
-        const lessonCard = document.createElement("div");
-        lessonCard.classList.add("lesson-card");
-        lessonCard.innerHTML = `
-          <p><strong>${lez.tutor.nome} ${lez.tutor.cognome}</strong> – ${lez.subject}</p>
-          <p>${icons.time} ${new Date(lez.date).toLocaleDateString('it-IT', { 
-            weekday: 'short', 
-            day: 'numeric', 
-            month: 'short',
-            hour: '2-digit',
-            minute: '2-digit'
-          })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
-          <p class="${lez.status === "pending" ? "status-pending" : "status-cancelled"}">
-            ${lez.status === "pending" ? `${icons.pending} In attesa di conferma` : `${icons.cancelled} Cancellata`}
-          </p>
-        `;
-        studentPendingContainer.appendChild(lessonCard);
-      });
+   // Richieste pendenti per studente
+if (role === "student") {
+  lezioniPending.forEach(lez => {
+    const lessonCard = document.createElement("div");
+    lessonCard.classList.add("lesson-card");
+
+    let statusHTML = "";
+    if (lez.status === "pending") {
+      statusHTML = `
+        <p class="status-pending">
+          ${icons.pending} In attesa di conferma
+        </p>
+        <button class="cancel-request-btn" data-id="${lez._id}">
+           Annulla richiesta
+        </button>
+      `;
+    } else {
+      statusHTML = `
+        <p class="status-cancelled">
+          ${icons.cancelled} Cancellata
+        </p>
+      `;
     }
+
+    lessonCard.innerHTML = `
+      <p><strong>${lez.tutor.nome} ${lez.tutor.cognome}</strong> – ${lez.subject}</p>
+      <p>${icons.time} ${new Date(lez.date).toLocaleDateString('it-IT', { 
+        weekday: 'short', 
+        day: 'numeric', 
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit'
+      })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
+      ${statusHTML}
+    `;
+
+    studentPendingContainer.appendChild(lessonCard);
+  });
 }
+}
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("cancel-request-btn")) {
+    const lessonId = e.target.dataset.id;
+
+    // Conferma utente
+    if (!confirm("Sei sicuro di voler annullare questa richiesta?")) return;
+    try {
+    // Chiamata al backend per eliminare la richiesta
+    const res = await fetch(`http://localhost:3000/lessons/cancel/${lessonId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    if (!res.ok) throw new Error("Errore nella cancellazione.");
+      // Rimuovi la card dal DOM
+      e.target.closest(".lesson-card").remove();  
+    } catch (error) {
+      alert("Errore: impossibile annullare la richiesta.");
+      console.error(error);
+    }
+  }
+});
+
 // Gestione menu laterale studente per la dashboard degli studenti
 document.querySelectorAll('.student-nav button').forEach(button => {
   button.addEventListener('click', () => {

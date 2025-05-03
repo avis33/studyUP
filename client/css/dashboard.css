@@ -455,6 +455,23 @@ color: white;
 .btn-review:hover {
   background-color: #2563eb;
 }
+/*Css per il pulsante per annullare la richiesta di lezione*/
+.cancel-request-btn {
+  margin-top: 8px;
+  margin-left: 1rem;
+  padding: 6px 12px;
+  background-color: #e74c3c; /* Rosso */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-request-btn:hover {
+  background-color: #c0392b;
+}
 
 /* Stato */
 .status-pending {
