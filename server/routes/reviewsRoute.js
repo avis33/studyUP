@@ -1,5 +1,6 @@
 import express from "express";
 import {
+    sendReview
 } from "../controllers/reviewsController.js";
 
 const router = express.Router();
