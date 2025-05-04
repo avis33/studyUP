@@ -141,6 +141,76 @@
       </div>
     </div>
   </div>
+  <!-- Finestra modale recensione -->
+  <div id="review-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeReviewModal()">&times;</span>
+      <h2>Lascia una recensione</h2>
+  
+      <!-- Testo recensione -->
+      <div class="form-group">
+        <label for="review-text">Commento generale</label>
+        <textarea id="review-text" placeholder="Scrivi la tua recensione..." rows="4" required></textarea>
+      </div>
+  
+      <!-- Voto: Puntualità -->
+      <div class="form-group">
+        <label>Puntualità <span style="font-weight: normal;">(Il tutor si è collegato/incontrato all’orario concordato?)</span></label>
+        <select id="rating-puntualita" required>
+          <option value="">-- Seleziona --</option>
+          <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+          <option value="4">⭐⭐⭐⭐ (4)</option>
+          <option value="3">⭐⭐⭐ (3)</option>
+          <option value="2">⭐⭐ (2)</option>
+          <option value="1">⭐ (1)</option>
+        </select>
+      </div>
+  
+      <!-- Voto: Chiarezza -->
+      <div class="form-group">
+        <label>Chiarezza <span style="font-weight: normal;">(Il tutor ha spiegato bene, in modo comprensibile?)</span></label>
+        <select id="rating-chiarezza" required>
+          <option value="">-- Seleziona --</option>
+          <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+          <option value="4">⭐⭐⭐⭐ (4)</option>
+          <option value="3">⭐⭐⭐ (3)</option>
+          <option value="2">⭐⭐ (2)</option>
+          <option value="1">⭐ (1)</option>
+        </select>
+      </div>
+  
+      <!-- Voto: Competenza -->
+      <div class="form-group">
+        <label>Competenza <span style="font-weight: normal;">(Il tutor conosceva bene l’argomento?)</span></label>
+        <select id="rating-competenza" required>
+          <option value="">-- Seleziona --</option>
+          <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+          <option value="4">⭐⭐⭐⭐ (4)</option>
+          <option value="3">⭐⭐⭐ (3)</option>
+          <option value="2">⭐⭐ (2)</option>
+          <option value="1">⭐ (1)</option>
+        </select>
+      </div>
+  
+      <!-- Voto: Empatia e disponibilità -->
+      <div class="form-group">
+        <label>Empatia e disponibilità <span style="font-weight: normal;">(Il tutor è stato gentile, disponibile e ha ascoltato le esigenze?)</span></label>
+        <select id="rating-empatia" required>
+          <option value="">-- Seleziona --</option>
+          <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+          <option value="4">⭐⭐⭐⭐ (4)</option>
+          <option value="3">⭐⭐⭐ (3)</option>
+          <option value="2">⭐⭐ (2)</option>
+          <option value="1">⭐ (1)</option>
+        </select>
+      </div>
+  
+      <!-- Bottone invio -->
+      <button onclick="submitReview()">Invia</button>
+    </div>
+  </div>
+  
+  
 </section>
 
 

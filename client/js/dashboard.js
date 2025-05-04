@@ -118,8 +118,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             weekday: 'short', 
             day: 'numeric', 
             month: 'short',
-            hour: '2-digit',
-            minute: '2-digit'
           })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
           <p class="message">"${lez.message}"</p>
           <p><small>${lez.student.email}</small></p>
@@ -148,17 +146,20 @@ document.addEventListener("DOMContentLoaded", async () => {
           weekday: 'short', 
           day: 'numeric', 
           month: 'short',
-          hour: '2-digit',
-          minute: '2-digit'
         })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
-        ${role === "student" ? `
-          <div class="actions">
-            <button class="btn-review" onclick="openReviewModal('${lez._id}', '${lez.tutor._id}')">
-              <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
-              Recensisci
-            </button>
-          </div>
-        ` : ''}
+        ${role === "student" && new Date(lez.date) <= new Date() ? `
+  <div class="actions">
+    <button class="btn-review" onclick="openReviewModal('${lez._id}', '${lez.tutor._id}')">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+          d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z">
+        </path>
+      </svg>
+      Recensisci
+    </button>
+  </div>
+` : ''}
+
       `;
       acceptedContainer.appendChild(lessonCard);
     });
@@ -193,8 +194,6 @@ if (role === "student") {
         weekday: 'short', 
         day: 'numeric', 
         month: 'short',
-        hour: '2-digit',
-        minute: '2-digit'
       })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
       ${statusHTML}
     `;
@@ -285,3 +284,68 @@ document.querySelectorAll('.student-nav button').forEach(button => {
     }
   }
   
+// Apri finestra modale per lasciare una recensione
+function openReviewModal(lessonId, tutorId) {
+  const modal = document.getElementById("review-modal");
+  modal.style.display = "block";
+
+  // Salva gli ID nei data-* per usarli al submit
+  modal.dataset.lessonId = lessonId;
+  modal.dataset.tutorId = tutorId;
+
+  // Reset del form
+  document.getElementById("review-text").value = "";
+  document.getElementById("review-rating").value = "5";
+}
+// funzione per chiuder il modale
+function closeReviewModal() {
+  document.getElementById("review-modal").style.display = "none";
+}
+
+
+// FUNZIONE PER MANDARE RICHIESTA DI RECENSIONE AL SERVER
+async function submitReview() {
+  const reviewText = document.getElementById('review-text').value.trim();
+  const ratingPuntualita = document.getElementById('rating-puntualita').value;
+  const ratingChiarezza = document.getElementById('rating-chiarezza').value;
+  const ratingCompetenza = document.getElementById('rating-competenza').value;
+  const ratingEmpatia = document.getElementById('rating-empatia').value;
+
+  // Validazione semplice
+  if (!reviewText || !ratingPuntualita || !ratingChiarezza || !ratingCompetenza || !ratingEmpatia) {
+    alert('Per favore compila tutti i campi prima di inviare la recensione.');
+    return;
+  }
+
+  const reviewData = {
+    lessonId: currentLessonId,
+    tutorId: currentTutorId,
+    comment: reviewText,
+    ratings: {
+      puntualita: parseInt(ratingPuntualita),
+      chiarezza: parseInt(ratingChiarezza),
+      competenza: parseInt(ratingCompetenza),
+      empatia: parseInt(ratingEmpatia),
+    }
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3000/reviews/send/${lessonId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        },
+      body: JSON.stringify(reviewData)
+    });
+
+    if (!response.ok) {
+      throw new Error('Errore durante l\'invio della recensione');
+    }
+
+    alert('Recensione inviata con successo!');
+    closeReviewModal();
+  } catch (error) {
+    console.error(error);
+    alert('Si è verificato un errore. Riprova più tardi.');
+  }
+}
