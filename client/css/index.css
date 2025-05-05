@@ -82,6 +82,20 @@ body {
     cursor: pointer;
     border-radius: 1.4rem;
 }
+
+
+.checkbtn{
+  font-size: 30px;
+  color:#36a970;
+  float: right;
+  margin-right:40px;
+  cursor:pointer;
+  display:none;
+}
+
+#check{
+  display: none;
+}
 /*User profile*/
 /* Nascondi temporaneamente per il JS */
 .hidden {
@@ -162,7 +176,7 @@ body {
     justify-content: space-between;
     background-color: #f4f4f4;
     padding: 0rem 3rem;
-    height: calc(100vh - 6rem)
+    height: calc(100vh - 6rem);
 }
 
 .hero-left {
@@ -440,7 +454,7 @@ body {
 
 /* BOTTONE */
 
-.modal-content button {
+  .modal-content button {
   width: 100%;
   padding: 12px 0;
   background-color: #36a970;
@@ -452,7 +466,7 @@ body {
   transition: background-color 0.2s ease;
 }
 
-.modal-content button:hover {
+  .modal-content button:hover {
   background-color: #2d885c;
 }
 
@@ -571,3 +585,125 @@ body {
     max-height: 200px;
     padding: 1rem;
   }
+
+
+  @media (max-width:972px){
+    
+        .navbar .info-links{
+            gap: 1rem; /* gap between logo and links*/
+        }
+        
+        .nav-links {
+            gap: 1rem;
+        }
+        .nav-links li a {
+          font-size: 0.8rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        display: flex;
+        flex-direction:column;
+        height:100vh
+      }
+
+      .hero-left {
+        max-width: 50%;
+        padding: 1rem;
+        margin-top: -1rem;
+      }
+
+      .hero-left h1 {
+        font-size: 3rem;
+        color: #333;
+        text-align: center;
+      }
+
+      .hero-left p {
+        font-size: 2rem;
+        margin: 1.5 rem;
+        text-align: center;
+        
+      }
+
+
+      .hero-right {
+      position:absolute;
+        background-color: red;
+        width: 50%;
+        bottom:20%;
+      }
+      .hero-right img {
+        width: 20rem;   
+      }
+
+      .hero-left button {
+      position:absolute;
+      left:35%;
+      }
+
+
+
+
+      /*CSS per About*/
+      .about-lr {
+        flex-direction: column;   /* empila i contenuti */
+        align-items: center;      /* centra orizzontalmente i figli */
+        gap: 1.5rem;
+        padding: 0 1rem;
+      }
+
+      .about-left,
+      .about-right {
+        width: 100%;              /* larghezza piena su mobile */
+      }
+
+      .about-right p {
+        max-width: none;
+        font-size: 2rem;
+        text-align: center;
+        width:100%;
+      }
+
+      .profile-icon #userName{
+        display: none;
+      }
+
+}
+  
+
+  @media (max-width:858px){
+    .navbar .logo {
+     position:absolute;
+     left:40%;
+      width: 10rem;
+      display: block;
+     margin-top: -1.5rem;
+
+  }
+    .nav-links li a{
+      display:none;
+    }
+
+    .register-btn {
+   position:absolute;
+   right:10%;
+  }
+
+    .checkbtn{
+      position:absolute;
+      left:10%;
+      display: block;
+    }
+  }
+
+
+  @media (max-width:376px){
+  
+    .about-left img{
+        display:none; 
+         }
+
+  }
+
+   

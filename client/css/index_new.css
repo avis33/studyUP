@@ -1,0 +1,684 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+/*========================================STILE GENERALE==============================================================*/
+body{
+    font-family: 'Rubik', sans-serif;
+    margin:0;
+}
+
+/*==============================================NAVBAR================================================================*/
+.navbar{
+    display:flex;
+    justify-content: space-between; /*per mettere spazio equo tra gli elementi*/
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: white;
+}
+
+.navbar .info-links{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+}
+/*LOGO*/
+.navbar .logo{
+    width:10rem;
+    display:block;
+}
+/*SEZIONI*/
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+}
+
+.nav-links li a {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    position: relative; /* Necessario per l'effetto hover */
+    padding-bottom: 5px; /* Spazio per la barra */
+}
+
+.nav-links li a:hover::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px; /* Spessore della barra */
+    background-color: #36a970;
+    animation: slideIn 0.3s ease-out; /* Animazione */
+}
+
+/* Animazione (opzionale) */
+@keyframes slideIn {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+/*CHECKBUTTON (all'inizio invisibile)*/
+#check{
+    display: none;
+  }
+
+.checkbtn{
+    font-size: 30px;
+    color:#36a970;
+    cursor:pointer;
+    display:none;
+}
+/* DOPO AVER FATTO IL LOGIN--->ciò che compare in alto a destra*/
+.hidden {
+    display: none;
+}
+.user-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.profile-icon {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.profile-icon #userProfile {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+  }
+
+.profile-icon #arrow{
+    width: 2rem;
+}
+.profile-icon img:hover {
+   transform: scale(1.05);
+}
+
+
+.profile-icon #userName{
+    font-weight: 500;
+}
+  /* Menu a tendina */
+.profile-menu {
+    position: absolute;
+    top: 4rem;
+    right: 0;
+    background-color: white;
+    border: 2px solid #36a970;
+    border-radius: 1rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 100;
+    min-width: 180px;
+    overflow: hidden;
+}
+  
+  /* Lista del menu */
+.profile-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+  
+.profile-menu li a {
+    display: block;
+    padding: 1rem 2rem  ;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+  
+  /* Hover con verde */
+.profile-menu li a:hover {
+    background-color: #36a970;
+    color: white;
+}
+  /*BOTTONE ACCEDI-->visibie prima del login*/
+.register-btn {
+    padding: 1rem 2rem;
+    background-color: #36a970;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 1.4rem;
+}
+
+  
+ /* MODALE */
+
+.modal {
+    display: none; /* nascosta di default */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  
+  /* CONTENUTO DELLA MODALE */
+  
+  .modal-content {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 3rem 4rem;
+    width: 480px;
+    max-width: 90%;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .modal-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #222;
+    text-align: center;
+  }
+  
+  /* CHIUSURA MODALE */
+  
+  .close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .close:hover {
+    color: #000;
+  }
+  
+  /* FORM */
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modal-content label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .modal-content input {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .modal-content input:focus {
+    outline: none;
+    border-color: #36a970;
+  }
+  
+  /* BOTTONE */
+  
+    .modal-content button {
+    width: 100%;
+    padding: 12px 0;
+    background-color: #36a970;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+    .modal-content button:hover {
+    background-color: #2d885c;
+  }
+  
+    .error-message {
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+      display: none;
+      text-align: center;
+    }
+    
+    .error-message.show {
+      display: block;
+    }
+    
+    .signup-message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #555;
+    }
+    
+    .signup-message a {
+      color: #36a970;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .signup-message a:hover {
+      text-decoration: underline;
+    }
+
+
+/*===================================================HERO==========================================================================*/
+.hero{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f4f4f4;
+    padding: 2rem 3rem;
+}
+
+/*Parte sinistra della HERO*/
+.hero-left {
+   width:50%;
+}
+
+.word-bold {
+    font-weight: bolder; 
+    color: #36a970;
+}
+
+.hero-left h1 {
+    font-size: 3.5rem;
+    color: #333;
+}
+
+.hero-left p {
+    font-size: 1.1rem;
+}
+
+
+/*Parte destra della HERO*/
+.hero-right {
+   width:50%;
+}
+
+.hero-right img {
+    position:relative;
+    left:15%;
+    width: 30rem;
+    
+}
+
+.hero-left button {
+    margin:2rem 0rem;
+    padding: 1rem 2rem;
+    background-color: #36a970;
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 1.4rem;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Effetto hover */
+.register-btn:hover, .hero-left button:hover {
+    background-color: #2c8b5c; /* Un verde più scuro */
+    transform: scale(1.05); /* Effetto ingrandimento */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Aggiunge profondità */
+}
+
+/* Effetto click */
+.hero-left button:active {
+    transform: scale(0.95); /* Leggera compressione */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/*====================================================COME FUNZIONA=================================================================*/
+.how-it-works {
+    text-align: center;
+    padding: 1rem 3rem 3rem 3rem;
+    background-color: #f9f9f9;
+}
+
+.how-it-works h2 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.step {
+    background: white;
+    padding: 1.5rem;
+    width: 13rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.step h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.step p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.arrow {
+    font-size: 2rem;
+    color: #36a970;
+}
+
+
+/*==================================================MATERIE POPOLARI===============================================================*/
+.popular-subjects {
+    background-color: #F4F4F4;
+    padding: 1rem 3rem 3rem 3rem;
+}
+
+.popular-subjects h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+    justify-content: center; /*centra le colonne se non abbastanza*/
+}
+
+.subject-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 0.7rem;
+    padding: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+  
+.subject-card:hover {
+    background-color: #eef6ff;
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+  
+.subject-card img {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 2rem;
+}
+  
+.subject-card span {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+}
+
+/*=======================================================ABOUT========================================================================*/
+
+.about{
+    background-color: #f9f9f9;
+    padding:1rem 3rem 3rem 3rem;
+}
+
+.about h2{
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.about-lr{
+    display: flex;
+}
+.about-left{
+    width: 50%;
+}
+.about-left img{
+    width: 30rem;
+}
+
+.about-right{
+    width:50%;
+}
+
+.about-right p{
+    font-size: 1.5rem;
+}
+
+
+.about-right span{
+    color:#36a970;
+    font-weight: bold;
+}
+
+/*========================================================FAQ======================================================================*/
+
+.faq-section {
+    padding: 1rem 3rem 3rem 3rem;
+    background-color: #F4F4F4;
+}
+.faq-section h2{
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+}
+  
+.faq-question {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: left;
+    background-color: #e1e1e1;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: 0.3s ease;
+}
+  
+.faq-question:hover {
+    background-color: #36a970;
+    color:white;
+}
+  
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    background-color: #fafafa;
+    border-left: 3px solid #36a970;
+    padding: 0 1rem;
+    margin-bottom: 1rem;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    border-radius: 0 0 8px 8px;
+}
+  
+.faq-answer.open {
+    max-height: 200px;
+    padding: 1rem;
+}
+
+
+/*===================================================FOOTER======================================================================*/
+.footer {
+    text-align: center;
+    padding: 1rem 2rem;
+    background-color: #333;
+    color: white;
+    font-size: 1rem;
+}
+
+/*=================================================================================================================================*/
+/*================================================     RESPONSIVE    ==============================================================*/
+/*=================================================================================================================================*/
+
+@media (max-width:972px){
+    .navbar .info-links{
+        gap: 1rem; /* gap between logo and links*/
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    .nav-links li a {
+      font-size: 0.8rem;
+  }
+
+    .hero {
+        display: flex;
+        flex-direction:column;
+        
+    }
+    /*Parte sinistra della HERO*/
+    .hero-left {
+       width:100%;
+    }
+   
+    /*Parte destra della HERO*/
+    .hero-right {
+       width:100%;
+    }
+    
+    .hero-right img {
+        position:relative;
+        right:0%;
+        
+    }
+    
+    .about-lr{
+        display: flex;
+        flex-direction: column;
+    }
+    .about-left{
+        width: 100%;
+    }
+    .about-left img{
+        position:relative;
+        left:17%;
+        width: 30rem;
+    }
+    
+    .about-right{
+        width:100%;
+    }
+    
+    .about-right p{
+        font-size: 1.5rem;
+    }
+    
+    
+    .about-right span{
+        color:#36a970;
+        font-weight: bold;
+    }
+}
+
+@media (max-width:760px){
+    .navbar .logo {
+        position:absolute;
+        left:40%;
+         width: 10rem;
+         display: block;
+        margin-top: -1.5rem;
+   
+    }
+
+    .nav-links li a{
+        display:none;
+    }
+
+    .register-btn {
+        position:absolute;
+        right:10%;
+    }
+
+    .checkbtn{
+        position:absolute;
+        left:10%;
+        display: block;
+    }
+    
+    .profile-icon #userName{
+        display: none;
+    }
+
+    .hero-right{
+        display: none;
+    }
+    .about-left{
+        display:none;
+    }
+
+}
+
+@media (max-width:550px){
+    .navbar .logo {
+        width:6rem;
+        margin-top:-1rem;
+    }
+
+    .profile-icon #userProfile {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .profile-icon #arrow{
+        width: 1rem;
+    }
+
+
+}
