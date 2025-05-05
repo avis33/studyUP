@@ -2,6 +2,7 @@ import express from "express";
 import { connectToDatabase } from "./config/db.js";
 import userRoute from "./routes/userRoute.js"
 import lessonRoute from "./routes/lessonRoute.js"
+import reviewsRoute from "./routes/reviewsRoute.js"
 import cors from "cors"
 const app = express()
 
@@ -12,6 +13,8 @@ app.use(cors()); // Allow frontend to communicate with the server
 connectToDatabase()
 app.use("/user", userRoute);
 app.use("/lessons", lessonRoute);
+app.use("/reviews", reviewsRoute);
+
 const PORT = 3000
 app.listen(PORT, ()=>console.log(`Server running at port ${PORT}`))
  

@@ -199,8 +199,6 @@ export async function rejectLessonRequest(req, res) {
       return res.status(400).json({ message: "Impossibile rifiutare la lezione" });
     }
 
-    // Qui potresti inviare una notifica allo studente
-
     res.status(200).json({ 
       success: true,
       message: "Lezione rifiutata con successo"
@@ -208,6 +206,38 @@ export async function rejectLessonRequest(req, res) {
 
   } catch (error) {
     console.error("Errore rifiuto lezione:", error);
+    res.status(500).json({ message: "Errore del server" });
+  }
+}
+
+// Controller per rifiutare una lezione
+export async function cancelLessonRequest(req, res) {
+  const { lessonId } = req.params;
+
+  try {
+    const db = await connectToDatabase();
+    const lessonsCollection = db.collection("lessons");
+
+    // Verifica che la lezione esista e sia ancora pending
+    const lesson = await lessonsCollection.findOne({
+      _id: new ObjectId(lessonId),
+      status: "pending"
+    });
+
+    if (!lesson) {
+      return res.status(404).json({ message: "Lezione non trovata o già gestita" });
+    }
+
+    // Elimina la lezione
+    await lessonsCollection.deleteOne({ _id: new ObjectId(lessonId) });
+
+    res.status(200).json({ 
+      success: true,
+      message: "Lezione cancellata con successo"
+    });
+
+  } catch (error) {
+    console.error("Errore cancellazione lezione:", error);
     res.status(500).json({ message: "Errore del server" });
   }
 }
