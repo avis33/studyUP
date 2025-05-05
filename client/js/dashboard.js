@@ -64,32 +64,36 @@ document.addEventListener("DOMContentLoaded", async () => {
   
       let lezioniAccettate = [];
       let lezioniPending = [];
-  
+      let lezioniRecensite = [];
+      
       if (user.role === "student") {
         lezioniAccettate = lessons.filter(lez => lez.status === "accepted");
         lezioniPending = lessons.filter(lez => lez.status === "pending" || lez.status === "cancelled");
+        lezioniRecensite = lessons.filter(lez => lez.status === "reviewed");
       } else {
         lezioniAccettate = lessons.filter(lez => lez.status === "accepted");
         lezioniPending = lessons.filter(lez => lez.status === "pending");
       }
+      
   
       console.log("Accettate:", lezioniAccettate);
       console.log("Pending o cancellate:", lezioniPending);
   
-      renderLessons(lezioniAccettate, lezioniPending, user.role);
+      renderLessons(lezioniAccettate, lezioniPending, user.role, lezioniRecensite);
+
   
     } catch (err) {
       console.error("Errore nel recupero delle lezioni:", err);
     }
   }
-  function renderLessons(lezioniAccettate, lezioniPending, role) {
+  function renderLessons(lezioniAccettate, lezioniPending, role, lezioniRecensite = []) {
     const acceptedContainer = role === "student" 
       ? document.getElementById("student-confirmed-lessons") 
       : document.getElementById("tutor-confirmed-lessons");
   
     const studentPendingContainer = document.getElementById("student-pending-lessons");
     const tutorPendingContainer = role === "tutor" 
-      ? document.getElementById("tutor-requests") 
+      ? document.getElementById("tutor-pending-lessons") 
       : null;
   
     // Svuotiamo i contenitori
@@ -149,7 +153,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
         ${role === "student" && new Date(lez.date) <= new Date() ? `
   <div class="actions">
-    <button class="btn-review" onclick="openReviewModal('${lez._id}', '${lez.tutor._id}')">
+    <button class="btn-review" onclick="openReviewModal('${lez._id}', '${lez.tutor._id}', '${currentUser.id}')">
       <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
           d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z">
@@ -166,6 +170,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
    // Richieste pendenti per studente
 if (role === "student") {
+  // Inserisci lezioni pending
   lezioniPending.forEach(lez => {
     const lessonCard = document.createElement("div");
     lessonCard.classList.add("lesson-card");
@@ -192,7 +197,7 @@ if (role === "student") {
       <p><strong>${lez.tutor.nome} ${lez.tutor.cognome}</strong> – ${lez.subject}</p>
       <p>${icons.time} ${new Date(lez.date).toLocaleDateString('it-IT', { 
         weekday: 'short', 
-        day: 'numeric', 
+        day: 'numeric',   
         month: 'short',
       })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
       ${statusHTML}
@@ -200,6 +205,28 @@ if (role === "student") {
 
     studentPendingContainer.appendChild(lessonCard);
   });
+
+  // INserisci lezioni recensite
+  const reviewsContainer = document.querySelector("#tutor-reviews .tutor-reviews-container");
+  reviewsContainer.innerHTML = "";
+
+  lezioniRecensite.forEach(lez => {
+    const reviewCard = document.createElement("div");
+    reviewCard.classList.add("lesson-card");
+
+    reviewCard.innerHTML = `
+      <p><strong>${lez.tutor.nome} ${lez.tutor.cognome}</strong> – ${lez.subject}</p>
+      <p>${icons.time} ${new Date(lez.date).toLocaleDateString('it-IT', { 
+        weekday: 'short', 
+        day: 'numeric', 
+        month: 'short',
+      })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
+      <p class="reviewed-status">✅ Recensione inviata</p>
+    `;
+
+    reviewsContainer.appendChild(reviewCard);
+  });
+  
 }
 }
 document.addEventListener("click", async (e) => {
@@ -232,6 +259,21 @@ document.querySelectorAll('.student-nav button').forEach(button => {
     // Rimuovi classe active da tutti i pulsanti e sezioni
     document.querySelectorAll('.student-nav button').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.student-content-section').forEach(section => section.classList.remove('active'));
+    
+    // Aggiungi classe active al pulsante cliccato
+    button.classList.add('active');
+    
+    // Mostra la sezione corrispondente
+    const sectionId = button.getAttribute('data-section');
+    document.getElementById(sectionId).classList.add('active');
+  });
+});
+// Gestione menu laterale tutor per la dashboard degli tutor
+document.querySelectorAll('.tutor-nav button').forEach(button => {
+  button.addEventListener('click', () => {
+    // Rimuovi classe active da tutti i pulsanti e sezioni
+    document.querySelectorAll('.tutor-nav button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tutor-content-section').forEach(section => section.classList.remove('active'));
     
     // Aggiungi classe active al pulsante cliccato
     button.classList.add('active');
@@ -285,17 +327,17 @@ document.querySelectorAll('.student-nav button').forEach(button => {
   }
   
 // Apri finestra modale per lasciare una recensione
-function openReviewModal(lessonId, tutorId) {
+function openReviewModal(lessonId, tutorId, studentId) {
   const modal = document.getElementById("review-modal");
   modal.style.display = "block";
 
   // Salva gli ID nei data-* per usarli al submit
   modal.dataset.lessonId = lessonId;
   modal.dataset.tutorId = tutorId;
+  modal.dataset.studentId = studentId;
 
   // Reset del form
   document.getElementById("review-text").value = "";
-  document.getElementById("review-rating").value = "5";
 }
 // funzione per chiuder il modale
 function closeReviewModal() {
@@ -305,6 +347,11 @@ function closeReviewModal() {
 
 // FUNZIONE PER MANDARE RICHIESTA DI RECENSIONE AL SERVER
 async function submitReview() {
+  const modal = document.getElementById('review-modal');
+  const lessonId = modal.dataset.lessonId;
+  const tutorId = modal.dataset.tutorId;
+  const studentId = modal.dataset.studentId;
+
   const reviewText = document.getElementById('review-text').value.trim();
   const ratingPuntualita = document.getElementById('rating-puntualita').value;
   const ratingChiarezza = document.getElementById('rating-chiarezza').value;
@@ -318,8 +365,9 @@ async function submitReview() {
   }
 
   const reviewData = {
-    lessonId: currentLessonId,
-    tutorId: currentTutorId,
+    lessonId: lessonId,
+    tutorId: tutorId,
+    studentId: studentId,
     comment: reviewText,
     ratings: {
       puntualita: parseInt(ratingPuntualita),
@@ -330,11 +378,11 @@ async function submitReview() {
   };
 
   try {
-    const response = await fetch(`http://localhost:3000/reviews/send/${lessonId}`, {
+    const response = await fetch(`http://localhost:3000/reviews/send`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        },
+      },
       body: JSON.stringify(reviewData)
     });
 
@@ -349,3 +397,4 @@ async function submitReview() {
     alert('Si è verificato un errore. Riprova più tardi.');
   }
 }
+

@@ -14,6 +14,7 @@ connectToDatabase()
 app.use("/user", userRoute);
 app.use("/lessons", lessonRoute);
 app.use("/reviews", reviewsRoute);
+
 const PORT = 3000
 app.listen(PORT, ()=>console.log(`Server running at port ${PORT}`))
  
