@@ -1,4 +1,9 @@
 let currentUser
+function renderStars(rating) {
+  const fullStar = "★";
+  const emptyStar = "☆";
+  return fullStar.repeat(rating) + emptyStar.repeat(5 - rating);
+}
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("authToken");
     const loginButton = document.getElementById("openModalBtn");
@@ -92,6 +97,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const acceptedContainer = role === "student" 
       ? document.getElementById("student-confirmed-lessons") 
       : document.getElementById("tutor-confirmed-lessons");
+    const studentReviewContainer = role === "student" 
+      ? document.getElementById("student-review-container") 
+      : null;
   
     const studentPendingContainer = document.getElementById("student-pending-lessons");
     const tutorPendingContainer = role === "tutor" 
@@ -158,8 +166,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           year: "numeric"
         });
     
-        const getStars = (value) => "⭐".repeat(value) + "☆".repeat(5 - value);
-    
         lessonCard.innerHTML = `
           <h3>${subject} (${mode === "inPresenza" ? icons.inPerson + " In presenza" : icons.online + " Online"})</h3>
           <p><strong>${icons.time} Data:</strong> ${formattedDate}</p>
@@ -169,10 +175,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             <h4>Recensione</h4>
             <p><strong>Commento:</strong> ${review.comment}</p>
             <ul class="ratings">
-              <li><strong>Puntualità:</strong> ${getStars(review.ratings.puntualita)}</li>
-              <li><strong>Chiarezza:</strong> ${getStars(review.ratings.chiarezza)}</li>
-              <li><strong>Competenza:</strong> ${getStars(review.ratings.competenza)}</li>
-              <li><strong>Empatia:</strong> ${getStars(review.ratings.empatia)}</li>
+              <li><strong>Puntualità:</strong> <span class="stars">${renderStars(review.ratings.puntualita)}</span></li>
+              <li><strong>Chiarezza:</strong> <span class="stars">${renderStars(review.ratings.chiarezza)}</span></li>
+              <li><strong>Competenza:</strong> <span class="stars">${renderStars(review.ratings.competenza)}</span></li>
+              <li><strong>Empatia:</strong> <span class="stars">${renderStars(review.ratings.empatia)}</span></li>
             </ul>
             <p class="review-date"><em>Inviata il ${new Date(review.createdAt).toLocaleDateString("it-IT")}</em></p>
           </div>
@@ -211,7 +217,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       acceptedContainer.appendChild(lessonCard);
     });
   
-   // Richieste pendenti per studente
+   // Richieste pendenti per studente & recensioni
 if (role === "student") {
   // Inserisci lezioni pending
   lezioniPending.forEach(lez => {
@@ -245,31 +251,39 @@ if (role === "student") {
       })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
       ${statusHTML}
     `;
-
     studentPendingContainer.appendChild(lessonCard);
   });
+// Inserisci recensioni dello studentE
+lezioniRecensite.forEach(lez => {
+  const lessonCard = document.createElement("div");
+  lessonCard.classList.add("lesson-card-student-reviewed");
 
-  // INserisci lezioni recensite
-  const reviewsContainer = document.querySelector("#tutor-reviews .tutor-reviews-container");
-  reviewsContainer.innerHTML = "";
+  const { subject, date, mode, price, tutor, review } = lez;
+  const { puntualita, chiarezza, competenza, empatia } = review.ratings;
 
-  lezioniRecensite.forEach(lez => {
-    const reviewCard = document.createElement("div");
-    reviewCard.classList.add("lesson-card");
-
-    reviewCard.innerHTML = `
-      <p><strong>${lez.tutor.nome} ${lez.tutor.cognome}</strong> – ${lez.subject}</p>
-      <p>${icons.time} ${new Date(lez.date).toLocaleDateString('it-IT', { 
-        weekday: 'short', 
-        day: 'numeric', 
-        month: 'short',
-      })} – ${lez.mode === "online" ? `${icons.online} Online` : `${icons.inPerson} In presenza`} – ${icons.price} ${lez.price}€</p>
-      <p class="reviewed-status">✅ Recensione inviata</p>
-    `;
-
-    reviewsContainer.appendChild(reviewCard);
+  const formattedDate = new Date(date).toLocaleDateString("it-IT", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
   });
-  
+
+  lessonCard.innerHTML = `
+    <h3>${subject}</h3>
+    <p>${icons[mode] || ""} ${mode === "inPresenza" ? "In presenza" : "Online"}</p>
+    <p>${icons.time} ${formattedDate}</p>
+    <p>${icons.price} ${price} €</p>
+    <p><strong>Tutor:</strong> ${tutor.nome} ${tutor.cognome}</p>
+
+    <div class="stars-group">
+      <p>Puntualità: <span class="stars">${renderStars(puntualita)}</span></p>
+      <p>Chiarezza: <span class="stars">${renderStars(chiarezza)}</span></p>
+      <p>Competenza: <span class="stars">${renderStars(competenza)}</span></p>
+      <p>Empatia: <span class="stars">${renderStars(empatia)}</span></p>
+    </div>
+  `;
+
+  studentReviewContainer.appendChild(lessonCard);
+});
 }
 }
 document.addEventListener("click", async (e) => {

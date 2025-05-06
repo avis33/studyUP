@@ -60,6 +60,38 @@ export async function getLessonsByStudentId(req, res) {
         $unwind: "$tutorInfo"
       },
       {
+        $lookup: {
+          from: "reviews",
+          let: { lessonId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: { $eq: ["$lessonId", "$$lessonId"] }
+              }
+            },
+            {
+              $project: {
+                comment: 1,
+                ratings: 1,
+                createdAt: 1
+              }
+            }
+          ],
+          as: "review"
+        }
+      },
+      {
+        $addFields: {
+          review: {
+            $cond: {
+              if: { $eq: ["$status", "reviewed"] },
+              then: { $arrayElemAt: ["$review", 0] },
+              else: null
+            }
+          }
+        }
+      },
+      {
         $project: {
           subject: 1,
           date: 1,
@@ -69,11 +101,11 @@ export async function getLessonsByStudentId(req, res) {
           createdAt: 1,
           message: 1,
           tutor: {
-            _id: "$tutorInfo._id",
             nome: "$tutorInfo.firstName",
             cognome: "$tutorInfo.lastName",
             email: "$tutorInfo.email"
-          }
+          },
+          review: 1
         }
       },
       { $sort: { date: -1 } }
@@ -85,6 +117,7 @@ export async function getLessonsByStudentId(req, res) {
     res.status(500).json({ message: "Errore del server" });
   }
 }
+
 
 export async function getLessonsByTutorId(req, res) {
   const { tutorId } = req.params;

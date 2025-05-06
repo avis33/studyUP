@@ -789,3 +789,41 @@ color: white;
   font-size: 13px;
   color: #555;
 }
+
+/* SEZIONE RECENSIONI DASHBOARD STUDENTE*/
+.lesson-card-student-reviewed {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-left: 4px solid #36a970;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.lesson-card-student-reviewed:hover {
+  transform: scale(1.01);
+}
+
+.lesson-card-student-reviewed h3 {
+  margin-top: 0;
+  font-size: 1.2em;
+  color: #36a970;
+}
+
+.lesson-card-student-reviewed p {
+  margin: 4px 0;
+  font-size: 0.95em;
+}
+
+.stars-group {
+  margin-top: 12px;
+  font-size: 1em;
+}
+
+.stars {
+  color: #f5b301; /* giallo stella */
+  font-size: 1.1em;
+  letter-spacing: 1px;
+}
