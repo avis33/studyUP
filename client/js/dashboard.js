@@ -73,11 +73,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else {
         lezioniAccettate = lessons.filter(lez => lez.status === "accepted");
         lezioniPending = lessons.filter(lez => lez.status === "pending");
+        lezioniRecensite = lessons.filter(lez => lez.status === "reviewed");
       }
       
   
       console.log("Accettate:", lezioniAccettate);
       console.log("Pending o cancellate:", lezioniPending);
+      console.log("Già recensite:", lezioniRecensite);
   
       renderLessons(lezioniAccettate, lezioniPending, user.role, lezioniRecensite);
 
@@ -94,6 +96,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const studentPendingContainer = document.getElementById("student-pending-lessons");
     const tutorPendingContainer = role === "tutor" 
       ? document.getElementById("tutor-pending-lessons") 
+      : null;
+    const reviewPendingContainer = role === "tutor" 
+      ? document.getElementById("tutor-reviews-container") 
       : null;
   
     // Svuotiamo i contenitori
@@ -139,6 +144,44 @@ document.addEventListener("DOMContentLoaded", async () => {
         tutorPendingContainer.appendChild(lessonCard);
       });
     }
+    // Recensioni per tutor
+    if (role === "tutor" && reviewPendingContainer) {
+      lezioniRecensite.forEach(lez => {
+        const { subject, date, mode, price, student, review } = lez;
+    
+        const lessonCard = document.createElement("div");
+        lessonCard.classList.add("lesson-card-reviewed");
+    
+        const formattedDate = new Date(date).toLocaleDateString("it-IT", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        });
+    
+        const getStars = (value) => "⭐".repeat(value) + "☆".repeat(5 - value);
+    
+        lessonCard.innerHTML = `
+          <h3>${subject} (${mode === "inPresenza" ? icons.inPerson + " In presenza" : icons.online + " Online"})</h3>
+          <p><strong>${icons.time} Data:</strong> ${formattedDate}</p>
+          <p><strong>${icons.price} Prezzo:</strong> €${price}</p>
+          <p><strong>Studente:</strong> ${student.nome} ${student.cognome} (${student.email})</p>
+          <div class="review">
+            <h4>Recensione</h4>
+            <p><strong>Commento:</strong> ${review.comment}</p>
+            <ul class="ratings">
+              <li><strong>Puntualità:</strong> ${getStars(review.ratings.puntualita)}</li>
+              <li><strong>Chiarezza:</strong> ${getStars(review.ratings.chiarezza)}</li>
+              <li><strong>Competenza:</strong> ${getStars(review.ratings.competenza)}</li>
+              <li><strong>Empatia:</strong> ${getStars(review.ratings.empatia)}</li>
+            </ul>
+            <p class="review-date"><em>Inviata il ${new Date(review.createdAt).toLocaleDateString("it-IT")}</em></p>
+          </div>
+        `;
+    
+        reviewPendingContainer.appendChild(lessonCard);
+      });
+    }
+    
   
     // Lezioni accettate
     lezioniAccettate.forEach(lez => {

@@ -91,6 +91,7 @@ export async function getLessonsByTutorId(req, res) {
 
   try {
     const db = await connectToDatabase();
+
     const lessons = await db.collection("lessons").aggregate([
       {
         $match: { tutorId: new ObjectId(tutorId) }
@@ -103,8 +104,44 @@ export async function getLessonsByTutorId(req, res) {
           as: "studentInfo"
         }
       },
+      { $unwind: "$studentInfo" },
       {
-        $unwind: "$studentInfo"
+        $lookup: {
+          from: "reviews",
+          let: { lessonId: "$_id", studentId: "$studentId" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$lessonId", "$$lessonId"] },
+                    { $eq: ["$studentId", "$$studentId"] }
+                  ]
+                }
+              }
+            },
+            {
+              $project: {
+                _id: 0,
+                comment: 1,
+                ratings: 1,
+                createdAt: 1
+              }
+            }
+          ],
+          as: "review"
+        }
+      },
+      {
+        $addFields: {
+          review: {
+            $cond: {
+              if: { $eq: ["$status", "reviewed"] },
+              then: { $arrayElemAt: ["$review", 0] },
+              else: null
+            }
+          }
+        }
       },
       {
         $project: {
@@ -115,8 +152,8 @@ export async function getLessonsByTutorId(req, res) {
           price: 1,
           message: 1,
           createdAt: 1,
+          review: 1,
           student: {
-            _id: "$studentInfo._id",
             nome: "$studentInfo.firstName",
             cognome: "$studentInfo.lastName",
             email: "$studentInfo.email"
@@ -132,6 +169,7 @@ export async function getLessonsByTutorId(req, res) {
     res.status(500).json({ message: "Errore del server" });
   }
 }
+
 // Controller per accettare una lezione
 export async function acceptLessonRequest(req, res) {
   const { lessonId } = req.params;

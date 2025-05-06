@@ -75,7 +75,7 @@
   <div class="tutor-sidebar">
     <ul class="tutor-nav">
       <li>
-        <button class="active" data-section="tutor-pending-lessons">
+        <button class="active" data-section="tutor-pending-lessonsDiv">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -83,7 +83,7 @@
         </button>
       </li>
       <li>
-        <button data-section="tutor-confirmed-lessons">
+        <button data-section="tutor-confirmed-lessonsDiv">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -102,13 +102,13 @@
   </div>
   <div class="tutor-content">
     <!-- Richieste inviate -->
-    <div id="tutor-pending-lessons" class="tutor-content-section active">
+    <div id="tutor-pending-lessonsDiv" class="tutor-content-section active">
       <h2>Lezioni in attesa di conferma</h2>
       <div id="tutor-pending-lessons" class="tutor-lessons-container"></div>
     </div>
     
     <!-- Lezioni confermate -->
-    <div id="tutor-confirmed-lessons" class="tutor-content-section">
+    <div id="tutor-confirmed-lessonsDiv" class="tutor-content-section">
       <h2>Lezioni confermate</h2>
       <div id="tutor-confirmed-lessons" class="tutor-lessons-container"></div>
     </div>
@@ -116,7 +116,7 @@
     <!-- Recensioni -->
     <div id="tutor-reviews" class="tutor-content-section">
       <h2>Le tue recensioni</h2>
-      <div class="tutor-reviews-container">
+      <div class="tutor-reviews-container" id="tutor-reviews-container">
       </div>
     </div>
   </div>
