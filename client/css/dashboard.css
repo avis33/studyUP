@@ -181,12 +181,14 @@ color: white;
   backdrop-filter: blur(4px);
 }
 .modal-content {
+  position: absolute;
+  left:30%;
+  margin-top: 2rem;
   background: #ffffff;
   border-radius: 20px;
   padding: 3rem 4rem;
   width: 480px;
   max-width: 90%;
-  position: relative;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.3s ease-in-out;
 }

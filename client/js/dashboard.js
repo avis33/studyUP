@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
     if (!token) {
       document.getElementById("user-area").style.display = "none";
-      window.location.href = "/client/index.html"; // Se non sono loggato mi porta alla pagina principale
+      window.location.href = "index.html"; // Se non sono loggato mi porta alla pagina principale
       return;
     }
     try {
