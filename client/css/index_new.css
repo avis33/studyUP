@@ -7,11 +7,13 @@ body{
 
 /*==============================================NAVBAR================================================================*/
 .navbar{
+    position:fixed;
+    width:100vw;
     display:flex;
     justify-content: space-between; /*per mettere spazio equo tra gli elementi*/
-    align-items: center;
     padding: 1.5rem 2rem;
     background-color: white;
+    height:3rem;
 }
 
 .navbar .info-links{
@@ -145,6 +147,7 @@ body{
   /*BOTTONE ACCEDI-->visibie prima del login*/
 .register-btn {
     padding: 1rem 2rem;
+    font-size:1rem;
     background-color: #36a970;
     border: none;
     color: white;
@@ -293,11 +296,12 @@ body{
 
 /*===================================================HERO==========================================================================*/
 .hero{
+    
     display:flex;
     align-items: center;
     justify-content: space-between;
     background-color: #f4f4f4;
-    padding: 2rem 3rem;
+    padding: 7rem 3rem 2rem 3rem;
 }
 
 /*Parte sinistra della HERO*/
@@ -322,12 +326,11 @@ body{
 
 /*Parte destra della HERO*/
 .hero-right {
-   width:50%;
+   width:40%;
+   float: right;
 }
 
 .hero-right img {
-    position:relative;
-    left:15%;
     width: 30rem;
     
 }
@@ -637,10 +640,6 @@ body{
    
     }
 
-    .nav-links li a{
-        display:none;
-    }
-
     .register-btn {
         position:absolute;
         right:10%;
@@ -650,6 +649,30 @@ body{
         position:absolute;
         left:10%;
         display: block;
+    }
+     
+    .nav-links{
+        display: flex;
+        flex-direction: column;
+        padding:3rem 7rem 3rem 0rem;
+       
+
+        position:fixed;
+        background: #f9f9f9;
+        width:100vw;
+        height:100%;
+        top:5rem;
+        text-align: center;
+        left:100%;
+        transition: all .5s;
+
+    }
+    
+    .nav-links li a{
+        font-size: 2rem;
+    }
+    #check:checked ~ ul{
+        left:0;
     }
     
     .profile-icon #userName{
@@ -672,6 +695,8 @@ body{
     }
 
     .profile-icon #userProfile {
+        position:relative;
+        right:15%;
         width: 2.5rem;
         height: 2.5rem;
     }
