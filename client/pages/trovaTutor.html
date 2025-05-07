@@ -4,16 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trova un Tutor</title>
+    <link rel="stylesheet" href="../css/index_new.css" />
     <link rel="stylesheet" href="../css/materie2.css" />
     <link rel="icon" href="../assets/icons/favicon_logo.svg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  </head>
   </head>
   <body>
     <!-- Include Navbar -->
     <nav class="navbar">
       <div class="info-links">
         <a href="../index.html">
-          <img src="../assets/images/logo_facciate.svg" alt="Logo" />
+          <img src="../assets/images/logo_facciate.svg" class="logo" alt="Logo" />
         </a>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn"><i class="fas fa-bars"></i>
+          </label>
         <ul class="nav-links">
           <li><a href="#">Trova un tutor</a></li>
           <li><a href="ratings.html">Ratings</a></li>
@@ -70,7 +76,7 @@
       </div>
     </nav>
 
-    <form id="filterForm">
+    <form class="filter-form" id="filterForm">
       <!-- Barra di ricerca centrale -->
       <div class="search-bar">
         <input
