@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const loginButton = document.getElementById("openModalBtn");
 
   if (!token) {
-    window.location.href = "index.html";
+    window.location.href = "/client/index.html";
     document.getElementById("user-area").style.display = "none";
     return;
   }
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       }
     } else {
-      window.location.href = "index.html";
+      window.location.href = "/client/index.html";
     }
   } catch (error) {
     console.log(error);

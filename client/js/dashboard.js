@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
     if (!token) {
       document.getElementById("user-area").style.display = "none";
-      window.location.href = "index.html"; // Se non sono loggato mi porta alla pagina principale
+      window.location.href = "/client/index.html"; // Se non sono loggato mi porta alla pagina principale
       return;
     }
     try {
@@ -257,7 +257,6 @@ if (role === "student") {
 lezioniRecensite.forEach(lez => {
   const lessonCard = document.createElement("div");
   lessonCard.classList.add("lesson-card-student-reviewed");
-
   const { subject, date, mode, price, tutor, review } = lez;
   const { puntualita, chiarezza, competenza, empatia } = review.ratings;
 
@@ -273,6 +272,7 @@ lezioniRecensite.forEach(lez => {
     <p>${icons.time} ${formattedDate}</p>
     <p>${icons.price} ${price} €</p>
     <p><strong>Tutor:</strong> ${tutor.nome} ${tutor.cognome}</p>
+    <p><strong>Commento:</strong>${lez.review.comment}</p>
 
     <div class="stars-group">
       <p>Puntualità: <span class="stars">${renderStars(puntualita)}</span></p>
