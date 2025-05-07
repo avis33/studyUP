@@ -6,11 +6,12 @@ export async function sendReview(req, res) {
     lessonId,
     tutorId,
     studentId,
+    subject,
     comment,
     ratings,
   } = req.body;
 
-  if (!lessonId || !tutorId || !studentId || !comment || !ratings) {
+  if (!lessonId || !tutorId || !studentId || !subject || !comment || !ratings) {
     return res.status(400).json({ message: "Dati mancanti o incompleti." });
   }
 
@@ -23,6 +24,7 @@ export async function sendReview(req, res) {
       lessonId: new ObjectId(lessonId),
       tutorId: new ObjectId(tutorId),
       studentId: new ObjectId(studentId),
+      subject,
       comment,
       ratings: {
         puntualita: parseInt(ratings.puntualita),
