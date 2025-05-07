@@ -7,6 +7,6 @@ profileIcon?.addEventListener('click', () => {
 
 document.getElementById("logoutBtn")?.addEventListener("click", () => {
     localStorage.removeItem("authToken");
-    window.location.href = "index.html"
+    window.location.href = "/client/index.html"
   });
   

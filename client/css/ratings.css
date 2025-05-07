@@ -1,2 +1,75 @@
 /* stile base coerente */
 /*RATINGS*/
+/* Rankings container */
+.rankings-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* Sezioni */
+.ranking-section {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.ranking-section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #1e293b;
+}
+
+/* Lista di tutor */
+.tutor-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+/* Singola card */
+.tutor-card {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.tutor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+
+.tutor-card h3 {
+  margin-top: 0;
+  color: #0f172a;
+}
+
+.tutor-card p {
+  margin: 0.5rem 0;
+  color: #475569;
+}
+
+/* Filtri */
+.filters {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.filters label {
+  font-weight: 500;
+  color: #334155;
+}
+
+.filters select {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #1e293b;
+}

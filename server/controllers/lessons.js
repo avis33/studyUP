@@ -101,9 +101,10 @@ export async function getLessonsByStudentId(req, res) {
           createdAt: 1,
           message: 1,
           tutor: {
+            id: "$tutorInfo._id",
             nome: "$tutorInfo.firstName",
             cognome: "$tutorInfo.lastName",
-            email: "$tutorInfo.email"
+            email: "$tutorInfo.email",
           },
           review: 1
         }
@@ -187,6 +188,7 @@ export async function getLessonsByTutorId(req, res) {
           createdAt: 1,
           review: 1,
           student: {
+            id: "$studentInfo._id",
             nome: "$studentInfo.firstName",
             cognome: "$studentInfo.lastName",
             email: "$studentInfo.email"

@@ -825,7 +825,29 @@ color: white;
 }
 
 .stars {
-  color: #f5b301; /* giallo stella */
+  color: #f5b301;
   font-size: 1.1em;
   letter-spacing: 1px;
+}
+
+/* MODALE RECENSIONE - textarea e select */
+#review-modal-content{
+padding: 0.5rem 3.5rem;
+}
+.modal-content textarea,
+.modal-content select {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+  background-color: #fff;
+  color: #333;
+}
+
+.modal-content textarea:focus,
+.modal-content select:focus {
+  outline: none;
+  border-color: #36a970;
 }
