@@ -32,6 +32,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           }else{
             document.getElementById("dashboard").innerText = "I miei studenti"
           }
+          const res = await fetch("http://localhost:3000/reviews/tutorOfWeek", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const data2 = await res.json();
+          console.log(data2);
       }
     } catch (error) {
       document.getElementById("user-area").classList.add("hidden");

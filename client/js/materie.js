@@ -195,6 +195,23 @@ regioneSelect.addEventListener("change", () => {
     });
   }
 });
+// Funzione per generare le stelle
+function generateStars(rating) {
+  const fullStars = Math.floor(rating);
+  const halfStar = rating % 1 >= 0.25 && rating % 1 < 0.75;
+  const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+  let html = '';
+  for (let i = 0; i < fullStars; i++) {
+    html += `<span class="star full">&#9733;</span>`;
+  }
+  if (halfStar) {
+    html += `<span class="star half">&#9733;</span>`;
+  }
+  for (let i = 0; i < emptyStars; i++) {
+    html += `<span class="star empty">&#9733;</span>`;
+  }
+  return html;
+}
 
 // Funzione per renderizzare i tutor sulla pagina:
 const tutorListDiv = document.getElementById("tutorListContainer");
@@ -236,44 +253,45 @@ function renderTutors(tutors) {
     }
 
     tutorCard.innerHTML = `
-          <div class="tutor-card-header">
-              ${
-                hasPreferredSubjects
-                  ? '<div class="recommended-badge">Consigliato</div>'
-                  : ""
-              }
-              <img src='${
-                tutor.profilePicture
-                  ? tutor.profilePicture
-                  : "../assets/icons/icone_img.svg"
-              }' 
-                   alt="Foto profilo di ${tutor.firstName}">
-          </div>
-          <div class="tutor-info">
-              <div class="tutor-header">
-                  <h2>${tutor.firstName} ${tutor.lastName}</h2>
-                  <p class="rate">€${tutor.rate}/h</p>
-              </div>
-              <p class="subjects">
-                  ${tutor.taughtSubjects
-                    .map((subj) =>
-                      preferredSubjects && preferredSubjects.includes(subj)
-                        ? `<strong class="preferred-subject">${subj}</strong>`
-                        : subj
-                    )
-                    .join(", ")}
-              </p>
-              <div class="details">
-                  <span><strong>Livello:</strong> ${tutor.level.toUpperCase()}</span>
-                  <span><strong>Modalità:</strong> ${tutor.mode}</span>
-              </div>
-              <p class="bio">${tutor.bio}</p>
-
-              <button class="contact-btn">Contatta</button>
-          </div>
-          
-      `;
-
+  <div class="tutor-card-header">
+      ${
+        hasPreferredSubjects
+          ? '<div class="recommended-badge">Consigliato</div>'
+          : ""
+      }
+      <img src='${
+        tutor.profilePicture
+          ? tutor.profilePicture
+          : "../assets/icons/icone_img.svg"
+      }' 
+           alt="Foto profilo di ${tutor.firstName}">
+  </div>
+  <div class="tutor-info">
+      <div class="tutor-header">
+          <h2>${tutor.firstName} ${tutor.lastName}</h2>
+          <p class="rate">€${tutor.rate}/h</p>
+      </div>
+      <div class="tutor-rating">
+          <span class="stars">${generateStars(tutor.rating || 0)} ${tutor.rating > 0 ? Math.round(tutor.rating * 10) / 10 : ""}</span>
+          <span class="review-count">(${tutor.reviewCount || 0})</span>
+      </div>
+      <p class="subjects">
+          ${tutor.taughtSubjects
+            .map((subj) =>
+              preferredSubjects && preferredSubjects.includes(subj)
+                ? `<strong class="preferred-subject">${subj}</strong>`
+                : subj
+            )
+            .join(", ")}
+      </p>
+      <div class="details">
+          <span><strong>Livello:</strong> ${tutor.level.toUpperCase()}</span>
+          <span><strong>Modalità:</strong> ${tutor.mode}</span>
+      </div>
+      <p class="bio">${tutor.bio}</p>
+      <button class="contact-btn">Contatta</button>
+  </div>
+`;
 tutorListDiv.appendChild(tutorCard);
 // MODAL WINDOWN DEL CONTACT
     const contactButton = tutorCard.querySelector(".contact-btn");

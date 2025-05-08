@@ -2,14 +2,7 @@ import { connectToDatabase } from "../config/db.js";
 import { ObjectId } from "mongodb";
 
 export async function sendReview(req, res) {
-  const {
-    lessonId,
-    tutorId,
-    studentId,
-    subject,
-    comment,
-    ratings,
-  } = req.body;
+  const { lessonId, tutorId, studentId, subject, comment, ratings } = req.body;
 
   if (!lessonId || !tutorId || !studentId || !subject || !comment || !ratings) {
     return res.status(400).json({ message: "Dati mancanti o incompleti." });
@@ -19,12 +12,30 @@ export async function sendReview(req, res) {
     const db = await connectToDatabase();
     const reviewsCollection = db.collection("reviews");
     const lessonsCollection = db.collection("lessons");
+    const usersCollection = db.collection("users");
+    // Recupera la lezione per ottenere la data
+    const lesson = await lessonsCollection.findOne({
+      _id: new ObjectId(lessonId),
+    });
+
+    if (!lesson) {
+      return res.status(404).json({ message: "Lezione non trovata." });
+    }
+
+    // Calcola la media della nuova recensione
+    const newRatingValue =
+      (parseInt(ratings.puntualita) +
+        parseInt(ratings.chiarezza) +
+        parseInt(ratings.competenza) +
+        parseInt(ratings.empatia)) /
+      4;
 
     const newReview = {
       lessonId: new ObjectId(lessonId),
       tutorId: new ObjectId(tutorId),
       studentId: new ObjectId(studentId),
       subject,
+      lessonDate: lesson.date,
       comment,
       ratings: {
         puntualita: parseInt(ratings.puntualita),
@@ -32,23 +43,125 @@ export async function sendReview(req, res) {
         competenza: parseInt(ratings.competenza),
         empatia: parseInt(ratings.empatia),
       },
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
+    // Inserisce la recensione
     const result = await reviewsCollection.insertOne(newReview);
 
-    // Aggiorna lo status della lezione a "reviewed"
+    // Aggiorna lo status della lezione
     await lessonsCollection.updateOne(
       { _id: new ObjectId(lessonId) },
       { $set: { status: "reviewed" } }
     );
 
+    // Ottieni rating attuale e reviewCount dal tutor
+    const tutor = await usersCollection.findOne({ _id: new ObjectId(tutorId) });
+
+    const prevRating = tutor.rating || 0;
+    const prevCount = tutor.reviewCount || 0;
+
+    const newCount = prevCount + 1;
+
+    const updatedRating =
+      prevCount === 0
+        ? newRatingValue
+        : (prevRating * prevCount + newRatingValue) / newCount;
+
+    // Aggiorna il tutor con nuovo rating e reviewCount
+    await usersCollection.updateOne(
+      { _id: new ObjectId(tutorId) },
+      {
+        $set: { rating: updatedRating },
+        $inc: { reviewCount: 1 },
+      }
+    );
+
     res.status(200).json({
-      message: "Recensione inviata e lezione aggiornata con successo",
+      message:
+        "Recensione inviata, lezione aggiornata, rating tutor aggiornato",
       reviewId: result.insertedId,
     });
   } catch (error) {
-    console.error("Errore durante l'invio della recensione o l'aggiornamento della lezione:", error);
+    console.error(
+      "Errore durante l'invio della recensione o l'aggiornamento:",
+      error
+    );
     res.status(500).json({ message: "Errore del server" });
   }
 }
+
+export const getTutorOfTheWeek = async (req, res) => {
+  try {
+    const db = await connectToDatabase();
+    const reviewsCollection = db.collection("reviews");
+    const usersCollection = db.collection("users");
+
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    // Prendi tutte le recensioni degli ultimi 7 giorni (basato su lessonDate)
+    const recentReviews = await reviewsCollection
+      .find({ lessonDate: { $gte: sevenDaysAgo } })
+      .toArray();
+
+    // Raggruppa recensioni per tutor
+    const tutorStats = {};
+
+    for (const review of recentReviews) {
+      const tutorId = review.tutorId.toString();
+      const ratings = review.ratings;
+
+      const avgRating =
+        (ratings.puntualita +
+          ratings.chiarezza +
+          ratings.competenza +
+          ratings.empatia) /
+        4;
+
+      if (!tutorStats[tutorId]) {
+        tutorStats[tutorId] = {
+          totalRating: 0,
+          count: 0,
+          reviews: [],
+        };
+      }
+
+      tutorStats[tutorId].totalRating += avgRating;
+      tutorStats[tutorId].count += 1;
+      tutorStats[tutorId].reviews.push(review);
+    }
+
+    // Calcola punteggio ponderato (media * log(count + 1))
+    const tutorsRanked = await Promise.all(
+      Object.entries(tutorStats).map(async ([tutorId, data]) => {
+        const avg = data.totalRating / data.count;
+        const weightedScore = avg * Math.log(data.count + 1);
+
+        const tutor = await usersCollection.findOne({ _id: new ObjectId(tutorId) });
+
+        return {
+          tutorId,
+          name: `${tutor.firstName} ${tutor.lastName}`,
+          city: tutor.city,
+          subjects: tutor.taughtSubjects,
+          level: tutor.level,
+          rating: parseFloat(avg.toFixed(2)),
+          lessonsCount: data.count,
+          score: parseFloat(weightedScore.toFixed(2)),
+        };
+      })
+    );
+
+    // Ordina i tutor per punteggio discendente
+    tutorsRanked.sort((a, b) => b.score - a.score);
+
+    res.status(200).json({
+      message: "Classifica tutor della settimana",
+      tutors: tutorsRanked,
+    });
+  } catch (error) {
+    console.error("Errore durante la ricezione dei tutor della settimana", error);
+    res.status(500).json({ message: "Errore del server" });
+  }
+};
