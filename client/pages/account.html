@@ -1,117 +1,127 @@
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account</title>
     <link rel="stylesheet" href="../css/account.css">
-</head>
-<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  </head>
+  <body>
    <!-- Include Navbar -->
-   <nav class="navbar">
-    <div class="info-links">
+    <nav class="navbar">
+     <div class="info-links">
       <a href="../index.html">
-        <img src="../assets/images/logo_facciate.svg" alt="Logo" />
-      </a>
+        <img src="../assets/images/logo_facciate.svg" class="logo" alt="Logo" /></a>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn"><i class="fas fa-bars"></i>
+          </label>
+      
       <ul class="nav-links">
         <li><a href="trovaTutor.html">Trova un tutor</a></li>
         <li><a href="ratings.html">Ratings</a></li>
         <li><a href="../index.html#About">About</a></li>
         <li><a href="../index.html#Domande Frequenti">Domande Frequenti</a></li>
       </ul>
-    </div>
-    <!-- Profilo utente-->
-    <div id="user-area" class="user-area hidden">
-      <div class="profile-icon">
-        <img
-          src="../assets/icons/icone_img.svg"
-          alt="Profilo"
-          id="userProfile"
+      </div>
+      <!-- Profilo utente-->
+      <div id="user-area" class="user-area hidden">
+        <div class="profile-icon">
+          <img
+            src="../assets/icons/icone_img.svg"
+            alt="Profilo"
+            id="userProfile"
+          />
+          <div id="userName"></div>
+          <img
+          src="../assets/icons/arrow.svg"
+          alt="arrow"
+          id="arrow"
         />
-        <div id="userName"></div>
-        <img
-        src="../assets/icons/arrow.svg"
-        alt="arrow"
-        id="arrow"
-      />
+        </div>
+        <div class="profile-menu">
+          <ul>
+            <li><a href="#">Il mio account</a></li>
+            <li><a href="./dashboard.html" id="dashboard">I miei tutor</a></li>
+            <li><a href="#" id="logoutBtn">Logout</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="profile-menu">
-        <ul>
-          <li><a href="#">Il mio account</a></li>
-          <li><a href="./dashboard.html" id="dashboard">I miei tutor</a></li>
-          <li><a href="#" id="logoutBtn">Logout</a></li>
-        </ul>
+
+      <button class="register-btn" id="openModalBtn">Accedi</button>
+      <!--Finestra modale per il login-->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Accedi</h2>
+          <form method="post" id="loginForm">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" required />
+            </div>
+
+            <button type="submit">Login</button>
+            <div class="error-message" id="genericError"></div>
+          </form>
+
+          <p class="signup-message">
+            Non sei iscritto? <a href="register.html">Registrati!</a>
+          </p>
+        </div>
       </div>
-    </div>
-
-    <button class="register-btn" id="openModalBtn">Accedi</button>
-    <!--Finestra modale per il login-->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Accedi</h2>
-        <form method="post" id="loginForm">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" required />
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" required />
-          </div>
-
-          <button type="submit">Login</button>
-          <div class="error-message" id="genericError"></div>
-        </form>
-
-        <p class="signup-message">
-          Non sei iscritto? <a href="register.html">Registrati!</a>
-        </p>
-      </div>
-    </div>
-  </nav>
+    </nav>
     <!-- profilo.html -->
-<section class="profile-container">
-    <h2>Modifica il tuo profilo</h2>
-    <form id="profileForm" enctype="multipart/form-data" method="post">
-      <input type="hidden" name="userId" id="userId">
-      <input type="hidden" name="emailUpdate" id="emailUpdate">
-      <div class="form-group">
-        <label for="profileImage">Foto profilo</label>
-        <input type="file" id="profileImage" name="profileImage" accept="image/*" />
-      </div>
-  
-      <div class="form-group">
-        <label for="firstName">Nome</label>
-        <input type="text" id="firstName" name="firstName" required>
-        <div class="error-message" id="firstNameError"></div>
-      </div>
-  
-      <div class="form-group">
-        <label for="lastName">Cognome</label>
-        <input type="text" id="lastName" name="lastName" required>
-        <div class="error-message" id="lastNameError"></div>
-      </div>
-  
-      <div class="form-group">
-        <label for="birthDate">Data di nascita</label>
-        <input type="date" id="birthDate" name="birthDate" required>
-        <div class="error-message" id="birthDateError"></div>
-      </div>
-  
-      <div class="form-group">
-        <label for="ruolo">Ruolo</label>
-        <input type="text" id="ruolo" name="ruolo" disabled />
-      </div>
-  
-      <!-- SEZIONE SPECIFICA PER RUOLO (da mostrare via JS) -->
-      <div id="extraFields"></div>
-  
-      <button type="submit">Salva modifiche</button>
-    </form>
-  </section>
-  
-</body>
-<script src="../js/modal_window.js"></script>
-<script src="../js/navbar.js"></script>
-<script src="../js/account.js"></script>
+     <main>
+    <section class="profile-container">
+        <h2>Modifica il tuo profilo</h2>
+        <form id="profileForm" enctype="multipart/form-data" method="post">
+          <input type="hidden" name="userId" id="userId">
+          <input type="hidden" name="emailUpdate" id="emailUpdate">
+          <div class="form-group">
+            <label for="profileImage">Foto profilo</label>
+            <input type="file" id="profileImage" name="profileImage" accept="image/*" />
+          </div>
+      
+          <div class="form-group">
+            <label for="firstName">Nome</label>
+            <input type="text" id="firstName" name="firstName" required>
+            <div class="error-message" id="firstNameError"></div>
+          </div>
+      
+          <div class="form-group">
+            <label for="lastName">Cognome</label>
+            <input type="text" id="lastName" name="lastName" required>
+            <div class="error-message" id="lastNameError"></div>
+          </div>
+      
+          <div class="form-group">
+            <label for="birthDate">Data di nascita</label>
+            <input type="date" id="birthDate" name="birthDate" required>
+            <div class="error-message" id="birthDateError"></div>
+          </div>
+      
+          <div class="form-group">
+            <label for="ruolo">Ruolo</label>
+            <input type="text" id="ruolo" name="ruolo" disabled />
+          </div>
+      
+          <!-- SEZIONE SPECIFICA PER RUOLO (da mostrare via JS) -->
+          <div id="extraFields"></div>
+      
+          <button type="submit">Salva modifiche</button>
+        </form>
+      </section></main>
+
+
+      <footer class="footer">
+        <p>&copy; 2025 StudyUp. Tutti i diritti riservati.</p>
+      </footer>
+    
+  </body>
+  <script src="../js/modal_window.js"></script>
+  <script src="../js/navbar.js"></script>
+  <script src="../js/account.js"></script>
 </html>

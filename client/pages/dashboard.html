@@ -5,14 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard</title>
   <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
      <!-- Include Navbar -->
    <nav class="navbar">
     <div class="info-links">
       <a href="../index.html">
-        <img src="../assets/images/logo_facciate.svg" alt="Logo" />
+        <img src="../assets/images/logo_facciate.svg" class="logo" alt="Logo" />
       </a>
+      <input type="checkbox" id="check">
+        <label for="check" class="checkbtn"><i class="fas fa-bars"></i>
+          </label>
       <ul class="nav-links">
         <li><a href="./trovaTutor.html">Trova un tutor</a></li>
         <li><a href="./ratings.html">Ratings</a></li>
@@ -71,6 +75,7 @@
     </div>
   </nav>
 <!-- DASHBOARD TUTOR -->
+ <main>
 <section id="tutor-dashboard" class="dashboard hidden">
   <div class="tutor-sidebar">
     <ul class="tutor-nav">
@@ -121,9 +126,11 @@
     </div>
   </div>
 </section>
+</main>
 
 
 <!-- DASHBOARD STUDENTE -->
+ <main>
 <section id="student-dashboard" class="dashboard hidden">
   <div class="student-sidebar">
     <ul class="student-nav">
@@ -245,6 +252,10 @@
   
   
 </section>
+</main>
+<footer class="footer">
+  <p>&copy; 2025 StudyUp. Tutti i diritti riservati.</p>
+</footer>
 
 
   <script src="../js/modal_window.js"></script>

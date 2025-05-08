@@ -1,39 +1,40 @@
 /* stile base coerente */
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
-body {
+
+/*========================================STILE GENERALE==============================================================*/
+body{
   font-family: 'Rubik', sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin:0;
 }
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem 3rem;
+
+/*==============================================NAVBAR================================================================*/
+.navbar{
+  position:fixed;
+  width:100vw;
+  display:flex;
+  justify-content: space-between; /*per mettere spazio equo tra gli elementi*/
+  padding: 1.5rem 2rem;
   background-color: white;
-  height: 2rem;
+  height:3rem;
 }
+
 .navbar .info-links{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 4rem; /* gap between logo and links*/
+  gap: 4rem;
 }
-
-.navbar img {
-  width: 10rem;
-  display: block;
+/*LOGO*/
+.navbar .logo{
+  width:10rem;
+  display:block;
 }
-
+/*SEZIONI*/
 .nav-links {
   list-style: none;
   display: flex;
   gap: 3rem;
   align-items: center;
-  margin: 0;
-  padding: 0;
 }
 
 .nav-links li a {
@@ -45,7 +46,6 @@ body {
   padding-bottom: 5px; /* Spazio per la barra */
 }
 
-/* Effetto hover con barra verde */
 .nav-links li a:hover::after {
   content: "";
   position: absolute;
@@ -66,94 +66,100 @@ body {
       width: 100%;
   }
 }
-
-
-.word-bold {
- font-weight: bolder; 
- color: #36a970;
+/*CHECKBUTTON (all'inizio invisibile)*/
+#check{
+  display: none;
 }
 
+.checkbtn{
+  font-size: 30px;
+  color:#36a970;
+  cursor:pointer;
+  display:none;
+}
+/* DOPO AVER FATTO IL LOGIN--->ciò che compare in alto a destra*/
+.hidden {
+  display: none;
+}
+.user-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.profile-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-right: 4rem;
+}
+.profile-icon #userProfile {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.profile-icon #arrow{
+  width: 2rem;
+}
+.profile-icon img:hover {
+ transform: scale(1.05);
+}
+
+
+.profile-icon #userName{
+  font-weight: 500;
+}
+/* Menu a tendina */
+.profile-menu {
+  position: absolute;
+  top: 4rem;
+  right: 0;
+  background-color: white;
+  border: 2px solid #36a970;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 100;
+  min-width: 180px;
+  overflow: hidden;
+}
+
+/* Lista del menu */
+.profile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-menu li a {
+  display: block;
+  padding: 1rem 2rem  ;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover con verde */
+.profile-menu li a:hover {
+  background-color: #36a970;
+  color: white;
+}
+/*BOTTONE ACCEDI-->visibie prima del login*/
 .register-btn {
   padding: 1rem 2rem;
+  font-size:1rem;
+  margin-right: 4rem;
   background-color: #36a970;
   border: none;
   color: white;
   cursor: pointer;
   border-radius: 1.4rem;
 }
-/*User profile*/
-/* Nascondi temporaneamente per il JS */
-.hidden {
-display: none;
-}
 
-/* Area profilo */
-.user-area {
-position: relative;
-display: flex;
-align-items: center;
-cursor: pointer;
-}
 
-/* Icona del profilo */
-.profile-icon {
-display: flex;
-align-items: center;
-gap: 1rem;
-}
-.profile-icon img {
-width: 3.5rem;
-height: 3.5rem;
-border-radius: 50%;
-transition: transform 0.2s ease;
-}
-
-.profile-icon img:hover {
-transform: scale(1.05);
-}
-.profile-icon #arrow{
-  width: 2rem;
-}
-.profile-icon #userName{
-font-weight: 500;
-}
-/* Menu a tendina */
-.profile-menu {
-position: absolute;
-top: 4rem;
-right: 0;
-background-color: white;
-border: 2px solid #36a970;
-border-radius: 1rem;
-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-display: none;
-z-index: 100;
-min-width: 180px;
-overflow: hidden;
-}
-
-/* Lista del menu */
-.profile-menu ul {
-list-style: none;
-margin: 0;
-padding: 0;
-}
-
-.profile-menu li a {
-display: block;
-padding: 1rem 2rem  ;
-text-decoration: none;
-color: #333;
-font-size: 16px;
-transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-/* Hover con verde */
-.profile-menu li a:hover {
-background-color: #36a970;
-color: white;
-}
-/**/
 /* MODALE */
 
 .modal {
@@ -169,6 +175,9 @@ color: white;
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
 }
+
+/* CONTENUTO DELLA MODALE */
+
 .modal-content {
   background: #ffffff;
   border-radius: 20px;
@@ -213,6 +222,9 @@ color: white;
 .close:hover {
   color: #000;
 }
+
+/* FORM */
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -241,7 +253,7 @@ color: white;
 
 /* BOTTONE */
 
-.modal-content button {
+  .modal-content button {
   width: 100%;
   padding: 12px 0;
   background-color: #36a970;
@@ -253,7 +265,7 @@ color: white;
   transition: background-color 0.2s ease;
 }
 
-.modal-content button:hover {
+  .modal-content button:hover {
   background-color: #2d885c;
 }
 
@@ -284,10 +296,17 @@ color: white;
   .signup-message a:hover {
     text-decoration: underline;
   }
-
-
-
-/*SEZIONE MODIFICA PROFILO*/
+/* Effetto hover */
+.register-btn:hover {
+  background-color: #2c8b5c; /* Un verde più scuro */
+  transform: scale(1.05); /* Effetto ingrandimento */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Aggiunge profondità */
+}
+/*==============================================SEZIONE MODIFICA PROFILO=============================================================*/
+main{
+  padding-top: 8rem;
+  margin-bottom: 2rem;
+}
 .profile-container {
     font-family:'Rubik', sans-serif;
     max-width: 700px;
@@ -438,4 +457,168 @@ textarea.error {
   text-align: left;
   font-size: 0.9rem;
   margin-top: 0.7rem;
+}
+/*===================================================FOOTER======================================================================*/
+.footer {
+  text-align: center;
+  padding: 1rem 2rem;
+  background-color: #333;
+  color: white;
+  font-size: 1rem;
+}
+
+
+/*=================================================================================================================================*/
+/*================================================     RESPONSIVE    ==============================================================*/
+/*=================================================================================================================================*/
+
+@media (max-width:972px){
+  .navbar .info-links{
+      gap: 1rem; /* gap between logo and links*/
+  }
+  
+  .nav-links {
+      gap: 1rem;
+  }
+  .nav-links li a {
+    font-size: 0.8rem;
+}
+
+  .hero {
+      display: flex;
+      flex-direction:column;
+      
+  }
+  /*Parte sinistra della HERO*/
+  .hero-left {
+     width:100%;
+  }
+ 
+  /*Parte destra della HERO*/
+  .hero-right {
+     width:100%;
+  }
+  
+  .hero-right img {
+      position:relative;
+      right:0%;
+      
+  }
+  
+  .about-lr{
+      display: flex;
+      flex-direction: column;
+  }
+  .about-left{
+      width: 100%;
+  }
+  .about-left img{
+      position:relative;
+      left:17%;
+      width: 30rem;
+  }
+  
+  .about-right{
+      width:100%;
+  }
+  
+  .about-right p{
+      font-size: 1.5rem;
+  }
+  
+  
+  .about-right span{
+      color:#36a970;
+      font-weight: bold;
+  }
+}
+
+@media (max-width:760px){
+  .navbar .logo {
+      position:absolute;
+      left:40%;
+       width: 10rem;
+       display: block;
+      margin-top: -1.5rem;
+ 
+  }
+
+  .register-btn {
+      position:absolute;
+      right:10%;
+  }
+
+  .checkbtn{
+      position:absolute;
+      left:10%;
+      display: block;
+  }
+   
+  .nav-links{
+      display: flex;
+      flex-direction: column;
+      padding:3rem 7rem 3rem 0rem;
+     
+
+      position:fixed;
+      background: #f9f9f9;
+      width:100vw;
+      height:100%;
+      top:5rem;
+      text-align: center;
+      left:100%;
+      transition: all .5s;
+
+  }
+  
+  .nav-links li a{
+      font-size: 2rem;
+  }
+  #check:checked ~ ul{
+      left:0;
+  }
+  
+  .profile-icon #userName{
+      display: none;
+  }
+
+  .hero-right{
+      display: none;
+  }
+  .about-left{
+      display:none;
+  }
+
+}
+
+@media (max-width:550px){
+  .navbar .logo {
+      position:absolute;
+      left:35%;
+      width:6rem;
+      margin-top:-1rem;
+  }
+  .register-btn {
+      padding: 1rem 1rem;
+      font-size:1rem;
+      margin-right: 2.5rem;
+      background-color: #36a970;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 1.4rem;
+  }
+
+  .profile-icon #userProfile {
+      position:relative;
+      right:20%;
+      width: 2.5rem;
+      height: 2.5rem;
+  }
+
+  .profile-icon #arrow{
+      width: 1rem;
+  }
+
+
 }
