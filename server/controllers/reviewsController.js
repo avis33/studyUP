@@ -173,6 +173,7 @@ export const getTutorOfTheWeek = async (req, res) => {
 export const getTopTutorsBySubject = async (req, res) => {
   try {
     const { subject } = req.params;
+    const { level } = req.query;
 
     if (!subject) {
       return res.status(400).json({ message: "Materia richiesta" });
@@ -190,8 +191,8 @@ export const getTopTutorsBySubject = async (req, res) => {
       .find({ lessonDate: { $gte: sevenDaysAgo }, subject })
       .toArray();
 
-    // Raggruppa recensioni per tutor
     const tutorStats = {};
+    const levelIsFiltered = level && level !== "Qualunque"; 
 
     for (const review of recentReviews) {
       const tutorId = review.tutorId.toString();
@@ -217,13 +218,14 @@ export const getTopTutorsBySubject = async (req, res) => {
     const tutorsRanked = [];
 
     for (const [tutorId, data] of Object.entries(tutorStats)) {
-      const avg = data.totalRating / data.count;
-      const weightedScore = avg * Math.log(data.count + 1);
-
       const tutor = await usersCollection.findOne({ _id: new ObjectId(tutorId) });
 
+      // Filtro per livello se necessario
       if (!tutor) continue;
-
+      if(!levelIsFiltered){
+      const avg = data.totalRating / data.count;
+      const weightedScore = avg * Math.log(data.count + 1);
+      
       tutorsRanked.push({
         tutorId,
         name: `${tutor.firstName} ${tutor.lastName}`,
@@ -234,14 +236,29 @@ export const getTopTutorsBySubject = async (req, res) => {
         lessonsCount: data.count,
         score: parseFloat(weightedScore.toFixed(2)),
       });
+    }else{
+      if(level.toLowerCase() == tutor.level){
+        const avg = data.totalRating / data.count;
+        const weightedScore = avg * Math.log(data.count + 1);
+        tutorsRanked.push({
+          tutorId,
+          name: `${tutor.firstName} ${tutor.lastName}`,
+          profilePicture: tutor.profilePicture,
+          city: tutor.city,
+          level: tutor.level,
+          rating: parseFloat(avg.toFixed(2)),
+          lessonsCount: data.count,
+          score: parseFloat(weightedScore.toFixed(2)),
+        });
+      }
+      
     }
-
-    // Ordina per punteggio e prendi i primi 25
+  }
     tutorsRanked.sort((a, b) => b.score - a.score);
     const top25 = tutorsRanked.slice(0, 25);
 
     res.status(200).json({
-      message: `Top 25 tutor per la materia "${subject}"`,
+      message: `Top 25 tutor per la materia "${subject}"${levelIsFiltered ? ` (livello: ${level})` : ""}`,
       tutors: top25,
     });
   } catch (error) {

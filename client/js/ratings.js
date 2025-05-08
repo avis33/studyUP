@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("dashboard").innerText = "I miei studenti";
       }
       getTutorOfTheWeek();
-      getTutorsBySubject()
+      getFilteredTutors()
     }
   } catch (error) {
     document.getElementById("user-area").classList.add("hidden");
@@ -156,77 +156,78 @@ async function getTutorOfTheWeek() {
   }
 }
 
-
-// Funzione principale che viene chiamata quando cambia la materia selezionata
-async function getTutorsBySubject() {
+// Funzione principale che viene chiamata quando cambia la selezione
+async function getFilteredTutors() {
   const subjectSelect = document.getElementById('subject-filter');
+  const levelSelect = document.getElementById('level-filter');
   const selectedSubject = subjectSelect.value;
-  const tutorListContainer = document.querySelector('#subject-filter').closest('.ranking-section').querySelector('.tutor-list');
+  const selectedLevel = levelSelect.value;
+  const tutorListContainer = document.getElementById('top-subject-tutors');
   
   // Mostra uno stato di caricamento
   tutorListContainer.innerHTML = '<div class="loading">Caricamento tutor...</div>';
+  
   try {
-    const res = await fetch(`http://localhost:3000/reviews/tutorBySubject/${selectedSubject}`, {
+    // Chiamata al backend con entrambi i filtri
+    const res = await fetch(`http://localhost:3000/reviews/tutorBySubject/${selectedSubject}?level=${selectedLevel}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
+    
     const data = await res.json();
     console.log(data);
     
     const tutors = data.tutors;
+    
     // Se ci sono tutor, li mostra
     if (tutors.length > 0) {
-      const tutorListContainer = document.getElementById("top-subject-tutors")
       tutorListContainer.innerHTML = tutors
-      .slice(0, 10) // Mostra solo i primi 10
-      .map((tutor) => {
-        const avatar = getAvatarColor(tutor.name);
-        const stars = generateStars(tutor.rating);
-        const mainSubject = selectedSubject;
-        return `
-              <div class="tutor-card">
+        .slice(0, 10) // Mostra solo i primi 10
+        .map((tutor) => {
+          const avatar = getAvatarColor(tutor.name);
+          const stars = generateStars(tutor.rating);
+          const mainSubject = selectedSubject;
+          
+          return `
+            <div class="tutor-card">
               ${
                 tutor.profilePicture
-                  ? "<img src=" +
-                    tutor.profilePicture +
-                    ' class="tutor-avatar">'
-                  : '<div class="tutor-avatar" style="background-color:' +
-                    avatar.color +
-                    '">' +
-                    avatar.initials +
-                    "</div>"
+                  ? '<img src="' + tutor.profilePicture + '" class="tutor-avatar" alt="' + tutor.name + '">'
+                  : '<div class="tutor-avatar" style="background-color:' + avatar.color + '">' + avatar.initials + '</div>'
               }
-                <div class="tutor-info">
-                  <h3>${tutor.name}</h3>
-                  <div class="tutor-meta">
-                    <span class="subject-badge">${mainSubject}</span>
-                    <span class="level-badge">${tutor.level}</span>
-                  </div>
-                  <div class="tutor-stats">
-                    <div class="rating">
-                      <div class="stars-cont">${stars}</div>
-                      <span>${tutor.rating.toFixed(1)}</span>
-                    </div>
-                    <div class="lessons">${tutor.lessonsCount} lezioni</div>
-                  </div>
+              <div class="tutor-info">
+                <h3>${tutor.name}</h3>
+                <div class="tutor-meta">
+                  <span class="subject-badge">${mainSubject}</span>
+                  <span class="level-badge">${tutor.level}</span>
                 </div>
-                <div class="tutor-score">
-                  <div class="score-value">${tutor.score}</div>
-                  <div class="score-label">Punteggio</div>
+                <div class="tutor-stats">
+                  <div class="rating">
+                    <div class="stars-cont">${stars}</div>
+                    <span>${tutor.rating.toFixed(1)}</span>
+                  </div>
+                  <div class="lessons">${tutor.lessonsCount} lezioni</div>
                 </div>
               </div>
-            `;
-      })
-      .join("");
+              <div class="tutor-score">
+                <div class="score-value">${tutor.score}</div>
+                <div class="score-label">Punteggio</div>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
     } else {
-      tutorListContainer.innerHTML = '<div class="no-results">Nessun tutor trovato per questa materia</div>';
+      tutorListContainer.innerHTML = '<div class="no-results">Nessun tutor trovato con questi filtri</div>';
     }
   } catch (error) {
     console.error('Errore nel caricamento dei tutor:', error);
     tutorListContainer.innerHTML = '<div class="error">Errore nel caricamento dei tutor</div>';
   }
 }
-// Aggiungi l'event listener al select
-document.getElementById('subject-filter').addEventListener('change', getTutorsBySubject);
+
+// Aggiungi gli event listener a entrambi i select
+document.getElementById('subject-filter').addEventListener('change', getFilteredTutors);
+document.getElementById('level-filter').addEventListener('change', getFilteredTutors);
