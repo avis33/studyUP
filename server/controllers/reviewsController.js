@@ -91,6 +91,7 @@ export async function sendReview(req, res) {
   }
 }
 
+
 export const getTutorOfTheWeek = async (req, res) => {
   try {
     const db = await connectToDatabase();
@@ -128,32 +129,33 @@ export const getTutorOfTheWeek = async (req, res) => {
 
       tutorStats[tutorId].totalRating += avgRating;
       tutorStats[tutorId].count += 1;
+
       if (review.subject) {
         tutorStats[tutorId].subjects.add(review.subject);
       }
     }
 
-    // Calcola punteggio ponderato e compila info
-    const tutorsRanked = await Promise.all(
-      Object.entries(tutorStats).map(async ([tutorId, data]) => {
-        const avg = data.totalRating / data.count;
-        const weightedScore = avg * Math.log(data.count + 1);
+    const tutorsRanked = [];
 
-        const tutor = await usersCollection.findOne({ _id: new ObjectId(tutorId) });
+    for (const [tutorId, data] of Object.entries(tutorStats)) {
+      const avg = data.totalRating / data.count;
+      // Calcola punteggio ponderato (media * log(count + 1))
+      const weightedScore = avg * Math.log(data.count + 1);
 
-        return {
-          tutorId,
-          name: `${tutor.firstName} ${tutor.lastName}`,
-          profilePicture: tutor.profilePicture,
-          city: tutor.city,
-          subjects: Array.from(data.subjects), // <-- Solo materie insegnate in settimana
-          level: tutor.level,
-          rating: parseFloat(avg.toFixed(2)),
-          lessonsCount: data.count,
-          score: parseFloat(weightedScore.toFixed(2)),
-        };
-      })
-    );
+      const tutor = await usersCollection.findOne({ _id: new ObjectId(tutorId) });
+
+      tutorsRanked.push({
+        tutorId,
+        name: `${tutor.firstName} ${tutor.lastName}`,
+        profilePicture: tutor.profilePicture,
+        city: tutor.city,
+        subjects: Array.from(data.subjects), // materie insegnate nella settimana
+        level: tutor.level,
+        rating: parseFloat(avg.toFixed(2)),
+        lessonsCount: data.count,
+        score: parseFloat(weightedScore.toFixed(2)),
+      });
+    }
 
     // Ordina i tutor per punteggio
     tutorsRanked.sort((a, b) => b.score - a.score);
@@ -164,6 +166,86 @@ export const getTutorOfTheWeek = async (req, res) => {
     });
   } catch (error) {
     console.error("Errore durante la ricezione dei tutor della settimana", error);
+    res.status(500).json({ message: "Errore del server" });
+  }
+};
+
+export const getTopTutorsBySubject = async (req, res) => {
+  try {
+    const { subject } = req.params;
+
+    if (!subject) {
+      return res.status(400).json({ message: "Materia richiesta" });
+    }
+
+    const db = await connectToDatabase();
+    const reviewsCollection = db.collection("reviews");
+    const usersCollection = db.collection("users");
+
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    // Recensioni dell'ultima settimana filtrate per materia
+    const recentReviews = await reviewsCollection
+      .find({ lessonDate: { $gte: sevenDaysAgo }, subject })
+      .toArray();
+
+    // Raggruppa recensioni per tutor
+    const tutorStats = {};
+
+    for (const review of recentReviews) {
+      const tutorId = review.tutorId.toString();
+      const ratings = review.ratings;
+
+      const avgRating =
+        (ratings.puntualita +
+          ratings.chiarezza +
+          ratings.competenza +
+          ratings.empatia) / 4;
+
+      if (!tutorStats[tutorId]) {
+        tutorStats[tutorId] = {
+          totalRating: 0,
+          count: 0,
+        };
+      }
+
+      tutorStats[tutorId].totalRating += avgRating;
+      tutorStats[tutorId].count += 1;
+    }
+
+    const tutorsRanked = [];
+
+    for (const [tutorId, data] of Object.entries(tutorStats)) {
+      const avg = data.totalRating / data.count;
+      const weightedScore = avg * Math.log(data.count + 1);
+
+      const tutor = await usersCollection.findOne({ _id: new ObjectId(tutorId) });
+
+      if (!tutor) continue;
+
+      tutorsRanked.push({
+        tutorId,
+        name: `${tutor.firstName} ${tutor.lastName}`,
+        profilePicture: tutor.profilePicture,
+        city: tutor.city,
+        level: tutor.level,
+        rating: parseFloat(avg.toFixed(2)),
+        lessonsCount: data.count,
+        score: parseFloat(weightedScore.toFixed(2)),
+      });
+    }
+
+    // Ordina per punteggio e prendi i primi 25
+    tutorsRanked.sort((a, b) => b.score - a.score);
+    const top25 = tutorsRanked.slice(0, 25);
+
+    res.status(200).json({
+      message: `Top 25 tutor per la materia "${subject}"`,
+      tutors: top25,
+    });
+  } catch (error) {
+    console.error("Errore durante la ricezione dei top tutor per materia", error);
     res.status(500).json({ message: "Errore del server" });
   }
 };
