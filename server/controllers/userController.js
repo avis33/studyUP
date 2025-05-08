@@ -190,6 +190,8 @@ export async function getDefaultTutor(req, res) {
         rate: 1,
         region: 1,
         city: 1,
+        rating:1,
+        reviewCount:1
       }).toArray();
   
       res.status(200).json({ tutors, preferredSubjects });

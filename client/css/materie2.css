@@ -467,6 +467,40 @@ main{
 .tutor-info button:hover {
   background-color: #059669;
 }
+.tutor-rating {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #fbbf24; /* colore dorato per le stelle */
+  margin-top: -6px;
+  margin-bottom: -4px;
+  gap: 6px;
+}
+
+.tutor-rating .stars {
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.tutor-rating .review-count {
+  font-size: 0.9rem;
+  color: #6b7280; /* grigio per il conteggio recensioni */
+}
+.star {
+  font-size: 1.1rem;
+  color: #d1d5db; /* default: grigio per stelle vuote */
+}
+
+.star.full {
+  color: #fbbf24; /* giallo */
+}
+
+.star.half {
+  background: linear-gradient(90deg, #fbbf24 50%, #d1d5db 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
 
 
 .preferred-tutor {

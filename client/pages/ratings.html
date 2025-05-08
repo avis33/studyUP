@@ -79,58 +79,45 @@
   </nav>
   <main class="rankings-container">
     <section class="ranking-section">
-      <h2>🏆 Migliori Tutor della Settimana</h2>
-      <div class="tutor-list">
-        <div class="tutor-card">
-          <h3>Luca Bianchi</h3>
-          <p><strong>Materie:</strong> Matematica, Fisica</p>
-          <p><strong>Punteggio medio:</strong> 4.8 ⭐</p>
-        </div>
-        <div class="tutor-card">
-          <h3>Giulia Verdi</h3>
-          <p><strong>Materie:</strong> Chimica, Biologia</p>
-          <p><strong>Punteggio medio:</strong> 4.7 ⭐</p>
-        </div>
+      <div class="section-header">
+        <h2><span class="icon">🏆</span> Migliori Tutor della Settimana</h2>
+        <p class="section-description">I tutor più apprezzati dagli studenti questa settimana</p>
+      </div>
+      <div id="top-tutors" class="tutor-list">
       </div>
     </section>
   
     <section class="ranking-section">
-      <h2>🔍 Classifica per Materia</h2>
-      <div class="filters">
-        <label for="subject-filter">Materia:</label>
-        <select id="subject-filter">
-          <option>Matematica</option>
-          <option>Fisica</option>
-          <option>Chimica</option>
-          <option>Inglese</option>
-        </select>
+      <div class="section-header">
+        <h2><span class="icon">🔍</span> Classifica per Materia e Livello</h2>
+        <p class="section-description">Trova i migliori tutor per la tua materia</p>
       </div>
-      <div class="tutor-list">
-        <div class="tutor-card">
-          <h3>Elena Rossi</h3>
-          <p><strong>Materia:</strong> Chimica</p>
-          <p><strong>Punteggio:</strong> 4.6 ⭐</p>
+      <div class="filters">
+        <div class="filter-group">
+          <label for="subject-filter">Materia</label>
+          <div class="select-wrapper">
+            <select id="subject-filter" class="styled-select">
+              <option>Matematica</option>
+              <option>Fisica</option>
+              <option>Chimica</option>
+              <option>Inglese</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label for="level-filter">Livello</label>
+          <div class="select-wrapper">
+            <select id="level-filter" class="styled-select">
+              <option>Qualunque</option>
+              <option>Liceo</option>
+              <option>Università</option>
+            </select>
+          </div>
         </div>
       </div>
+      <div class="tutor-list" id="top-subject-tutors">
     </section>
   
-    <section class="ranking-section">
-      <h2>🎓 Classifica per Livello</h2>
-      <div class="filters">
-        <label for="level-filter">Livello:</label>
-        <select id="level-filter">
-          <option>Liceo</option>
-          <option>Università</option>
-        </select>
-      </div>
-      <div class="tutor-list">
-        <div class="tutor-card">
-          <h3>Marco Neri</h3>
-          <p><strong>Livello:</strong> Università</p>
-          <p><strong>Punteggio:</strong> 4.9 ⭐</p>
-        </div>
-      </div>
-    </section>
   </main>
   
   <script src="../js/modal_window.js"></script>
