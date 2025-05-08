@@ -100,7 +100,7 @@ export const getTutorOfTheWeek = async (req, res) => {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    // Prendi tutte le recensioni degli ultimi 7 giorni (basato su lessonDate)
+    // Recensioni dell'ultima settimana
     const recentReviews = await reviewsCollection
       .find({ lessonDate: { $gte: sevenDaysAgo } })
       .toArray();
@@ -116,23 +116,24 @@ export const getTutorOfTheWeek = async (req, res) => {
         (ratings.puntualita +
           ratings.chiarezza +
           ratings.competenza +
-          ratings.empatia) /
-        4;
+          ratings.empatia) / 4;
 
       if (!tutorStats[tutorId]) {
         tutorStats[tutorId] = {
           totalRating: 0,
           count: 0,
-          reviews: [],
+          subjects: new Set(),
         };
       }
 
       tutorStats[tutorId].totalRating += avgRating;
       tutorStats[tutorId].count += 1;
-      tutorStats[tutorId].reviews.push(review);
+      if (review.subject) {
+        tutorStats[tutorId].subjects.add(review.subject);
+      }
     }
 
-    // Calcola punteggio ponderato (media * log(count + 1))
+    // Calcola punteggio ponderato e compila info
     const tutorsRanked = await Promise.all(
       Object.entries(tutorStats).map(async ([tutorId, data]) => {
         const avg = data.totalRating / data.count;
@@ -143,8 +144,9 @@ export const getTutorOfTheWeek = async (req, res) => {
         return {
           tutorId,
           name: `${tutor.firstName} ${tutor.lastName}`,
+          profilePicture: tutor.profilePicture,
           city: tutor.city,
-          subjects: tutor.taughtSubjects,
+          subjects: Array.from(data.subjects), // <-- Solo materie insegnate in settimana
           level: tutor.level,
           rating: parseFloat(avg.toFixed(2)),
           lessonsCount: data.count,
@@ -153,7 +155,7 @@ export const getTutorOfTheWeek = async (req, res) => {
       })
     );
 
-    // Ordina i tutor per punteggio discendente
+    // Ordina i tutor per punteggio
     tutorsRanked.sort((a, b) => b.score - a.score);
 
     res.status(200).json({
