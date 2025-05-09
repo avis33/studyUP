@@ -851,6 +851,205 @@ padding: 0.5rem 3.5rem;
   outline: none;
   border-color: #36a970;
 }
+/* SEZIONE LE TUE STATISTICHE TUTOR*/
+/* Sezione Statistiche Tutor */
+#tutor-stats {
+  padding: 2rem;
+}
+
+.tutor-stats-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Riepilogo Statistiche */
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #3b82f6;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.stat-label {
+  color: #6b7280;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Dettaglio Valutazioni */
+.rating-details {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+.rating-details h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+  font-size: 1.25rem;
+}
+
+.rating-bars {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.rating-category {
+  display: flex;
+  align-items: center;
+}
+
+.category-name {
+  width: 100px;
+  color: #4b5563;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.rating-bar-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+    position: relative;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 5px;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.rating-bar {
+  background: #e5e7eb;
+  border-radius: 4px;
+  flex-grow: 1;
+  overflow: hidden;
+    position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.rating-bar > div {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #6366f1);
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.rating-value {
+  color: #1f2937;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .rating-category {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .rating-bar-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-summary {
+    grid-template-columns: 1fr;
+  }
+  
+  #tutor-stats {
+    padding: 1rem;
+  }
+}
+/* Stili per le barre di valutazione */
+/* Aggiungi queste regole al tuo CSS esistente */
+/* Colori delle barre */
+.high-rating {
+  background-color: #10b981; /* Verde */
+  background-image: linear-gradient(to right, #10b981, #34d399);
+}
+
+.medium-rating {
+  background-color: #f59e0b; /* Arancione */
+  background-image: linear-gradient(to right, #f59e0b, #fbbf24);
+}
+
+.low-rating {
+  background-color: #ef4444; /* Rosso */
+  background-image: linear-gradient(to right, #ef4444, #f87171);
+}
+
+/* Posiziona il valore numerico a destra */
+.rating-value {
+  margin-left: 10px;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Stile per il messaggio di errore */
+.error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  background-color: #fee2e2;
+  border-radius: 8px;
+  color: #b91c1c;
+}
+
+.error-message svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  color: #dc2626;
+}
+
+.error-message p {
+  margin: 0;
+  font-weight: 500;
+}
 
 /*===================================================FOOTER======================================================================*/
 .footer {

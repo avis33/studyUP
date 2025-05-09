@@ -344,6 +344,11 @@ document.querySelectorAll('.tutor-nav button').forEach(button => {
     
     // Mostra la sezione corrispondente
     const sectionId = button.getAttribute('data-section');
+    if(sectionId == "tutor-stats"){ //todo fai co switch case
+      // FAI LE TUE STATISTICHE /reviews/getTutorData
+      getData(currentUser.id)
+    }
+    
     document.getElementById(sectionId).classList.add('active');
   });
 });
@@ -464,3 +469,63 @@ async function submitReview() {
   }
 }
 
+async function getData(tutorId) {
+  try {
+    const res = await fetch(`http://localhost:3000/reviews/getTutorData/${tutorId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    
+    const { data } = await res.json();
+    
+    // Popola le statistiche principali
+    document.getElementById('total-lessons').textContent = data.totalLessons;
+    document.getElementById('total-reviews').textContent = data.totalReviews;
+    document.getElementById('avg-rating').textContent = data.avgRating;
+    
+    // Popola le valutazioni dettagliate
+    const updateRatingBar = (category, value) => {
+      const percentage = (value / 5) * 100; // 5 è il voto massimo
+      const barElement = document.getElementById(`${category}-bar`);
+      const valueElement = document.getElementById(`${category}-value`);
+      
+      // Rimuovi tutte le classi di colore esistenti
+      barElement.classList.remove('high-rating', 'medium-rating', 'low-rating');
+      
+      // Aggiungi la classe CSS in base al valore
+      if (value >= 4) {
+        barElement.classList.add('high-rating');
+      } else if (value >= 2.5) {
+        barElement.classList.add('medium-rating');
+      } else {
+        barElement.classList.add('low-rating');
+      }
+      
+      // Aggiorna larghezza e valore
+      barElement.style.width = `${percentage}%`;
+      valueElement.textContent = value;
+    };
+    
+    // Aggiorna tutte le barre di valutazione
+    updateRatingBar('puntualita', data.ratings.puntualita);
+    updateRatingBar('chiarezza', data.ratings.chiarezza);
+    updateRatingBar('competenza', data.ratings.competenza);
+    updateRatingBar('empatia', data.ratings.empatia);
+    
+  } catch (error) {
+    console.error("Errore nel caricamento delle statistiche:", error);
+    
+    // Mostra un messaggio di errore
+    const statsContainer = document.querySelector('.tutor-stats-container');
+    statsContainer.innerHTML = `
+      <div class="error-message">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+        </svg>
+        <p>Si è verificato un errore nel caricamento delle statistiche. Riprova più tardi.</p>
+      </div>
+    `;
+  }
+}
