@@ -304,9 +304,6 @@ body{
   margin-bottom: 3rem;
   animation: fadeIn 1s ease-out; /*animazione di caricamento*/
 }
-#tutor-dashboard{
-  padding: 2rem;
-}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -551,6 +548,7 @@ body{
   list-style: none;
   padding: 0;
   margin: 0;
+  
 }
 
 .student-nav li {
@@ -611,10 +609,13 @@ body{
   .student-sidebar {
     position: static;
     margin-bottom: 1.5rem;
+    width:80vw;
+    margin-left: 1rem;
   }
   
   .student-nav {
     display: flex;
+    flex-direction: column;
     overflow-x: auto;
     padding-bottom: 0.5rem;
   }
@@ -627,6 +628,10 @@ body{
   
   .student-nav button {
     white-space: nowrap;
+  }
+  .student-content{
+    width:75vw;
+    margin-left: 1rem;
   }
 }
 /* DASHBOARD TUTOR CON MENU LATERALE */
@@ -714,10 +719,13 @@ body{
   .tutor-sidebar {
     position: static;
     margin-bottom: 1.5rem;
+    width:80vw;
+    margin-left: 1rem;
   }
   
   .tutor-nav {
     display: flex;
+    flex-direction: column;
     overflow-x: auto;
     padding-bottom: 0.5rem;
   }
@@ -730,6 +738,10 @@ body{
   
   .tutor-nav button {
     white-space: nowrap;
+  }
+  .tutor-content{
+    width:75vw;
+    margin-left: 1rem;
   }
 }
 
@@ -851,11 +863,12 @@ padding: 0.5rem 3.5rem;
   outline: none;
   border-color: #36a970;
 }
+main{
+  flex:1;
+}
 
 /*===================================================FOOTER======================================================================*/
 .footer {
-  position:absolute;
-  bottom:0%;
   width:100%;
   text-align: center;
   padding: 1rem 2rem;
