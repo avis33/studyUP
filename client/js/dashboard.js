@@ -34,11 +34,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("userProfile").src =
           data.user?.profilePicture || "../assets/icons/icone_img.svg";
           if(data.user.role == "student"){
-            document.getElementById("dashboard").innerText = "I miei tutor"
             // SEI UNO STUDENTE
             document.getElementById("student-dashboard").classList.remove("hidden");
           }else{
-            document.getElementById("dashboard").innerText = "I miei studenti"
             // SEI UN TUTOR
             document.getElementById("tutor-dashboard").classList.remove("hidden");  
           }

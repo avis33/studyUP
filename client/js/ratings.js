@@ -45,7 +45,6 @@ function getAvatarColor(name) {
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("authToken");
   const loginButton = document.getElementById("openModalBtn");
-
   if (!token) {
     document.getElementById("user-area").style.display = "none";
     return;
@@ -70,11 +69,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           : data.user.firstName;
       document.getElementById("userProfile").src =
         data.user?.profilePicture || "../assets/icons/icone_img.svg";
-      if (data.user.role == "student") {
-        document.getElementById("dashboard").innerText = "I miei tutor";
-      } else {
-        document.getElementById("dashboard").innerText = "I miei studenti";
-      }
       getTutorOfTheWeek();
       getFilteredTutors()
     }
