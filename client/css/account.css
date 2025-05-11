@@ -82,6 +82,7 @@ body{
   display: none;
 }
 .user-area {
+  margin-right: 1rem;
   position: relative;
   display: flex;
   align-items: center;
@@ -115,7 +116,7 @@ body{
 .profile-menu {
   position: absolute;
   top: 4rem;
-  right: 0;
+  left: 0;
   background-color: white;
   border: 2px solid #36a970;
   border-radius: 1rem;
@@ -531,6 +532,9 @@ textarea.error {
       color:#36a970;
       font-weight: bold;
   }
+     .user-area{
+        margin-right: 0;
+    }
 }
 
 @media (max-width:760px){
@@ -588,7 +592,9 @@ textarea.error {
   .about-left{
       display:none;
   }
-
+    .profile-menu{
+        left: -30%;
+    }
 }
 
 @media (max-width:550px){
@@ -611,11 +617,13 @@ textarea.error {
 
   .profile-icon #userProfile {
       position:relative;
-      right:20%;
+      /*right:20%;*/
       width: 2.5rem;
       height: 2.5rem;
   }
-
+      .profile-menu{
+        left: -60%;
+        }
   .profile-icon #arrow{
       width: 1rem;
   }
