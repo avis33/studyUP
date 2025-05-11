@@ -42,7 +42,7 @@
       <div class="profile-menu">
         <ul>
           <li><a href="./account.html">Il mio account</a></li>
-          <li><a href="./dashboard.html" id="dashboard">I miei tutor</a></li>
+          <li><a href="./dashboard.html" id="dashboard">Dashboard</a></li>
           <li><a href="#" id="logoutBtn">Logout</a></li>
         </ul>
       </div>
@@ -103,6 +103,14 @@
           Recensioni
         </button>
       </li>
+      <li>
+        <button data-section="tutor-stats">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          Le mie statistiche
+        </button>
+      </li>
     </ul>
   </div>
   <div class="tutor-content">
@@ -121,7 +129,63 @@
     <!-- Recensioni -->
     <div id="tutor-reviews" class="tutor-content-section">
       <h2>Le tue recensioni</h2>
-      <div class="tutor-reviews-container" id="tutor-reviews-container">
+      <div class="tutor-reviews-container" id="tutor-reviews-container"></div>
+    </div>
+    
+    <!-- Statistiche Tutor -->
+    <div id="tutor-stats" class="tutor-content-section">
+      <h2>Le tue statistiche</h2>
+      <div class="tutor-stats-container">
+        <div class="stats-summary">
+          <div class="stat-card">
+            <div class="stat-value" id="total-lessons">0</div>
+            <div class="stat-label">Lezioni totali</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="total-reviews">0</div>
+            <div class="stat-label">Recensioni ricevute</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="avg-rating">0.0</div>
+            <div class="stat-label">Valutazione media</div>
+          </div>
+        </div>
+        
+        <div class="rating-details">
+          <h3>Dettaglio valutazioni</h3>
+          <div class="rating-bars">
+            <div class="rating-category">
+              <span class="category-name">Puntualità</span>
+              <div class="rating-bar-container">
+                <div class="rating-bar" id="puntualita-bar" style="width: 0%"></div>
+              </div>
+                <span class="rating-value" id="puntualita-value">0.0</span>
+
+            </div>
+            <div class="rating-category">
+              <span class="category-name">Chiarezza</span>
+              <div class="rating-bar-container">
+                <div class="rating-bar" id="chiarezza-bar" style="width: 0%"></div>
+              </div>
+                <span class="rating-value" id="chiarezza-value">0.0</span>
+
+            </div>
+            <div class="rating-category">
+              <span class="category-name">Competenza</span>
+              <div class="rating-bar-container">
+                <div class="rating-bar" id="competenza-bar" style="width: 0%"></div>
+              </div>
+                <span class="rating-value" id="competenza-value">0.0</span>
+            </div>
+            <div class="rating-category">
+              <span class="category-name">Empatia</span>
+              <div class="rating-bar-container">
+                <div class="rating-bar" id="empatia-bar" style="width: 0%"></div>
+              </div>
+                <span class="rating-value" id="empatia-value">0.0</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

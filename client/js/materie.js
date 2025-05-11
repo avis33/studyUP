@@ -2,79 +2,12 @@ let allTutors = []; // contiene tutti i tutor ricevuti dal backend, cosi che evi
 let utenteLoggato = false;
 let isTutor = false;
 let studentId;
-document.addEventListener("DOMContentLoaded", async () => {
-  const token = localStorage.getItem("authToken");
-  const loginButton = document.getElementById("openModalBtn");
 
-  if (!token) {
-    document.getElementById("user-area").style.display = "none";
-    const resInfo = await fetch(`http://localhost:3000/user/fetchTutor/0`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await resInfo.json();
-    preferredSubjects = null;
-    console.log(result);
-    allTutors = result.tutors;
-    renderTutors(result.tutors);
-    return;
-  }
-  try {
-    // chiamata a server per verificare se esiste il token
-    const res = await fetch("http://localhost:3000/user/profilo", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // il middleware sul server prende il token da qua
-      },
-    });
-    const data = await res.json();
-    if (data.hasAccess) {
-      utenteLoggato = true;
-      //logica per quando l'utente è loggato correttamente
-      document.getElementById("user-area").classList.remove("hidden");
-      document.getElementById("openModalBtn").classList.add("hidden");
-      document.getElementById("userName").innerText =
-        data.user.firstName.length > 20
-          ? data.user.firstName.substring(0, 20) + "..." //tronca dopo 20 caratteri
-          : data.user.firstName;
-      document.getElementById("userProfile").src =
-        data.user?.profilePicture || "../assets/icons/icone_img.svg";        
-      if (data.user.role == "student") {
-        document.getElementById("dashboard").innerText = "I miei tutor";
-        isTutor = false;
-        studentId = data.user.id
-      } else {
-        document.getElementById("dashboard").innerText = "I miei studenti";
-        isTutor = true;
-      }
-      const resInfo = await fetch(
-        `http://localhost:3000/user/fetchTutor/${data.user.id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const result = await resInfo.json();
-      preferredSubjects = result.preferredSubjects;
-      console.log(result);
-      allTutors = result.tutors;
-      renderTutors(result.tutors);
-    }
-  } catch (error) {
-    document.getElementById("user-area").classList.add("hidden");
-    loginButton.style.display = "none";
-    console.error("Errore:", error);
-  }
-});
-
+// SET UP DEI FILTRI (REGIONE, CITTA, MODALITA)
 const modalitaSelect = document.getElementById("modalitaSelect");
 const regioneSelect = document.getElementById("regioneSelect");
 const cittàSelect = document.getElementById("cittàSelect");
+const tutorListDiv = document.getElementById("tutorListContainer");
 
 const regioniCittà = {
   Abruzzo: ["L'Aquila", "Pescara", "Chieti", "Teramo"],
@@ -174,27 +107,6 @@ for (let regione in regioniCittà) {
   option.textContent = regione;
   regioneSelect.appendChild(option);
 }
-
-modalitaSelect.addEventListener("change", () => {
-  const value = modalitaSelect.value;
-  const showLocation = value === "presenza" || value === "entrambe";
-  regioneSelect.classList.toggle("hidden", !showLocation); //se showLocation=true-->!showLocation=false e allora toglie la classe hidden se no la mette
-  cittàSelect.classList.toggle("hidden", !showLocation);
-});
-
-regioneSelect.addEventListener("change", () => {
-  const selected = regioneSelect.value;
-  cittàSelect.innerHTML = "<option value=''>Seleziona città</option>";
-
-  if (regioniCittà[selected]) {
-    regioniCittà[selected].forEach((città) => {
-      const opt = document.createElement("option");
-      opt.value = città;
-      opt.textContent = città;
-      cittàSelect.appendChild(opt);
-    });
-  }
-});
 // Funzione per generare le stelle
 function generateStars(rating) {
   const fullStars = Math.floor(rating);
@@ -212,20 +124,113 @@ function generateStars(rating) {
   }
   return html;
 }
+// Funzione per ottenere la data di
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+/*===============================================EVENT LISTENER CARICAMENTO PAGINA==========================================================================*/
+document.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("authToken");
+  const loginButton = document.getElementById("openModalBtn");
 
-// Funzione per renderizzare i tutor sulla pagina:
-const tutorListDiv = document.getElementById("tutorListContainer");
-// Modifica la funzione renderTutors per gestire le materie preferite
+  if (!token) {
+    document.getElementById("user-area").style.display = "none";
+    const resInfo = await fetch(`http://localhost:3000/user/fetchTutor/0`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await resInfo.json();
+    preferredSubjects = null;
+    console.log(result);
+    allTutors = result.tutors;
+    renderTutors(result.tutors);
+    return;
+  }
+  try {
+    // chiamata a server per verificare se esiste il token
+    const res = await fetch("http://localhost:3000/user/profilo", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // il middleware sul server prende il token da qua
+      },
+    });
+    const data = await res.json();
+    if (data.hasAccess) {
+      utenteLoggato = true;
+      //logica per quando l'utente è loggato correttamente
+      document.getElementById("user-area").classList.remove("hidden");
+      document.getElementById("openModalBtn").classList.add("hidden");
+      document.getElementById("userName").innerText =
+        data.user.firstName.length > 20
+          ? data.user.firstName.substring(0, 20) + "..." //tronca dopo 20 caratteri
+          : data.user.firstName;
+      document.getElementById("userProfile").src =
+        data.user?.profilePicture || "../assets/icons/icone_img.svg";        
+      if (data.user.role == "student") {
+        isTutor = false;
+        studentId = data.user.id
+      } else {
+        isTutor = true;
+      }
+      const resInfo = await fetch(
+        `http://localhost:3000/user/fetchTutor/${data.user.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const result = await resInfo.json();
+      preferredSubjects = result.preferredSubjects;
+      console.log(result);
+      allTutors = result.tutors;
+      renderTutors(result.tutors);
+    }
+  } catch (error) {
+    document.getElementById("user-area").classList.add("hidden");
+    loginButton.style.display = "none";
+    console.error("Errore:", error);
+  }
+});
+
+/*===================================================EVENT LISTENER FILTRI==========================================================================*/
+// EVENT LISTENER MODALITà :
+modalitaSelect.addEventListener("change", () => {
+  const value = modalitaSelect.value;
+  const showLocation = value === "presenza" || value === "entrambe";
+  regioneSelect.classList.toggle("hidden", !showLocation); //se showLocation=true-->!showLocation=false e allora toglie la classe hidden se no la mette
+  cittàSelect.classList.toggle("hidden", !showLocation);
+});
+// EVENT LISTENER REGIONE :
+regioneSelect.addEventListener("change", () => {
+  const selected = regioneSelect.value;
+  cittàSelect.innerHTML = "<option value=''>Seleziona città</option>";
+  if (regioniCittà[selected]) {
+    regioniCittà[selected].forEach((città) => {
+      const opt = document.createElement("option");
+      opt.value = città;
+      opt.textContent = città;
+      cittàSelect.appendChild(opt);
+    });
+  }
+});
+
+// Funzione per renderizzare i tutor sulla pagina
 function renderTutors(tutors) {
   console.log(tutors);
-
   tutorListDiv.innerHTML = ""; // svuota prima
-
   if (tutors.length === 0) {
     tutorListDiv.innerHTML = "<p>Nessun tutor trovato.</p>";
     return;
   }
-
   // Ordina i tutor: prima quelli con materie preferite
   const sortedTutors = [...tutors].sort((a, b) => {
     if (!preferredSubjects || preferredSubjects.length === 0) return 0;
@@ -236,7 +241,6 @@ function renderTutors(tutors) {
     const bMatches = b.taughtSubjects.filter((subj) =>
       preferredSubjects.includes(subj)
     ).length;
-
     return bMatches - aMatches; // Ordine decrescente
   });
 
@@ -293,7 +297,8 @@ function renderTutors(tutors) {
   </div>
 `;
 tutorListDiv.appendChild(tutorCard);
-// MODAL WINDOWN DEL CONTACT
+
+  // MODAL WINDOW DEL CONTACT
     const contactButton = tutorCard.querySelector(".contact-btn");
     const selectContatta = document.getElementById("contattaMaterie");
     
@@ -311,7 +316,13 @@ tutorListDiv.appendChild(tutorCard);
       }
       document.getElementById("contattaModal").style.display = "flex";
       selectContatta.innerHTML = "";
-      tutor.taughtSubjects.forEach((materia) => {
+      // Imposta data del form a oggi
+       const dateInput = document.getElementById('data');
+       if(dateInput) {
+          dateInput.min = getTodayDate();
+          dateInput.value = getTodayDate();
+       }
+        tutor.taughtSubjects.forEach((materia) => {
         const option = document.createElement("option");
         option.value = materia;
         option.textContent = materia;
@@ -342,17 +353,6 @@ tutorListDiv.appendChild(tutorCard);
       }
     });
   });
-}
-//Date--->si può mettere la data da oggi in poi
-const oggi= new Date();
-const yyyy = oggi.getFullYear();
-const mm = String(oggi.getMonth() + 1).padStart(2, '0'); // Mese da 1 a 12, padStart aggiunge 0 finche non arriva a lunghezza 2 la stringa
-const dd = String(oggi.getDate()).padStart(2, '0');
-
-const dataOggi = `${yyyy}-${mm}-${dd}`;
-
-const inputData = document.getElementById('data');
-inputData.min = dataOggi;
 
 // SUBMIT DEL CONTACT FORM
 const inviaRichiestaBtn = document.getElementById("inviaRichiestaBtn");
@@ -366,6 +366,17 @@ inviaRichiestaBtn.addEventListener("click", async () => {
   const modalita = modalitaSelect ? modalitaSelect.value : tutorMode;
   const tutorId = document.getElementById("tutorIdInput").value;
   const tutorRate = document.getElementById("tutorPriceInput").value;
+  
+  const inputDate = new Date(data);
+  // Data di oggi (mezzanotte UTC)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  if( inputDate < today){
+    alert("Data della lezione invalida");
+    return
+  }
+
   // Validazione
   if (!materia || !data || !modalita) {
     alert("Compila tutti i campi obbligatori.");
@@ -408,6 +419,7 @@ inviaRichiestaBtn.addEventListener("click", async () => {
   }
 });
 
+}
 
 
 // FILTRI

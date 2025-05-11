@@ -266,3 +266,87 @@ export const getTopTutorsBySubject = async (req, res) => {
     res.status(500).json({ message: "Errore del server" });
   }
 };
+export const getTutorStats = async (req, res) => {
+  try {
+    const { tutorId } = req.params;
+    const db = await connectToDatabase();
+    const reviewsCollection = db.collection("reviews");
+    const usersCollection = db.collection("users");
+    const lessonsCollection = db.collection("lessons");
+
+    // Verifica che il tutor esista
+    const tutor = await usersCollection.findOne({ 
+      _id: new ObjectId(tutorId),
+      role: "tutor"
+    });
+
+    if (!tutor) {
+      return res.status(404).json({ message: "Tutor non trovato" });
+    }
+
+    // Ottieni tutte le recensioni del tutor
+    const reviews = await reviewsCollection.find({ 
+      tutorId: new ObjectId(tutorId) 
+    }).toArray();
+
+    // Calcola le statistiche delle recensioni
+    let stats = {
+      totalLessons: 0,
+      totalReviews: reviews.length,
+      avgRating: 0,
+      ratings: {
+        puntualita: 0,
+        chiarezza: 0,
+        competenza: 0,
+        empatia: 0
+      }
+    };
+
+    if (reviews.length > 0) {
+      // Calcola la media per ogni categoria
+      const sumRatings = reviews.reduce((acc, review) => {
+        acc.puntualita += review.ratings.puntualita;
+        acc.chiarezza += review.ratings.chiarezza;
+        acc.competenza += review.ratings.competenza;
+        acc.empatia += review.ratings.empatia;
+        return acc;
+      }, { puntualita: 0, chiarezza: 0, competenza: 0, empatia: 0 });
+
+      // Calcola le medie
+      stats.ratings = {
+        puntualita: parseFloat((sumRatings.puntualita / reviews.length).toFixed(2)),
+        chiarezza: parseFloat((sumRatings.chiarezza / reviews.length).toFixed(2)),
+        competenza: parseFloat((sumRatings.competenza / reviews.length).toFixed(2)),
+        empatia: parseFloat((sumRatings.empatia / reviews.length).toFixed(2))
+      };
+
+      // Calcola la valutazione media complessiva
+      const totalAvg = (stats.ratings.puntualita + stats.ratings.chiarezza + 
+                       stats.ratings.competenza + stats.ratings.empatia) / 4;
+      stats.avgRating = parseFloat(totalAvg.toFixed(2));
+    }
+
+    // Conta tutte le lezioni completate dal tutor
+    stats.totalLessons = await lessonsCollection.countDocuments({
+      tutorId: new ObjectId(tutorId),
+      status: { $in: ["completed", "reviewed"] }
+    });
+
+    // Aggiungi le informazioni base del tutor
+    stats.tutorInfo = {
+      name: `${tutor.firstName} ${tutor.lastName}`,
+      subjects: tutor.taughtSubjects,
+      level: tutor.level,
+      city: tutor.city,
+      profilePicture: tutor.profilePicture
+    };
+
+    res.status(200).json({
+      message: "Statistiche tutor ottenute con successo",
+      data: stats
+    });
+  } catch (error) {
+    console.error("Errore durante la ricezione dei dati", error);
+    res.status(500).json({ message: "Errore del server" });
+  }
+};
