@@ -4,7 +4,8 @@ import { sendLessonRequest,
     getLessonsByTutorId,
     acceptLessonRequest,
     rejectLessonRequest,
-    cancelLessonRequest
+    cancelLessonRequest,
+    mostFrequentSubjects
 } from "../controllers/lessons.js";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.post("/reject/:lessonId", rejectLessonRequest)
 router.delete("/cancel/:lessonId", cancelLessonRequest)
 router.get("/student/:studentId", getLessonsByStudentId);
 router.get("/tutor/:tutorId", getLessonsByTutorId);
+router.get("/getFrequentSubjects", mostFrequentSubjects);
 
 export default router;

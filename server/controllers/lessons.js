@@ -314,3 +314,48 @@ export async function cancelLessonRequest(req, res) {
     res.status(500).json({ message: "Errore del server" });
   }
 }
+
+export async function mostFrequentSubjects(req, res) {
+  try {
+    const db = await connectToDatabase();
+    const lessonsCollection = db.collection("lessons");
+
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    // Aggregazione per contare il numero di lezioni per materia
+    const result = await lessonsCollection.aggregate([
+      {
+        $match: {
+          date: { $gte: thirtyDaysAgo },
+          status: { $in: ["accepted", "reviewed"] } //consideriamo solo le lezioni accepted e reviewed
+        }
+      },
+      {
+        $group: {
+          _id: "$subject",
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { count: -1 }
+      }
+    ]).toArray();
+
+    // Trasformo in oggetto { materia: numero }
+    const data = {};
+    result.forEach(item => {
+      data[item._id] = item.count;
+    });
+
+    res.status(200).json({ 
+      success: true,
+      data
+    });
+
+  } catch (error) {
+    console.error("Errore:", error);
+    res.status(500).json({ message: "Errore del server" });
+  }
+}
+

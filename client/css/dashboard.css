@@ -4,6 +4,7 @@
 body{
   font-family: 'Rubik', sans-serif;
   margin:0;
+  box-sizing: border-box;
   overflow-x: hidden;
 }
 
@@ -298,11 +299,10 @@ body{
     text-decoration: underline;
   }
 
-/*======================================================== DASHBOARD MODERNO===========================================================*/
+/*======================================================== DASHBOARD===========================================================*/
 /* Container generale */
 /* Sezione visibile per tutor o studente */
 .dashboard {
-  padding-top:7rem;
   margin-bottom: 3rem;
   min-height: 90vh;
   animation: fadeIn 1s ease-out; /*animazione di caricamento*/
@@ -744,7 +744,16 @@ body{
   }
   .tutor-content{
     width:75vw;
+    margin-top: -1rem;
+    padding-top: 1rem;
     margin-left: 1rem;
+  }
+    .stats-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .rating-bar-container {
+    width: 100%;
   }
 }
 
@@ -866,10 +875,6 @@ padding: 0.5rem 3.5rem;
   outline: none;
   border-color: #36a970;
 }
-<<<<<<< HEAD
-main{
-  flex:1;
-=======
 /* SEZIONE LE TUE STATISTICHE TUTOR*/
 /* Sezione Statistiche Tutor */
 #tutor-stats {
@@ -994,34 +999,16 @@ main{
   font-size: 0.95rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .stats-summary {
-    grid-template-columns: 1fr 1fr;
-  }
-  
-  .rating-category {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .rating-bar-container {
-    width: 100%;
-  }
-}
-
 @media (max-width: 480px) {
   .stats-summary {
     grid-template-columns: 1fr;
   }
   
   #tutor-stats {
-    padding: 1rem;
+    padding: 0rem;
   }
 }
 /* Stili per le barre di valutazione */
-/* Aggiungi queste regole al tuo CSS esistente */
 /* Colori delle barre */
 .high-rating {
   background-color: #10b981; /* Verde */
@@ -1038,7 +1025,6 @@ main{
   background-image: linear-gradient(to right, #ef4444, #f87171);
 }
 
-/* Posiziona il valore numerico a destra */
 .rating-value {
   margin-left: 10px;
   min-width: 40px;
@@ -1068,15 +1054,11 @@ main{
 .error-message p {
   margin: 0;
   font-weight: 500;
->>>>>>> 7dc54c1eba196369a71281023cad9e64a8e7e46e
 }
 
 /*===================================================FOOTER======================================================================*/
 .footer {
-<<<<<<< HEAD
   width:100%;
-=======
->>>>>>> 7dc54c1eba196369a71281023cad9e64a8e7e46e
   text-align: center;
   padding: 1rem 2rem;
   background-color: #333;
@@ -1085,7 +1067,7 @@ main{
 }
 
 /*=================================================================================================================================*/
-/*================================================     RESPONSIVE    ==============================================================*/
+/*================================================     RESPONSIVE NAVBAR    ==============================================================*/
 /*=================================================================================================================================*/
 
 @media (max-width:972px){
@@ -1099,54 +1081,6 @@ main{
   .nav-links li a {
     font-size: 0.8rem;
 }
-
-  .hero {
-      display: flex;
-      flex-direction:column;
-      
-  }
-  /*Parte sinistra della HERO*/
-  .hero-left {
-     width:100%;
-  }
- 
-  /*Parte destra della HERO*/
-  .hero-right {
-     width:100%;
-  }
-  
-  .hero-right img {
-      position:relative;
-      right:0%;
-      
-  }
-  
-  .about-lr{
-      display: flex;
-      flex-direction: column;
-  }
-  .about-left{
-      width: 100%;
-  }
-  .about-left img{
-      position:relative;
-      left:17%;
-      width: 30rem;
-  }
-  
-  .about-right{
-      width:100%;
-  }
-  
-  .about-right p{
-      font-size: 1.5rem;
-  }
-  
-  
-  .about-right span{
-      color:#36a970;
-      font-weight: bold;
-  }
    .user-area{
         margin-right: 0;
     }
@@ -1201,12 +1135,6 @@ main{
       display: none;
   }
 
-  .hero-right{
-      display: none;
-  }
-  .about-left{
-      display:none;
-  }
     .profile-menu{
         left: -30%;
     }
@@ -1242,7 +1170,5 @@ main{
   .profile-icon #arrow{
       width: 1rem;
   }
-
-
 }
 
