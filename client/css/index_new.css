@@ -439,6 +439,16 @@ body{
     color: #333;
 }
 
+.popular-subjects .subjects-subtext {
+  margin-top: -1rem;
+  margin-bottom:2rem;
+  color: #555;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.4;
+}
+
 .subject-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));

@@ -302,6 +302,9 @@ body{
 /*======================================================== DASHBOARD===========================================================*/
 /* Container generale */
 /* Sezione visibile per tutor o studente */
+main{
+  padding: 1rem;
+}
 .dashboard {
   margin-bottom: 3rem;
   min-height: 90vh;
