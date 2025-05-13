@@ -4,7 +4,7 @@ const studentFields = document.getElementById('studentFields');
 const tutorFields = document.getElementById('tutorFields');
 const allSubjects = [
   "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
-  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "C++",
+  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "Cpp",
   "Javascript", "SQL", "Statistica", "Robotica", "Design"
 ];
 

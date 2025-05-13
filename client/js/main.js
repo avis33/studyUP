@@ -78,6 +78,7 @@ async function getMostFrequentSubjects() {
     subjectGrid.innerHTML = "";
 
     Object.keys(subjectsData).forEach((subject) => {
+      
       // Crea l'elemento button
       const button = document.createElement("button");
       button.className = "subject-card";
@@ -106,7 +107,7 @@ async function getMostFrequentSubjects() {
         "greco",
         "python",
         "java",
-        "c++",
+        "cpp",
         "javascript",
         "sql",
         "statistica",
@@ -121,7 +122,7 @@ async function getMostFrequentSubjects() {
       // Inserisce HTML nel button
       button.innerHTML = `
         <img src="../client/assets/icons/${iconFile}" alt="${subject}" />
-        <span>${subject}</span>
+        <span>${ subject.toLowerCase() == "cpp" ? "C++" : subject}</span>
       `;
 
       subjectGrid.appendChild(button);

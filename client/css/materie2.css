@@ -16,6 +16,7 @@ body{
   padding: 1.5rem 2rem;
   background-color: white;
   height:3rem;
+    z-index: 1000;
 }
 
 .navbar .info-links{
@@ -316,31 +317,6 @@ main{
   max-width: 1200px;
 }
 
-/* Barra di ricerca */
-.search-bar {
-
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.search-bar input {
-  flex: 1;
-  min-width: 280px;
-  padding: 0.95rem 1.2rem;
-  font-size: 1.1rem;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  background-color: white;
-  transition: border 0.2s ease;
-}
-
-.search-bar input:focus {
-  border-color: #36a970;
-  outline: none;
-}
-
 
 /* Filtri */
 .filters-row {
@@ -364,6 +340,41 @@ main{
 .filters-row select:focus {
   border-color: #3b82f6;
   outline: none;
+}
+/* Barra di ricerca */
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-bar input {
+  flex: 1;
+  min-width: 280px;
+  padding: 0.95rem 1.2rem;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  transition: border 0.2s ease;
+}
+
+.search-bar input:focus {
+  border-color: #36a970;
+  outline: none;
+}
+
+.rating-filter {
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  transition: border 0.2s ease;
+  min-width: 160px;
+  align-self: stretch;
 }
 
 /* Griglia dei tutor */
