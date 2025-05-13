@@ -616,7 +616,7 @@ main{
     position: static;
     margin-bottom: 1.5rem;
     width:80vw;
-    margin-left: 1rem;
+    margin-left: 0.8rem;
   }
   
   .student-nav {
@@ -726,7 +726,7 @@ main{
     position: static;
     margin-bottom: 1.5rem;
     width:80vw;
-    margin-left: 1rem;
+    margin-left: 0.8rem;
   }
   
   .tutor-nav {
@@ -1146,7 +1146,7 @@ padding: 0.5rem 3.5rem;
 @media (max-width:550px){
   .navbar .logo {
       position:absolute;
-      left:35%;
+      left:40%;
       width:6rem;
       margin-top:-1rem;
   }
