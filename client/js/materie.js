@@ -136,10 +136,12 @@ function getTodayDate() {
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("authToken");
   const loginButton = document.getElementById("openModalBtn");
-
+  tutorListDiv.innerHTML = `
+      <div class="loading-spinner"></div>
+  `;
   if (!token) {
     document.getElementById("user-area").style.display = "none";
-    const resInfo = await fetch(`http://localhost:3000/user/fetchTutor/0`, {
+    const resInfo = await fetch(`http://localhost:3000/user/fetchTutor/0`, { // se non siamo loggati prendiamo tutti i tutor dal backend e li mostriamo 
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -357,7 +359,8 @@ tutorListDiv.appendChild(tutorCard);
 // SUBMIT DEL CONTACT FORM
 const inviaRichiestaBtn = document.getElementById("inviaRichiestaBtn");
 
-inviaRichiestaBtn.addEventListener("click", async () => {
+inviaRichiestaBtn.addEventListener("click", async (e) => {
+  e.preventDefault()
   const materia = document.getElementById("contattaMaterie").value;
   const data = document.getElementById("data").value;
   const note = document.getElementById("note").value.trim();
@@ -426,6 +429,7 @@ inviaRichiestaBtn.addEventListener("click", async () => {
 const materiaInput = document.getElementById("materiaInput");
 const livelloSelect = document.getElementById("livelloSelect");
 const prezzoSelect = document.getElementById("prezzoSelect");
+const ratingSelect = document.getElementById("ratingSelect");
 
 // Aggiungiamo gli event listener
 materiaInput.addEventListener("input", filtraTutor);
@@ -434,6 +438,7 @@ prezzoSelect.addEventListener("change", filtraTutor);
 modalitaSelect.addEventListener("change", filtraTutor);
 regioneSelect.addEventListener("change", filtraTutor);
 cittàSelect.addEventListener("change", filtraTutor);
+ratingSelect.addEventListener("change", filtraTutor);
 
 function filtraTutor() {
   const materia = document.getElementById("materiaInput").value.toLowerCase();
@@ -442,6 +447,7 @@ function filtraTutor() {
   const modalità = document.getElementById("modalitaSelect").value;
   const regione = document.getElementById("regioneSelect").value;
   const città = document.getElementById("cittàSelect").value;
+  const rating = document.getElementById("ratingSelect").value;
 
   const tutorFiltrati = allTutors.filter((tutor) => {
     const materiaMatch =
@@ -462,9 +468,9 @@ function filtraTutor() {
         ? (!regione || tutor.region === regione) &&
           (!città || tutor.city === città)
         : true;
-
+    const ratingMatch = rating === "" || tutor.rating >= parseFloat(rating);
     return (
-      materiaMatch && livelloMatch && modalitàMatch && prezzoMatch && cittàMatch
+      materiaMatch && livelloMatch && modalitàMatch && prezzoMatch && cittàMatch &&  ratingMatch
     );
   });
 

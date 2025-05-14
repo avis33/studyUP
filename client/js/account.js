@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                });
                const allSubjects = [
                  "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
-                 "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "C++",
+                 "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "Cpp",
                  "Javascript", "SQL", "Statistica", "Robotica", "Design"
                ];
                
@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
                 const allSubjects = [
                   "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
-                  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "C++",
+                  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "Cpp",
                   "Javascript", "SQL", "Statistica", "Robotica", "Design"
                 ];
                 
