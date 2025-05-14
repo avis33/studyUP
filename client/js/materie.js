@@ -136,7 +136,9 @@ function getTodayDate() {
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("authToken");
   const loginButton = document.getElementById("openModalBtn");
-
+  tutorListDiv.innerHTML = `
+      <div class="loading-spinner"></div>
+  `;
   if (!token) {
     document.getElementById("user-area").style.display = "none";
     const resInfo = await fetch(`http://localhost:3000/user/fetchTutor/0`, { // se non siamo loggati prendiamo tutti i tutor dal backend e li mostriamo 

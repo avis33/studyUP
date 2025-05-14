@@ -80,6 +80,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function getTutorOfTheWeek() {
+    const topTutorsContainer = document.getElementById("top-tutors");
+   // Mostra la spinner di caricamento
+  topTutorsContainer.innerHTML = `
+      <div class="loading-spinner"></div>
+  `;
+
   try {
     const res = await fetch("http://localhost:3000/reviews/tutorOfWeek", {
       method: "GET",
@@ -90,9 +96,6 @@ async function getTutorOfTheWeek() {
     const data2 = await res.json();
     const tutors = data2.tutors;
     console.log(tutors);
-
-    const topTutorsContainer = document.getElementById("top-tutors");
-
     topTutorsContainer.innerHTML = tutors
       .slice(0, 10) // Mostra solo i primi 10
       .map((tutor) => {
@@ -158,9 +161,11 @@ async function getFilteredTutors() {
   const selectedLevel = levelSelect.value;
   const tutorListContainer = document.getElementById('top-subject-tutors');
   
-  // Mostra uno stato di caricamento
-  tutorListContainer.innerHTML = '<div class="loading">Caricamento tutor...</div>';
-  
+ // Mostra la spinner di caricmento
+  tutorListContainer.innerHTML = `
+      <div class="loading-spinner"></div>
+  `;
+
   try {
     // Chiamata al backend con entrambi i filtri
     const res = await fetch(`http://localhost:3000/reviews/tutorBySubject/${selectedSubject}?level=${selectedLevel}`, {

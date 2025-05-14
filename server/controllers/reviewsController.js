@@ -159,10 +159,11 @@ export const getTutorOfTheWeek = async (req, res) => {
 
     // Ordina i tutor per punteggio
     tutorsRanked.sort((a, b) => b.score - a.score);
-
+    // Prendiamo solo i primi 7 
+    const top7 = tutorsRanked.slice(0, 7);
     res.status(200).json({
       message: "Classifica tutor della settimana",
-      tutors: tutorsRanked,
+      tutors: top7,
     });
   } catch (error) {
     console.error("Errore durante la ricezione dei tutor della settimana", error);
