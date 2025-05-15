@@ -294,7 +294,6 @@ lezioniRecensite.forEach(lez => {
 document.addEventListener("click", async (e) => {
   if (e.target.classList.contains("cancel-request-btn")) {
     const lessonId = e.target.dataset.id;
-
     // Conferma utente
     if (!confirm("Sei sicuro di voler annullare questa richiesta?")) return;
     try {
@@ -396,7 +395,7 @@ document.querySelectorAll('.tutor-nav button').forEach(button => {
 // Apri finestra modale per lasciare una recensione
 function openReviewModal(lessonId, tutorId, studentId, subject) {
   const modal = document.getElementById("review-modal");
-  modal.style.display = "block";
+  modal.style.display = "flex"; //flex senno non è centrata
 
   // Salva gli ID nei data-* per usarli al submit
   modal.dataset.lessonId = lessonId;
@@ -461,6 +460,7 @@ async function submitReview() {
 
     alert('Recensione inviata con successo!');
     closeReviewModal();
+    location.reload()
   } catch (error) {
     console.error(error);
     alert('Si è verificato un errore. Riprova più tardi.');

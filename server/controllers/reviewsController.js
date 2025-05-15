@@ -184,12 +184,11 @@ export const getTopTutorsBySubject = async (req, res) => {
     const reviewsCollection = db.collection("reviews");
     const usersCollection = db.collection("users");
 
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const lastMonth = new Date();
+    lastMonth.setDate(lastMonth.getDate() - 30); // Prendiamo le lezioni degli ultimi trenta giorni 
 
-    // Recensioni dell'ultima settimana filtrate per materia
     const recentReviews = await reviewsCollection
-      .find({ lessonDate: { $gte: sevenDaysAgo }, subject })
+      .find({ lessonDate: { $gte: lastMonth }, subject })
       .toArray();
 
     const tutorStats = {};
@@ -256,11 +255,11 @@ export const getTopTutorsBySubject = async (req, res) => {
     }
   }
     tutorsRanked.sort((a, b) => b.score - a.score);
-    const top25 = tutorsRanked.slice(0, 25);
+    const top10 = tutorsRanked.slice(0, 10);
 
     res.status(200).json({
-      message: `Top 25 tutor per la materia "${subject}"${levelIsFiltered ? ` (livello: ${level})` : ""}`,
-      tutors: top25,
+      message: `Top 10 tutor per la materia "${subject}"${levelIsFiltered ? ` (livello: ${level})` : ""} degli ultimi 30 giorni`,
+      tutors: top10,
     });
   } catch (error) {
     console.error("Errore durante la ricezione dei top tutor per materia", error);

@@ -362,6 +362,11 @@ main{
   border-color: #3b82f6;
   outline: none;
 }
+@media (max-width:560px){
+  #ratingSelect{
+    width: 100%;
+  }
+  }
 /* Barra di ricerca */
 .search-bar {
   display: flex;
@@ -763,7 +768,6 @@ main{
   .profile-icon #arrow{
       width: 1rem;
   }
-
 
 }
 
