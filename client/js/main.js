@@ -78,6 +78,7 @@ async function getMostFrequentSubjects() {
     subjectGrid.innerHTML = "";
 
     Object.keys(subjectsData).forEach((subject) => {
+      console.log(subject);
       
       // Crea l'elemento button
       const button = document.createElement("button");
