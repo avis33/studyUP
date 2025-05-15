@@ -139,6 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   tutorListDiv.innerHTML = `
       <div class="loading-spinner"></div>
   `;
+  try {
   if (!token) {
     document.getElementById("user-area").style.display = "none";
     const resInfo = await fetch(`http://localhost:3000/user/fetchTutor/0`, { // se non siamo loggati prendiamo tutti i tutor dal backend e li mostriamo 
@@ -154,7 +155,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderTutors(result.tutors);
     return;
   }
-  try {
     // chiamata a server per verificare se esiste il token
     const res = await fetch("http://localhost:3000/user/profilo", {
       method: "GET",
@@ -195,6 +195,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.log(result);
       allTutors = result.tutors;
       renderTutors(result.tutors);
+    }else{
+      // Il token è invalido o scaduto, lo togliamo dal local storage
+      localStorage.removeItem("authToken")
+      location.reload()
+
     }
   } catch (error) {
     document.getElementById("user-area").classList.add("hidden");
@@ -254,6 +259,7 @@ function renderTutors(tutors) {
 
     const tutorCard = document.createElement("div");
     tutorCard.classList.add("tutor-card");
+    tutorCard.setAttribute("data-aos", "fade-up");
     if (hasPreferredSubjects) {
       tutorCard.classList.add("preferred-tutor");
     }

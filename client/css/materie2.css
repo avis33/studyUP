@@ -406,6 +406,8 @@ main{
   max-width: 1200px;
   min-height: 50vh;
   margin: 0 auto;
+  padding-left: 3rem;
+  padding-right: 3rem;
   padding-bottom: 3rem;
   position: relative;
 }
@@ -447,7 +449,7 @@ main{
 }
 
 .tutor-header h2 {
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   font-weight: 600;
   margin: 0;
   color: #1f2937;
@@ -763,4 +765,33 @@ main{
   }
 
 
+}
+
+/*********************RESPONSIVE TUTOR LIST*****************************/
+@media (max-width: 1024px) {
+  .tutor-list {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+        padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tutor-list {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+  }
+  .tutor-card img {
+    height: 140px;
+  }
+}
+
+@media (max-width: 485px) {
+  .tutor-list {
+    grid-template-columns: 1fr;
+  }
+  .tutor-card {
+    max-width: 100%;
+  }
 }

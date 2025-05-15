@@ -425,7 +425,36 @@ body{
     font-size: 2rem;
     color: #36a970;
 }
+@media (max-width: 1269px) {
+  .step {
+    width: 11rem;
+    padding: 1rem;
+  }
 
+  .arrow img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .how-it-works h2 {
+    font-size: 2.2rem;
+  }
+}
+@media (max-width: 1019px) and (min-width: 760px) {
+  .steps {
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .step {
+    width: 12rem;
+  }
+
+  .arrow {
+    display: none; 
+  }
+}
 
 /*==================================================MATERIE POPOLARI===============================================================*/
 .popular-subjects {
@@ -723,6 +752,28 @@ body{
     .profile-menu{
         left: -30%;
     }
+.how-it-works {
+    padding: 1rem 1.5rem 2rem 1.5rem;
+  }
+
+  .how-it-works h2 {
+    font-size: 2rem;
+  }
+
+  .steps {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .step {
+    width: 90%;
+    max-width: 20rem;
+    margin: 1rem 0;
+  }
+
+  .arrow {
+    display: none;
+  }
 
 }
 
