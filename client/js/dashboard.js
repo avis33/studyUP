@@ -42,6 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
           currentUser = data.user;
           fetchLessonsByRole(data.user);
+      }else{
+      localStorage.removeItem("authToken")
+      window.location.href = "/client/index.html"; // Se non sono loggato mi porta alla pagina principale
       }
     } catch (error) {
       document.getElementById("user-area").classList.add("hidden");

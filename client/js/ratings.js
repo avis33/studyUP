@@ -47,6 +47,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const loginButton = document.getElementById("openModalBtn");
   if (!token) {
     document.getElementById("user-area").style.display = "none";
+      getTutorOfTheWeek();
+      getFilteredTutors()
     return;
   }
   try {
@@ -71,6 +73,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         data.user?.profilePicture || "../assets/icons/icone_img.svg";
       getTutorOfTheWeek();
       getFilteredTutors()
+    }else{
+      localStorage.removeItem("authToken")
+      location.reload() 
     }
   } catch (error) {
     document.getElementById("user-area").classList.add("hidden");

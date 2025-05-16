@@ -4,27 +4,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" href="../assets/icons/favicon_logo.svg">
 
 </head>
 <body>
-    <!--NAVBAR-->
-    <nav class="navbar">
-        <div class="info-links">
-            <a href="../index.html">
-                <img src="../assets/images/logo_facciate.svg" alt="Logo"/>
-            </a>
-            <ul class="nav-links">
-                <li><a href="./trovaTutor.html">Materie</a></li>
-                <li><a href="#">Ratings</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Domande Frequenti</a></li>
-            </ul>
-        </div>
+<!-- Include Navbar -->
+<nav class="navbar">
+    <div class="info-links">
+      <a href="../index.html">
+        <img src="../assets/images/logo_facciate.svg" class="logo" alt="Logo" />
+      </a>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn"><i class="fas fa-bars"></i>
+        </label>
+      <ul class="nav-links">
+        <li><a href="./trovaTutor.html">Trova un tutor</a></li>
+        <li><a href="#">Ratings</a></li>
+        <li><a href="../index.html#About">About</a></li>
+        <li><a href="../index.html#Domande Frequenti">Domande Frequenti</a></li>
+      </ul>
+    </div>
+    <!-- Profilo utente-->
+    <div id="user-area" class="user-area hidden">
+      <div class="profile-icon">
+        <img
+          src="../assets/icons/icone_img.svg"
+          alt="Profilo"
+          id="userProfile"
+        />
+        <div id="userName"></div>
+        <img
+        src="../assets/icons/arrow.svg"
+        alt="arrow"
+        id="arrow"
+      />
+      </div>
+      <div class="profile-menu">
+        <ul>
+          <li><a href="./account.html">Il mio account</a></li>
+          <li><a href="./dashboard.html" id="dashboard">Dashboard</a></li>
+          <li><a href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+      </div>
+    </div>
 
-        <!--TODO Riaggiungi login button-->
+    <button class="register-btn" id="openModalBtn">Accedi</button>
+    <!--Finestra modale per il login-->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Accedi</h2>
+        <form method="post" id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
 
-    </nav>
+          <button type="submit">Login</button>
+          <div class="error-message" id="genericError"></div>
+        </form>
+
+        <p class="signup-message">
+          Non sei iscritto? <a href="register.html">Registrati!</a>
+        </p>
+      </div>
+    </div>
+  </nav>
     <div class="registration-container">
       <br>
         <h1>Registrati</h1>
@@ -52,15 +102,15 @@
           </div>
       
           <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            <div class="error-message" id="emailError"></div>
+            <label for="emailRegister">Email</label>
+            <input type="emailRegister" id="emailRegister" name="emailRegister" required>
+            <div class="error-message" id="emailRegisterError"></div>
           </div>
       
           <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-            <div class="error-message" id="passwordError"></div>
+            <label for="passwordRegister">Password</label>
+            <input type="password" id="passwordRegister" name="passwordRegister" required>
+            <div class="error-message" id="passwordRegisterError"></div>
           </div>
           
           <div class="form-group">
@@ -159,6 +209,8 @@
       </div>
       
      <script src="../js/registration.js" ></script>
+       <script src="../js/modal_window.js"></script>
+  <script src="../js/login.js"></script>
 </body>
 
 </html>

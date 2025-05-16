@@ -58,6 +58,8 @@ class RegistrationData {
   //Funzione per il test della mail
   isValidEmail(email) {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      console.log(regex.test(email), email);
+      
       return regex.test(email);
   }
   // /..../----> sono come gli apici per le stringhe o le parentesi quadre per gli array....delimitano la regex
@@ -102,7 +104,7 @@ class RegistrationData {
   
     // 3. Controlla formato email
     if (!this.isValidEmail(this.email))
-      return { error: "Inserisci un indirizzo email valido", id: "email" };
+      return { error: "Inserisci un indirizzo email valido", id: "emailRegister" };
   
     // 4. Controlla che password e conferma password siano uguali
     if (this.passwordMatch(this.password, this.confirmPassword) == false)
@@ -111,7 +113,7 @@ class RegistrationData {
     // 5. Controlla complessità password
     if (!this.isPasswordValid(this.password))
       return {
-        id: "password",
+        id: "passwordRegister",
         error: "La password deve essere lunga almeno 8 caratteri e contenere almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale"
       };
   
@@ -159,6 +161,39 @@ class RegistrationData {
   };
   }
 }
+// VERIFICA SE UTENTE è GIA LOGGATO
+document.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("authToken");
+  const loginButton = document.getElementById("openModalBtn");
+  if (!token) {
+    document.getElementById("user-area").style.display = "none";
+    return;
+  }
+  try {
+    // chiamata a server per verificare se esiste il token
+    const res = await fetch("http://localhost:3000/user/profilo", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+    const data = await res.json();
+    if (data.hasAccess) {
+      //logica per quando l'utente è loggato correttamente
+      window.location.href = "/client/index.html";
+
+    }else{
+      localStorage.removeItem("authToken")
+      location.reload() 
+    }
+  } catch (error) {
+    document.getElementById("user-area").classList.add("hidden");
+    loginButton.style.display = "none";
+    console.error("Errore:", error);
+  }
+});
+
 
 
 //funzione freccia: es.const raddoppia = x => x * 2;
@@ -202,8 +237,8 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
   //Verifica lunghezza nome e cognome
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim(); //trim() serve per togliere gli spazi
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
+  const email = document.getElementById("emailRegister").value.trim();
+  const password = document.getElementById("passwordRegister").value;
   const confirmPassword = document.getElementById("confirmPassword").value;
   const birthDateValue = document.getElementById("birthDate").value;
   // SOLO PER STUDENTI
@@ -238,6 +273,7 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
     if (res.ok) {
       alert("Registrazione avvenuta con successo!");
       form.reset();
+      window.location.href = "/client/index.html";
     } else {
       showError("form", json.message);
       //alert("Errore: " + json.message);

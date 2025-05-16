@@ -10,7 +10,7 @@ body{
 /*==============================================NAVBAR================================================================*/
 .navbar{
   position:fixed;
-  width:100vw;
+  width:100%;
   display:flex;
   justify-content: space-between; /*per mettere spazio equo tra gli elementi*/
   padding: 1.5rem 2rem;
