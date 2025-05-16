@@ -307,7 +307,7 @@ main{
 }
 .dashboard {
   margin-bottom: 3rem;
-  min-height: 90vh;
+  min-height: 70vh;
   animation: fadeIn 1s ease-out; /*animazione di caricamento*/
 }
 
@@ -614,7 +614,7 @@ main{
   
   .student-sidebar {
     position: static;
-    margin-bottom: 1.5rem;
+    margin-bottom: -1.5rem;
     width:80vw;
     margin-left: 0.8rem;
   }
@@ -653,7 +653,6 @@ main{
 
 .tutor-sidebar {
   /*position: sticky;*/
-  top: 1rem;
   background: white;
   border-radius: 1rem;
   padding:1.5rem;
@@ -724,11 +723,17 @@ main{
   
   .tutor-sidebar {
     position: static;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
     width:80vw;
     margin-left: 0.8rem;
   }
-  
+
+  .student-content{
+      padding: 1rem;
+  }
+  .tutor-content{
+      padding: 1rem;
+  }
   .tutor-nav {
     display: flex;
     flex-direction: column;
@@ -1061,7 +1066,6 @@ padding: 0.5rem 3.5rem;
 
 /*===================================================FOOTER======================================================================*/
 .footer {
-  width:100%;
   text-align: center;
   padding: 1rem 2rem;
   background-color: #333;

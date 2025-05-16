@@ -289,6 +289,15 @@
     flex-direction: column;
     align-items: center;
   }
+  .filter-group{
+    width: 100%;
+  }
+  .select-wrapper select{
+    width: 100%;
+  }
+  h2 .icon{
+    display: none;
+  }
 }
 
 
