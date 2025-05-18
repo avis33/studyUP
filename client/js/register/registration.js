@@ -158,8 +158,7 @@ regionSelect.addEventListener("change", () => {
   });
 });
 
-// SEZIONE PER MATERIE DA RECUPERARE E INSEGNATER
-
+// SEZIONE PER MATERIE DA RECUPERARE E INSEGNATE
 const input = document.getElementById("preferredSubjects");
 const suggestions = document.getElementById("subjectSuggestions");
 const selectedSubjects = document.getElementById("selectedSubjects");

@@ -15,6 +15,7 @@ export function generateStars(rating) {
   }
   return html;
 }
+
 // Funzione per ottenere la data di oggi
 export function getTodayDate() {
   const today = new Date();
@@ -23,4 +24,30 @@ export function getTodayDate() {
   const day = String(today.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
-
+// Funzione per generare avatar colorati basati sulle iniziali
+export function getAvatarColor(name) {
+  const colors = [
+    "#4361ee",
+    "#3f37c9",
+    "#4895ef",
+    "#4cc9f0",
+    "#4895ef",
+    "#3a0ca3",
+    "#7209b7",
+    "#b5179e",
+    "#f72585",
+    "#560bad",
+    "#480ca8",
+    "#3a0ca3",
+  ];
+  const initials = name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
+  const colorIndex = initials.charCodeAt(0) % colors.length;
+  return {
+    initials: initials.substring(0, 2),
+    color: colors[colorIndex],
+  };
+}
