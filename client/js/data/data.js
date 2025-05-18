@@ -27,6 +27,7 @@ export const allSubjects = [
   "Javascript", "SQL", "Statistica", "Robotica", "Design"
 ];
 
+
 export const regioniCittà = {
   Abruzzo: ["L'Aquila", "Pescara", "Chieti", "Teramo"],
   Basilicata: ["Potenza", "Matera"],

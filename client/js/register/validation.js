@@ -1,3 +1,4 @@
+import { calculateAge } from "../utils/utils.js";
 export class RegistrationData {
   constructor(
       firstName, 
@@ -33,18 +34,6 @@ export class RegistrationData {
       this.role = role;
   }
    
-  // Funzione per calcolare l’età
-  calculateAge(birthDate) {
-      const today = new Date();
-      const birth = new Date(birthDate);
-      let age = today.getFullYear() - birth.getFullYear();
-      const m = today.getMonth() - birth.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-        age--;
-      }
-      return age;
-    }
-
   //Funzione per il test della mail
   isValidEmail(email) {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -108,7 +97,7 @@ export class RegistrationData {
       };
   
     // 6. Controlla età utente
-    if (this.calculateAge(this.birthDateValue) < 13)
+    if (calculateAge(this.birthDateValue) < 13)
       return { error: "Devi avere almeno 13 anni per registrarti", id: "birthDate" };
   
     // 7. Se è un tutor, fa controlli aggiuntivi

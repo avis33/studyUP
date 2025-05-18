@@ -48,7 +48,6 @@ async function getTutorOfTheWeek() {
   topTutorsContainer.innerHTML = `
       <div class="loading-spinner"></div>
   `;
-
   try {
     const res = await fetch("http://localhost:3000/reviews/tutorOfWeek", {
       method: "GET",
@@ -140,7 +139,6 @@ async function getFilteredTutors() {
     
     const data = await res.json();
     console.log(data);
-    
     const tutors = data.tutors;
     
     // Se ci sono tutor, li mostra

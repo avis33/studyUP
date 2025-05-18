@@ -1,3 +1,6 @@
+import { calculateAge } from "./utils/utils.js";
+import { showError } from "./register/validation.js";
+import { allSubjects } from "./data/data.js";
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("authToken");
   const loginButton = document.getElementById("openModalBtn");
@@ -19,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await res.json();
     if (data.hasAccess) {
       //logica per quando l'utente è loggato correttamente
-      console.log("UTENTE LOGGATO",data);
+      console.log("UTENTE LOGGATO", data);
       document.getElementById("user-area").classList.remove("hidden");
       document.getElementById("openModalBtn").classList.add("hidden");
       document.getElementById("userName").innerText =
@@ -56,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const extraFieldsContainer = document.getElementById("extraFields");
         extraFieldsContainer.innerHTML = ""; // Reset
 
-        if (user.role == "tutor") { 
+        if (user.role == "tutor") {
           extraFieldsContainer.innerHTML = `
           
                  <div class="form-group">
@@ -88,66 +91,72 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 </div>
               `;
-                 // Inserisci chip iniziali se ci sono
-                 const selectedTaughtSubjectsDiv =
-                 document.getElementById("selectedTaughtSubjects");
-     
-                 user.taughtSubjects.forEach((subject) => {
-                 if (subject.trim()) {
-                   const chip = document.createElement("div");
-                   chip.classList.add("chip");
-                   chip.dataset.subject = subject.trim();
-                   chip.innerHTML = `${subject.trim()} <span class="remove-chip">&times;</span>`;
-                   // ➕ Aggiungi questo blocco per far funzionare la rimozione
-   chip.querySelector(".remove-chip").addEventListener("click", () => {
-     chip.remove();
-   });
-   selectedTaughtSubjectsDiv.appendChild(chip);
-                 }
-               });
-               const allSubjects = [
-                 "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
-                 "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "Cpp",
-                 "Javascript", "SQL", "Statistica", "Robotica", "Design"
-               ];
-               
-               const input = document.getElementById("taughtSubjects");
-               const suggestions = document.getElementById("taughtSuggestions");
-               
-               input.addEventListener("input", () => {
-                 const value = input.value.toLowerCase();
-                 suggestions.innerHTML = "";
-                 if (!value) {
-                   suggestions.style.display = "none";
-                   return;
-                 }
-                 const filtered = allSubjects.filter(s => s.toLowerCase().includes(value));
-                 filtered.forEach(s => {
-                   const div = document.createElement("div");
-                   div.textContent = s;
-                   div.addEventListener("click", () => {
-                     addSubjectChip(s);
-                     input.value = "";
-                     suggestions.style.display = "none";
-                   });
-                   suggestions.appendChild(div);
-                 });
-                 suggestions.style.display = filtered.length ? "block" : "none";
-               });
-               
-               function addSubjectChip(subject) {
-                 if ([...selectedTaughtSubjectsDiv.children].some(chip => chip.dataset.subject === subject)) return;
-               
-                 const chip = document.createElement("div");
-                 chip.className = "chip";
-                 chip.dataset.subject = subject;
-                 chip.innerHTML = `${subject} <span>&times;</span>`;
-               
-                 chip.querySelector("span").addEventListener("click", () => chip.remove());
-                 selectedTaughtSubjectsDiv.appendChild(chip);
-                 
-               }
-       
+          // Inserisci chip iniziali se ci sono
+          const selectedTaughtSubjectsDiv = document.getElementById(
+            "selectedTaughtSubjects"
+          );
+
+          user.taughtSubjects.forEach((subject) => {
+            if (subject.trim()) {
+              const chip = document.createElement("div");
+              chip.classList.add("chip");
+              chip.dataset.subject = subject.trim();
+              chip.innerHTML = `${subject.trim()} <span class="remove-chip">&times;</span>`;
+              // ➕ Aggiungi questo blocco per far funzionare la rimozione
+              chip
+                .querySelector(".remove-chip")
+                .addEventListener("click", () => {
+                  chip.remove();
+                });
+              selectedTaughtSubjectsDiv.appendChild(chip);
+            }
+          });
+
+
+          const input = document.getElementById("taughtSubjects");
+          const suggestions = document.getElementById("taughtSuggestions");
+
+          input.addEventListener("input", () => {
+            const value = input.value.toLowerCase();
+            suggestions.innerHTML = "";
+            if (!value) {
+              suggestions.style.display = "none";
+              return;
+            }
+            const filtered = allSubjects.filter((s) =>
+              s.toLowerCase().includes(value)
+            );
+            filtered.forEach((s) => {
+              const div = document.createElement("div");
+              div.textContent = s;
+              div.addEventListener("click", () => {
+                addSubjectChip(s);
+                input.value = "";
+                suggestions.style.display = "none";
+              });
+              suggestions.appendChild(div);
+            });
+            suggestions.style.display = filtered.length ? "block" : "none";
+          });
+
+          function addSubjectChip(subject) {
+            if (
+              [...selectedTaughtSubjectsDiv.children].some(
+                (chip) => chip.dataset.subject === subject
+              )
+            )
+              return;
+
+            const chip = document.createElement("div");
+            chip.className = "chip";
+            chip.dataset.subject = subject;
+            chip.innerHTML = `${subject} <span>&times;</span>`;
+
+            chip
+              .querySelector("span")
+              .addEventListener("click", () => chip.remove());
+            selectedTaughtSubjectsDiv.appendChild(chip);
+          }
         } else if (user.role == "student") {
           extraFieldsContainer.innerHTML = `
           <div class="form-group">
@@ -160,64 +169,71 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
           <input type="hidden" name="materieSelezionate" id="materieSelezionate">
         `;
-                  // Inserisci chip iniziali se ci sono
-                  const selectedSubjectsDiv =
-                  document.getElementById("selectedSubjects");
-      
-                  user.preferredSubjects.forEach((subject) => {
-                  if (subject.trim()) {
-                    const chip = document.createElement("div");
-                    chip.classList.add("chip");
-                    chip.dataset.subject = subject.trim();
-                    chip.innerHTML = `${subject.trim()} <span class="remove-chip">&times;</span>`;
-                    // ➕ Aggiungi questo blocco per far funzionare la rimozione
-    chip.querySelector(".remove-chip").addEventListener("click", () => {
-      chip.remove();
-    });
-                    selectedSubjectsDiv.appendChild(chip);
-                  }
+          // Inserisci chip iniziali se ci sono
+          const selectedSubjectsDiv =
+            document.getElementById("selectedSubjects");
+
+          user.preferredSubjects.forEach((subject) => {
+            if (subject.trim()) {
+              const chip = document.createElement("div");
+              chip.classList.add("chip");
+              chip.dataset.subject = subject.trim();
+              chip.innerHTML = `${subject.trim()} <span class="remove-chip">&times;</span>`;
+              // ➕ Aggiungi questo blocco per far funzionare la rimozione
+              chip
+                .querySelector(".remove-chip")
+                .addEventListener("click", () => {
+                  chip.remove();
                 });
-                const allSubjects = [
-                  "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
-                  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "Cpp",
-                  "Javascript", "SQL", "Statistica", "Robotica", "Design"
-                ];
-                
-                const input = document.getElementById("materieDaRecuperare");
-                const suggestions = document.getElementById("subjectSuggestions");
-                
-                input.addEventListener("input", () => {
-                  const value = input.value.toLowerCase();
-                  suggestions.innerHTML = "";
-                  if (!value) {
-                    suggestions.style.display = "none";
-                    return;
-                  }
-                  const filtered = allSubjects.filter(s => s.toLowerCase().includes(value));
-                  filtered.forEach(s => {
-                    const div = document.createElement("div");
-                    div.textContent = s;
-                    div.addEventListener("click", () => {
-                      addSubjectChip(s);
-                      input.value = "";
-                      suggestions.style.display = "none";
-                    });
-                    suggestions.appendChild(div);
-                  });
-                  suggestions.style.display = filtered.length ? "block" : "none";
-                });
-                
-                function addSubjectChip(subject) {
-                  if ([...selectedSubjectsDiv.children].some(chip => chip.dataset.subject === subject)) return;
-                
-                  const chip = document.createElement("div");
-                  chip.className = "chip";
-                  chip.dataset.subject = subject;
-                  chip.innerHTML = `${subject} <span>&times;</span>`;
-                
-                  chip.querySelector("span").addEventListener("click", () => chip.remove());
-                  selectedSubjectsDiv.appendChild(chip);
-                }
+              selectedSubjectsDiv.appendChild(chip);
+            }
+          });
+          
+
+          const input = document.getElementById("materieDaRecuperare");
+          const suggestions = document.getElementById("subjectSuggestions");
+
+          input.addEventListener("input", () => {
+            const value = input.value.toLowerCase();
+            suggestions.innerHTML = "";
+            if (!value) {
+              suggestions.style.display = "none";
+              return;
+            }
+            const filtered = allSubjects.filter((s) =>
+              s.toLowerCase().includes(value)
+            );
+            filtered.forEach((s) => {
+              const div = document.createElement("div");
+              div.textContent = s;
+              div.addEventListener("click", () => {
+                addSubjectChip(s);
+                input.value = "";
+                suggestions.style.display = "none";
+              });
+              suggestions.appendChild(div);
+            });
+            suggestions.style.display = filtered.length ? "block" : "none";
+          });
+
+          function addSubjectChip(subject) {
+            if (
+              [...selectedSubjectsDiv.children].some(
+                (chip) => chip.dataset.subject === subject
+              )
+            )
+              return;
+
+            const chip = document.createElement("div");
+            chip.className = "chip";
+            chip.dataset.subject = subject;
+            chip.innerHTML = `${subject} <span>&times;</span>`;
+
+            chip
+              .querySelector("span")
+              .addEventListener("click", () => chip.remove());
+            selectedSubjectsDiv.appendChild(chip);
+          }
         }
       }
     } else {
@@ -230,29 +246,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Errore:", error);
   }
 });
-// Mostra errore sotto l'input
-function showError(inputId, message) {
-  const errorElement = document.getElementById(`${inputId}Error`); //nel codice register.html ci sono le classi con id ad esempio 'emailError'
-  errorElement.textContent = message;
-  errorElement.classList.add("show");
-  // aggiungi classe error all'input che ha dato errore cosi da avere contorno rosso su css
-  const inputField = document.getElementById(inputId);
-  if (inputField) inputField.classList.add("error");
-}
-document
-  .getElementById("profileForm")
-  .addEventListener("submit", async function (e) {
+document.getElementById("profileForm").addEventListener("submit", async function (e) {
     e.preventDefault();
-
     const form = this;
 
     // Pulisci gli errori precedenti
-    document
-      .querySelectorAll(".error-message")
-      .forEach((el) => el.classList.remove("show"));
-    document
-      .querySelectorAll(".error")
-      .forEach((el) => el.classList.remove("error"));
+    document.querySelectorAll(".error-message").forEach((el) => el.classList.remove("show"));
+    document.querySelectorAll(".error").forEach((el) => el.classList.remove("error"));
 
     // Raccogli dati dal form
     const userId = document.getElementById("userId").value;
@@ -262,14 +262,18 @@ document
     const birthDate = document.getElementById("birthDate").value;
 
     // Campi extra dinamici (tutor o student)
-    let preferredSubjects = null, taughtSubjects = null;
-    if(document.getElementById("selectedSubjects")){
-      preferredSubjects = [...document.getElementById("selectedSubjects").children].map(chip => chip.dataset.subject);        
-    }else{
-      taughtSubjects = [...document.getElementById("selectedTaughtSubjects").children].map(chip => chip.dataset.subject);  
+    let preferredSubjects = null,
+      taughtSubjects = null;
+    if (document.getElementById("selectedSubjects")) {
+      preferredSubjects = [
+        ...document.getElementById("selectedSubjects").children,
+      ].map((chip) => chip.dataset.subject);
+    } else {
+      taughtSubjects = [
+        ...document.getElementById("selectedTaughtSubjects").children,
+      ].map((chip) => chip.dataset.subject);
     }
-    
-    
+
     const rate = document.getElementById("rate")
       ? parseFloat(document.getElementById("rate").value)
       : null;
@@ -347,20 +351,9 @@ document
     }
   });
 
-function calculateAge(birthDate) {
-  const today = new Date();
-  const birth = new Date(birthDate);
-  let age = today.getFullYear() - birth.getFullYear();
-  const m = today.getMonth() - birth.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-    age--;
-  }
-  return age;
-}
-
 // funzione che mi serve per conservare l'immagine dell'utente su un cloud esterno
 async function uploadImageToImgBB(file) {
-  const apiKey = "d3e5692c357f218c5350a525753bdbb7"; // la tua key qui
+  const apiKey = "d3e5692c357f218c5350a525753bdbb7";
   const formData = new FormData();
 
   formData.append("image", file); // questo campo è obbligatorio
