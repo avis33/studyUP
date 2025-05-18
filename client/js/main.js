@@ -1,3 +1,4 @@
+import { knownIcons } from "./data/data.js";
 //per la faq
 document.addEventListener("DOMContentLoaded", function () {
   const questions = document.querySelectorAll(".faq-question");
@@ -91,30 +92,7 @@ async function getMostFrequentSubjects() {
         .replace(/[^a-z0-9]/g, ""); // rimuove spazi e caratteri speciali
 
       // Verifica se il file esiste? Se no, fallback. (opzionalmente lato backend o lista whitelist)
-      const knownIcons = [
-        "matematica",
-        "fisica",
-        "chimica",
-        "biologia",
-        "inglese",
-        "francese",
-        "cinese",
-        "storia",
-        "filosofia",
-        "geografia",
-        "italiano",
-        "economia",
-        "latino",
-        "greco",
-        "python",
-        "java",
-        "cpp",
-        "javascript",
-        "sql",
-        "statistica",
-        "robotica",
-        "design",
-      ];
+      
 
       const iconFile = knownIcons.includes(iconName)
         ? `${iconName}.svg`

@@ -1,12 +1,10 @@
+import { regionCities, allSubjects } from "./data/data.js";
+
 // Mostra/Nasconde campi in base al ruolo selezionato
 const roleRadios = document.querySelectorAll('input[name="role"]');
 const studentFields = document.getElementById('studentFields');
 const tutorFields = document.getElementById('tutorFields');
-const allSubjects = [
-  "Matematica", "Fisica", "Chimica", "Biologia", "Inglese", "Francese", "Cinese", "Storia",
-  "Filosofia", "Geografia", "Italiano", "Economia", "Latino", "Greco", "Python", "Java", "Cpp",
-  "Javascript", "SQL", "Statistica", "Robotica", "Design"
-];
+
 
 class RegistrationData {
   constructor(
@@ -291,29 +289,6 @@ const modeSelect = document.getElementById("mode");
 const locationFields = document.getElementById("locationFields");
 const regionSelect = document.getElementById("region");
 const citySelect = document.getElementById("city");
-
-const regionCities = {
-  "Abruzzo": ["L'Aquila", "Pescara", "Chieti", "Teramo"],
-  "Basilicata": ["Potenza", "Matera"],
-  "Calabria": ["Catanzaro", "Reggio Calabria", "Cosenza"],
-  "Campania": ["Napoli", "Salerno", "Caserta", "Avellino", "Benevento"],
-  "Emilia-Romagna": ["Bologna", "Modena", "Parma", "Reggio Emilia", "Ferrara", "Ravenna", "Forlì", "Piacenza", "Cesena", "Rimini"],
-  "Friuli-Venezia Giulia": ["Trieste", "Udine", "Pordenone", "Gorizia"],
-  "Lazio": ["Roma", "Latina", "Frosinone", "Viterbo", "Rieti"],
-  "Liguria": ["Genova", "La Spezia", "Savona", "Imperia"],
-  "Lombardia": ["Milano", "Bergamo", "Brescia", "Como", "Cremona", "Lecco", "Lodi", "Mantova", "Monza", "Pavia", "Sondrio", "Varese"],
-  "Marche": ["Ancona", "Pesaro", "Urbino", "Macerata", "Ascoli Piceno", "Fermo"],
-  "Molise": ["Campobasso", "Isernia"],
-  "Piemonte": ["Torino", "Alessandria", "Asti", "Biella", "Cuneo", "Novara", "Verbano-Cusio-Ossola", "Vercelli"],
-  "Puglia": ["Bari", "Brindisi", "Foggia", "Lecce", "Taranto", "Barletta-Andria-Trani"],
-  "Sardegna": ["Cagliari", "Sassari", "Nuoro", "Oristano", "Carbonia-Iglesias"],
-  "Sicilia": ["Palermo", "Catania", "Messina", "Trapani", "Siracusa", "Ragusa", "Agrigento", "Enna", "Caltanissetta"],
-  "Toscana": ["Firenze", "Pisa", "Siena", "Arezzo", "Grosseto", "Livorno", "Lucca", "Massa-Carrara", "Pistoia", "Prato"],
-  "Trentino-Alto Adige": ["Trento", "Bolzano"],
-  "Umbria": ["Perugia", "Terni"],
-  "Valle d'Aosta": ["Aosta"],
-  "Veneto": ["Venezia", "Verona", "Padova", "Vicenza", "Treviso", "Belluno", "Rovigo"]
-};
 
 // Popola la select delle regioni
 for (const regione in regionCities) {
