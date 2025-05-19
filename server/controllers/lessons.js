@@ -1,6 +1,7 @@
 import { connectToDatabase } from "../config/db.js";
 import { ObjectId } from "mongodb";
 
+// x CONTACTFORM.HTML DELLA PAGINA MATERIE (Invia richiesta al tutor grazie alla modale contatta)
 export async function sendLessonRequest(req, res) {
   const {
     tutorId,
@@ -39,6 +40,8 @@ export async function sendLessonRequest(req, res) {
     res.status(500).json({ message: "Errore del server" });
   }
 }
+
+// x DASHBOARD.HTML  (ottieni le lezioni associate allo studente)
 export async function getLessonsByStudentId(req, res) {
   const { studentId } = req.params;
 
@@ -119,7 +122,7 @@ export async function getLessonsByStudentId(req, res) {
   }
 }
 
-
+// x DASHBOARD.HTML  (ottieni le lezioni associate al tutor)
 export async function getLessonsByTutorId(req, res) {
   const { tutorId } = req.params;
 
@@ -205,7 +208,7 @@ export async function getLessonsByTutorId(req, res) {
   }
 }
 
-// Controller per accettare una lezione
+// xDASHBOARD.HTML (Controller per accettare una lezione mediante il pulsante accept lesson nella dashboard del tutor, mettendo stato accepted)
 export async function acceptLessonRequest(req, res) {
   const { lessonId } = req.params;
 
@@ -244,7 +247,7 @@ export async function acceptLessonRequest(req, res) {
   }
 }
 
-// Controller per rifiutare una lezione
+// xDASHBOARD.HTML (Controller per rifiutare una lezione mediante il pulsante nella dashboard del tutor, mettendo stato rejected)
 export async function rejectLessonRequest(req, res) {
   const { lessonId } = req.params;
 
@@ -283,7 +286,7 @@ export async function rejectLessonRequest(req, res) {
   }
 }
 
-// Controller per rifiutare una lezione
+// xDASHBOARD.HTML (Controller per cancellare una lezione gia inviata dallo studente nella dashboard studente, eliminandola dal database)
 export async function cancelLessonRequest(req, res) {
   const { lessonId } = req.params;
 
@@ -315,6 +318,7 @@ export async function cancelLessonRequest(req, res) {
   }
 }
 
+// xMAIN.js (per prendere le materie piu frequenti nelle lezioni degli ultimi 30 giorni)
 export async function mostFrequentSubjects(req, res) {
   try {
     const db = await connectToDatabase();

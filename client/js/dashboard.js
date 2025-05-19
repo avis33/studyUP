@@ -448,6 +448,7 @@ async function submitReview() {
       empatia: parseInt(ratingEmpatia),
     }
   };
+
   try {
     const response = await fetch(`http://localhost:3000/reviews/send`, {
       method: 'POST',

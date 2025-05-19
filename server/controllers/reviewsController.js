@@ -1,6 +1,7 @@
 import { connectToDatabase } from "../config/db.js";
 import { ObjectId } from "mongodb";
 
+// x DASHBOARD.HTML (Inserisce recensione dello studente nel database e aggiorna statistiche del tutor)
 export async function sendReview(req, res) {
   const { lessonId, tutorId, studentId, subject, comment, ratings } = req.body;
 
@@ -91,7 +92,7 @@ export async function sendReview(req, res) {
   }
 }
 
-
+// x RATINGS.HTML (ottieni tutor della settimana)
 export const getTutorOfTheWeek = async (req, res) => {
   try {
     const db = await connectToDatabase();
@@ -171,6 +172,7 @@ export const getTutorOfTheWeek = async (req, res) => {
   }
 };
 
+// x RATINGS.HTML (ottieni tutor filtrati per materia e livello)
 export const getTopTutorsBySubject = async (req, res) => {
   try {
     const { subject } = req.params;
@@ -266,6 +268,8 @@ export const getTopTutorsBySubject = async (req, res) => {
     res.status(500).json({ message: "Errore del server" });
   }
 };
+
+// x DASHBOARD.HTML LATO TUTOR (ottieni statistiche del tutor per sezione le tue statistiche)
 export const getTutorStats = async (req, res) => {
   try {
     const { tutorId } = req.params;

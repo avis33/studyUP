@@ -6,6 +6,7 @@ import { ObjectId } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
 
+// xREGISTRATION.HTML (aggiunge uno studente o tutor al database dal form di registrazione, creando un nuovo jwt e rimandandolo al client)
 export async function registerUser(req, res) {
   try {
     const db = await connectToDatabase();
@@ -85,7 +86,7 @@ export async function registerUser(req, res) {
     res.status(500).json({ message: "Errore interno del server" });
   }
 }
-
+// xLOGIN.HTML (controlla email e password e crea un nuovo jwt e rimandandolo al client)
 export async function loginUser(req, res) {
   const { email, password } = req.body;
   try {
@@ -122,7 +123,7 @@ export async function loginUser(req, res) {
   }
 }
 
-// Middleware per proteggere rotte backend:
+// Middleware per proteggere rotte backend: xTUTTE LE PAGINE PER VERIFICARE SE L'UTENTE è LOGGATO CORRETTAMENTE
 // serve a controllare se l’utente ha un token valido prima di lasciarlo accedere a certe API.
 export function authMiddleware(req, res, next) {
   // 1. Estrae il token JWT dall'header "Authorization"
@@ -146,6 +147,7 @@ export function authMiddleware(req, res, next) {
   }
 }
 
+// xACCOUNT.HTML (Ottieni informazioni dell'utente associate al suo id per mostrarle sul form di update)
 export async function getUserInfoById(req, res) {
   const userId = req.params.id;
   try {
@@ -162,7 +164,7 @@ export async function getUserInfoById(req, res) {
     res.status(500).json({ message: "Errore del server",error:true});
   }
 }
-
+// xTROVATUTOR.HTML (Ottieni tutti i tutor disponibili nel database e se la richiesta è fatta da uno studente ritorna le materie preferite per personallizare i tutori mostrati lato client
 export async function getDefaultTutor(req, res) {
     try {
       const db = await connectToDatabase();
@@ -202,7 +204,7 @@ export async function getDefaultTutor(req, res) {
   };
   
 
-
+// xACCOUNT.HTML (Per il form di update del profilo, aggiorna le informazioni e rigenera il JWT dato che potremmo aver modificato informazioni associate ad esso che dobbiamo aggiornare)
 export async function updateProfile(req, res) {
   const {
     userId,
