@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       if (user.role === "student") {
         lezioniAccettate = lessons.filter(lez => lez.status === "accepted");
-        lezioniPending = lessons.filter(lez => lez.status === "pending" || lez.status === "cancelled");
+        lezioniPending = lessons.filter(lez => lez.status === "pending" || lez.status === "rejected");
         lezioniRecensite = lessons.filter(lez => lez.status === "reviewed");
       } else {
         lezioniAccettate = lessons.filter(lez => lez.status === "accepted");
@@ -471,6 +471,7 @@ async function submitReview() {
   }
 }
 
+// FUNZIONE PER SEZIONE STATISTICHE DEL TUTOR
 async function getData(tutorId) {
   try {
     const res = await fetch(`http://localhost:3000/reviews/getTutorData/${tutorId}`, {

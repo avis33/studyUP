@@ -102,7 +102,6 @@ document.addEventListener("DOMContentLoaded", async () => {
               chip.classList.add("chip");
               chip.dataset.subject = subject.trim();
               chip.innerHTML = `${subject.trim()} <span class="remove-chip">&times;</span>`;
-              // ➕ Aggiungi questo blocco per far funzionare la rimozione
               chip
                 .querySelector(".remove-chip")
                 .addEventListener("click", () => {
@@ -179,7 +178,6 @@ document.addEventListener("DOMContentLoaded", async () => {
               chip.classList.add("chip");
               chip.dataset.subject = subject.trim();
               chip.innerHTML = `${subject.trim()} <span class="remove-chip">&times;</span>`;
-              // ➕ Aggiungi questo blocco per far funzionare la rimozione
               chip
                 .querySelector(".remove-chip")
                 .addEventListener("click", () => {

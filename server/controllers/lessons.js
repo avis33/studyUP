@@ -23,7 +23,7 @@ export async function sendLessonRequest(req, res) {
       subject: subject,
       date: new Date(date),
       mode: mode,
-      status: "pending", // puo essere accepted e cancelled
+      status: "pending", // puo essere accepted e rejected
       price: price,
       message: message || "",
       createdAt: new Date()
